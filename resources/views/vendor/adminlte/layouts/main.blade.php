@@ -27,11 +27,11 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 
 <div id="app" v-cloak>
     <!-- Fixed navbar -->
-    <div id="navigation" class="navbar navbar-default navbar-fixed-top" style=" background-color:#5CEEFF;" >
-        <div class="container" >
+    <div id="navigation" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
             <div class="navbar-header">
 
-                <img  src="{{ asset('/img/logo.png') }}" alt="">
+                <a class="navbar-brand" href="#"><b>adminlte-laravel</b></a>
             </div>
             <div class="navbar-collapse collapse">
 
@@ -59,28 +59,6 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
             </div><!--/.nav-collapse -->
         </div>
     </div>
-    <section id="desc" name="desc">
-        <br><br><br><br><br>
-    <div id="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 centered">
-                    <a href="{{ url('menu') }}">
-                        <img  src="{{ asset('/img/Maritime-import.png') }}" width="250" height="150">
-                    </a>
-                    <h1>Maritime Import</h1>
-                </div>
-
-                <div class="col-lg-6" centered>
-                        <img  src="{{ asset('/img/maritime-exports.png') }}" width="250" height="150">
-                        <h1>Maritime Exports</h1>
-                </div>
-            </div>
-
-
-        </div><!--/ .container -->
-    </div><!--/ #features -->
-    </section>
 
 
 

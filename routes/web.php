@@ -12,7 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('vendor/adminlte/auth/login');
+});
+
+Route::get('main', function () {
+   return view('vendor/adminlte/layouts/main');
+});
+
+Route::get('menu', function () {
+    return view('vendor/adminlte/layouts/appMain');
 });
 
 Route::group(['middleware' => 'auth'], function () {

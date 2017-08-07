@@ -6,50 +6,59 @@
 
 @section('content')
 
-<body class="login-page" style="background-color:#02A9F0;">
-<img  src="{{ asset('/img/logo.png') }}" alt="">
+    <body class="login-page" style="background-color:#02A9F0;">
+    <img  src="{{ asset('/img/logo.png') }}" alt="">
     <div id="app">
 
         <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url('/home') }}"></a>
-        </div><!-- /.login-logo -->
+            <div class="login-logo">
+            </div><!-- /.login-logo -->
 
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> {{ trans('adminlte_lang::message.someproblems') }}<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> {{ trans('adminlte_lang::message.someproblems') }}<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        <div class="login-box-body" style="background-color:#02A9F0;">
-            <p class="login-box-msg" style="color:#000000;">Tape your email and we will send you your new password</p>
-            <p class="login-box-msg" style="color:#000000;">Email:</p>
-            <a style="background-color:#0D9316;">
-            <email-reset-password-form></email-reset-password-form>
-            </a>
-            {{--<button type="submit" class="btn btn-primary" style="background-color:#0D9316;"   >--}}
-                {{--<span class="glyphicon glyphicon-ok"></span>--}}
-                {{--Send--}}
-            {{--</button>--}}
-            {{--<button onclick="{{ url('/login') }}"  class="btn btn-primary" style="background-color:#FF1C06;"   >--}}
-                {{--<span class="glyphicon glyphicon-remove"></span>--}}
-                {{--Cancel--}}
-            {{--</button>--}}
+            <div class="login-box-body" style="background-color:#02A9F0;">
+                <p class="login-box-msg" style="color:#000000;">Tape your email and we will send you your new password</p>
+                <p class="login-box-msg" style="color:#000000;">Email:</p>
+                <a style="background-color:#0D9316;"></a>
+                    <form action="{{ url('/password/email') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group has-feedback">
+                            <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" autofocus/>
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
 
-        </div><!-- /.login-box-body -->
+                        <div class="row">
+                            <div class="col-xs-2">
+                            </div><!-- /.col -->
+                            <div class="col-xs-8">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('adminlte_lang::message.sendpassword') }}</button>
+                            </div><!-- /.col -->
+                            <div class="col-xs-2">
+                            </div><!-- /.col -->
+                        </div>
+                    </form>
 
-    </div><!-- /.login-box -->
+                     <a href="{{ url('/login') }}"> Log in</a><br>
+                    <a href="{{ url('/register') }}" class="text-center">{{ trans('adminlte_lang::message.registermember') }}</a>
+
+            </div><!-- /.login-box-body -->
+
+        </div><!-- /.login-box -->
     </div>
 
     @include('adminlte::layouts.partials.scripts_auth')
@@ -63,6 +72,6 @@
             });
         });
     </script>
-</body>
+    </body>
 
 @endsection

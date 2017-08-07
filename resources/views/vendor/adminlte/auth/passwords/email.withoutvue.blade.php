@@ -6,12 +6,12 @@
 
 @section('content')
 
-    <body class="login-page">
+    <body class="login-page" style="background-color:#02A9F0;">
+    <img  src="{{ asset('/img/logo.png') }}" alt="">
     <div id="app">
 
         <div class="login-box">
             <div class="login-logo">
-                <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
             </div><!-- /.login-logo -->
 
             @if (session('status'))
@@ -31,8 +31,10 @@
                 </div>
             @endif
 
-            <div class="login-box-body">
-                <p class="login-box-msg">Reset Password</p>
+            <div class="login-box-body" style="background-color:#02A9F0;">
+                <p class="login-box-msg" style="color:#000000;">Tape your email and we will send you your new password</p>
+                <p class="login-box-msg" style="color:#000000;">Email:</p>
+                <a style="background-color:#0D9316;">
                 <form action="{{ url('/password/email') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group has-feedback">

@@ -12,7 +12,6 @@
 
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
-                   {{ trans('adminlte_lang::message.someproblems') }}<br><br>
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -28,16 +27,20 @@
                 <form action="{{ url('/login') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <login-input-field
-                            name="{{ config('auth.providers.users.field','email') }}"
+                            name="{{ config('auth.providers.users.field','username') }}"
                             domain="{{ config('auth.defaults.domain','') }}"
                     ></login-input-field>
+                    <font color="black">
+                    <h3>Username:</h3>
+                    </font>
                     <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="{{ trans('adminlte_lang::message.email') }}" name="email"/>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <input type="text" class="form-control"  name="username"/>
                     </div>
+                    <font color="black">
+                    <h3>Password:</h3>
+                    </font>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="{{ trans('adminlte_lang::message.password') }}" name="password"/>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <input type="password" class="form-control"  name="password"/>
                     </div>
                     <div class="row">
                         <div class="col-xs-8">

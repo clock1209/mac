@@ -23,6 +23,10 @@ Route::get('menu', function () {
     return view('vendor/adminlte/layouts/appMain');
 });
 
+Route::get('users', function () {
+    return view('vendor/adminlte/layouts/users/index');
+});
+
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware

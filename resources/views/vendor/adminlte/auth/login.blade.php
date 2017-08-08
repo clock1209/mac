@@ -31,13 +31,13 @@
                             domain="{{ config('auth.defaults.domain','') }}"
                     ></login-input-field>
                     <font color="black">
-                    <h3>Username:</h3>
+                    <h4>Username:</h4>
                     </font>
                     <div class="form-group has-feedback">
                     <input type="text" class="form-control"  name="username"/>
                     </div>
                     <font color="black">
-                    <h3>Password:</h3>
+                    <h4>Password:</h4>
                     </font>
                     <div class="form-group has-feedback">
                         <input type="password" class="form-control"  name="password"/>

@@ -17,6 +17,8 @@ try {
 require('admin-lte')
 window.toastr = require('toastr')
 require('icheck')
+require('datatables.net')
+require('datatables.net-bs')
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

@@ -8,3 +8,20 @@
       Both of these plugins are recommended to enhance the
       user experience. Slimscroll is required when using the
       fixed layout. -->
+
+
+
+<script>
+    window.App = {!! json_encode([
+        'csrfToken' => csrf_token(),
+        'api' => '/api/v1',
+    ]) !!};
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+
+@stack('scripts')

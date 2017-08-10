@@ -70,7 +70,7 @@
 
             <!-- Control Sidebar Toggle Button -->
                 <li>
-                    <a href="{{ url('home') }}" class="glyphicon glyphicon-share">
+                    <a href="{{ url('Select') }}" class="glyphicon glyphicon-share">
                     </a>
                 </li>
             </ul>

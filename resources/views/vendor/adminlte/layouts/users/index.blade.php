@@ -1,4 +1,4 @@
-@extends('adminlte::layouts.appMain')
+@extends('adminlte::layouts.app')
 
 @section('htmlheader_title')
     {{ trans('adminlte_lang::message.home') }}
@@ -10,7 +10,7 @@
 
             <div class="col-md-8 col-md-offset-2">
 
-                <!-- main box  -->Hello world !!!
+                <!-- main box  -->USERS !!!
 
             </div>
 

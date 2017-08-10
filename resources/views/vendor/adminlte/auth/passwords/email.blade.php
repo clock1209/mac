@@ -35,8 +35,7 @@
             <h4><p class="login-box-msg" style="color:#000000;">Tape your email and we will send you your new password</p></h4>
                 <h4><p style="color:#000000;">Email:</p></h4>
                 <a style="background-color:#0D9316;"></a>
-                <table width="300">
-                    <tr>
+
 
                     <form action="{{ url('/password/email') }}" method="post">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -44,33 +43,27 @@
                             <input type="email" class="form-control"  name="email" value="{{ old('email') }}" autofocus/>
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                         </div>
-                        <td>
+
                         <div class="row">
                             <div class="col-xs-2">
                             </div><!-- /.col -->
-                            <div class="col-xs-8">
+                            <div class="col-xs-8" >
                                 <button type="submit" class="btn btn-primary" style="background-color:#0D9316;"   >
                                     <span class="glyphicon glyphicon-ok"></span>
                                     Send
                                 </button>
 
+                                <a href="{{ url('/login') }}"  class="btn btn-primary" style="background-color:#EC1B1B;">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    Cancel
+                                </a>
+
                             </div><!-- /.col -->
 
                         </div>
                     </form>
-                        </td>
-                        <td align="right">
-                <form  action="{{ url('/login') }}"   >
 
-                            <button  class="btn btn-primary" style="background-color:#EC1B1B;">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                Cancel
-                            </button>
 
-                </form>
-                        </td>
-                    </tr>
-                </table>
 
         </div><!-- /.login-box -->
     </div>

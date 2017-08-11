@@ -18,6 +18,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'username' => $faker->unique()->userName,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
@@ -25,6 +26,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Shipment::class, function (Faker\Generator $faker) {
     return [
+        'reference_number' => 1,
         'consignee' => 'test',
         'shipper' => 'test',
         'type' => 'FCL',
@@ -46,7 +48,7 @@ $factory->define(App\Shipment::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\ScheduleOption::class, function (Faker\Generator $faker) {
     static $password;
 
     return [

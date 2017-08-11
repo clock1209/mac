@@ -94,15 +94,15 @@ class ShipmentController extends Controller
      */
     public function toDatatable()
     {
-        $shipments = Shipment::with('scheduleOption');
-//        dd($shipments->scheduleOption);
+        $shipments = Shipment::with('scheduleOption')->get();
+        dd($shipments[0]->scheduleOption->carrier);
 //        foreach($shipments as $shipment){
 //            dd($shipment->scheduleOption->carrier);
 //        }
         return Datatables::eloquent($shipments)
             ->addColumn('action', function ($shipment) {
-                dd($shipment->scheduleOption);
-//                return 'hola';
+                dd($shipment->scheduleOption->carrier);
+                return 'hola';
 //                return view('shipments.partials.buttons', ['shipment' => $shipment]);
             })
 //            ->editColumn('status', function ($shipment) {

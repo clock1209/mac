@@ -6,12 +6,12 @@
 
 @section('content')
 
-    <body class="login-page">
-
+    <body class="login-page" style="background-color:#02A9F0;">
+    <img  src="{{ asset('/img/logo.png') }}" alt="">
     <div id="app">
         <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -31,13 +31,11 @@
             </div>
         @endif
 
-        <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('adminlte_lang::message.passwordreset') }}</p>
+        <div class="login-box-body" style="background-color:#02A9F0;">
+            <p class="login-box-msg" style="color:#000000;">{{ trans('adminlte_lang::message.passwordreset') }}</p>
 
             <reset-password-form token="{{ $token }}">></reset-password-form>
 
-            <a href="{{ url('/login') }}">Log in</a><br>
-            <a href="{{ url('/register') }}" class="text-center">{{ trans('adminlte_lang::message.membreship') }}</a>
 
         </div><!-- /.login-box-body -->
 

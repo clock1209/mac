@@ -6,16 +6,7 @@
 
         <!-- Sidebar user panel (optional) -->
         @if (! Auth::guest())
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image" />
-                </div>
-                <div class="pull-left info">
-                    <p>{{ Auth::user()->name }}</p>
-                    <!-- Status -->
-                    <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('adminlte_lang::message.online') }}</a>
-                </div>
-            </div>
+
         @endif
 
         <!-- search form (Optional) -->
@@ -31,10 +22,23 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">{{ trans('adminlte_lang::message.header') }}</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('shipments') }}"><i class='fa fa-link'></i> <span>Shipments</span></a></li>
-            {{--<li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>--}}
+            <li class="active"><a href="{{ url('shipments') }}"><i class='fa fa-list-alt'></i> <span>Shipments</span></a></li>
+            <li><a href="#"><i class='fa fa-list-alt'></i> <span>Shipping history</span></a></li>
+            <li><a href="{{url('users')}}"><i class='fa fa-user'></i> <span>Users</span></a></li>
+            {{--<li><a href="#"><i class='fa fa-users'></i> <span>Customers</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-money'></i> <span>Concepts</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-ship'></i> <span>Carriers</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-signal'></i> <span>Rates</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-link'></i> <span>Sales</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-gift'></i> <span>Special rates</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-dollar'></i> <span>Payments</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa '></i> <span>Invoice</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-truck'></i> <span>Intermodal</span></a></li>--}}
+            {{--<li><a href="#"><i class='fa fa-clock-o'></i> <span>Demurrage</span></a></li>--}}
+
             {{--<li class="treeview">--}}
                 {{--<a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.multilevel') }}</span> <i class="fa fa-angle-left pull-right"></i></a>--}}
                 {{--<ul class="treeview-menu">--}}

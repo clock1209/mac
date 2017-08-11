@@ -38,7 +38,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = 'Select';
 
     /**
      * Create a new controller instance.
@@ -57,7 +57,7 @@ class LoginController extends Controller
      */
     public function username()
     {
-        return config('auth.providers.users.field','email');
+        return config('auth.providers.users.field','username');
     }
 
     /**
@@ -68,7 +68,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        if ($this->username() === 'email') return $this->attemptLoginAtAuthenticatesUsers($request);
+        if ($this->username() === 'username') return $this->attemptLoginAtAuthenticatesUsers($request);
         if ( ! $this->attemptLoginAtAuthenticatesUsers($request)) {
             return $this->attempLoginUsingUsernameAsAnEmail($request);
         }
@@ -84,7 +84,7 @@ class LoginController extends Controller
     protected function attempLoginUsingUsernameAsAnEmail(Request $request)
     {
         return $this->guard()->attempt(
-            ['email' => $request->input('username'), 'password' => $request->input('password')],
+            ['username' => $request->input('username'), 'password' => $request->input('password')],
             $request->has('remember'));
     }
 

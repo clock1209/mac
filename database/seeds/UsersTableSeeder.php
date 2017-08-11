@@ -11,9 +11,14 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        DB::table('users')->truncate();
+        Schema::enableForeignKeyConstraints();
+
         factory(App\User::class)->create([
             'name' => 'Admin',
             'email' => 'support@nuvemtecnologia.mx',
+            'username' => 'admin',
             'password' => bcrypt('secret'),
         ]);
     }

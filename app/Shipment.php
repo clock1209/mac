@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\ScheduleOption;
 
 class shipment extends Model
 {
@@ -29,6 +28,6 @@ class shipment extends Model
     ];
 
     public function scheduleOption() {
-        return $this->hasMany(ScheduleOption::class, 'shipment_id', 'id');
+        return $this->hasMany("App\ScheduleOption");
     }
 }

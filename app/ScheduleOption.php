@@ -27,5 +27,8 @@ class ScheduleOption extends Model
         'fcl_inland_cost_other',
     ];
 
+    public function shipment() {
+        return $this->belongsTo("App\Shipment");
+    }
 
 }

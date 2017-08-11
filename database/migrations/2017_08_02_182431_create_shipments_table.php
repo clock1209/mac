@@ -71,10 +71,12 @@ class CreateShipmentsTable extends Migration
             $table->float('fcl_cont_cost_other');
             $table->float('lcl_tm3');
             $table->float('lcl_total');
-            $table->float('flc_inland_cost_20');
-            $table->float('flc_inland_cost_40');
-            $table->float('flc_inland_cost_40hc');
-            $table->float('flc_inland_cost_other');
+            $table->float('fcl_inland_cost_20');
+            $table->float('fcl_inland_cost_40');
+            $table->float('fcl_inland_cost_40hc');
+            $table->float('fcl_inland_cost_other');
+
+            $table->timestamps();
         });
     }
 

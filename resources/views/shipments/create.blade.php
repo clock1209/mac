@@ -17,24 +17,28 @@
             </div>
             <div class="col-md-4 col-md-offset-1 col-sm-12 ">
                 <label for="type_lbl" class="input-control">Type*:</label>
-                {!!Form::select('type',['FCL', 'LCL'], null,['class'=>'form-control'])!!}
+                {!!Form::select('type',['FCL' => 'FCL', 'LCL' => 'LCL'], null,['class'=>'form-control'])!!}
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-4 col-sm-12">
                 <label for="consignee_lbl" class="input-control">Consignee*:</label>
-                {!!Form::select('consignee', [1,2], null,['class'=>'form-control'])!!}
+                {!!Form::select('consignee', ['', ''], null,['class'=>'form-control'])!!}
             </div>
             <div class="col-md-4 col-md-offset-1 col-sm-12 ">
                 <label for="rate_lbl" class="input-control">Rate*:</label>
-                {!!Form::select('rate',['Asia', 'Special'], null,['class'=>'form-control'])!!}
+                {!!Form::select('rate',['Asia' => 'Asia', 'Special' => 'Special'], null,['class'=>'form-control'])!!}
+            </div>
+            <div class="col-md-3 col-sm-12" style="display: none; position: relative; left: 300px;" id="number_quote">
+                <label for="number_of_quote_lbl" class="input-control">Number of quote*:</label>
+                {!!Form::select('number_of_quote',['123', '456', '789'], null,['class'=>'form-control'])!!}
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-4 col-sm-12">
                 <label for="shipper_lbl" class="input-control">Shipper*:</label>
-                {!!Form::select('shipper', [1,2], null,['class'=>'form-control'])!!}
+                {!!Form::select('shipper', ['', ''], null,['class'=>'form-control'])!!}
             </div>
             <div class="col-md-4 col-md-offset-1 col-sm-12 ">
                 <label for="pay_lbl" class="input-control">Pay*:</label>
@@ -69,29 +73,48 @@
                 {!!Form::text('po_number',null,['class'=>'form-control'])!!}
             </div>
         </div>
-        <h3>FCL</h3>
-        <div class="form-group">
-            <div class="col-md-3 col-sm-6">
-                <label for="20_lbl" class="input-control">20&#039*:</label>
-                {!!Form::text('20',null,['class'=>'form-control'])!!}
+        <div id="fcl">
+            <h3>FCL</h3>
+            <div class="form-group">
+                <div class="col-md-3 col-sm-6">
+                    <label for="20_lbl" class="input-control">20&#039*:</label>
+                    {!!Form::text('20',null,['class'=>'form-control'])!!}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label for="40_lbl" class="input-control">40&#039*:</label>
+                    {!!Form::text('40',null,['class'=>'form-control'])!!}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label for="40HC_lbl" class="input-control">40 HC&#039*:</label>
+                    {!!Form::text('40HC',null,['class'=>'form-control'])!!}
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label for="type_of_container_lbl" class="input-control">Type of container*:</label>
+                    {!!Form::select('type_of_container', [1,2], null, ['class'=>'form-control'])!!}
+                </div>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <label for="40_lbl" class="input-control">40&#039*:</label>
-                {!!Form::text('40',null,['class'=>'form-control'])!!}
+        </div> {{--#fcl--}}
+        <div id="lcl" style="display: none;">
+            <h3>LCL</h3>
+            <div class="form-group">
+               <div class="col-md-4 col-ms-12">
+                   <label for="lcl_package_lbl" class="input-control">Package*:</label>
+                   {!! Form::text('lcl_package', null, ['class' => 'form-control']) !!}
+               </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="lcl_weight_lbl" class="input-control">Weight*:</label>
+                    {!! Form::text('lcl_weight', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="lcl_cbm_lbl" class="input-control">CBM*:</label>
+                    {!! Form::text('lcl_cbm', null, ['class' => 'form-control']) !!}
+                </div>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <label for="40HC_lbl" class="input-control">40 HC&#039*:</label>
-                {!!Form::text('40HC',null,['class'=>'form-control'])!!}
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <label for="type_of_container_lbl" class="input-control">Type of container*:</label>
-                {!!Form::select('type_of_container', [1,2], null, ['class'=>'form-control'])!!}
-            </div>
-        </div>
-        <div class="form-group">
+        </div> {{--#fcl--}}
+    <div class="form-group">
             <div class="col-md-3 col-sm-6">
                 <label for="cargo_ready_lbl" class="input-control">Cargo Ready:</label>
-                {!!Form::date('cargo_ready',null,['class'=>'form-control'])!!}
+                {!!Form::date('cargo_ready', \Carbon\Carbon::now() ,['class'=>'form-control'])!!}
             </div>
         </div>
         <div class="form-group">
@@ -140,25 +163,27 @@
                     {!!Form::date('cy_closing',null,['class'=>'form-control'])!!}
                 </div>
             </div>{{--div.form-group--}}
-            <h3>Shipment cost</h3>
-            <div class="form-group">
-                <div class="col-md-3 col-sm-6">
-                    <label for="20_lbl" class="input-control">20&#039*:</label>
-                    {!!Form::text('20_sc',null,['class'=>'form-control'])!!}
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <label for="40_lbl" class="input-control">40&#039*:</label>
-                    {!!Form::text('40_sc',null,['class'=>'form-control'])!!}
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <label for="40HC_lbl" class="input-control">40 HC&#039*:</label>
-                    {!!Form::text('40HC_sc',null,['class'=>'form-control'])!!}
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <label for="other_lbl" class="input-control">Other:</label>
-                    {!!Form::text('other_sc',null,['class'=>'form-control'])!!}
-                </div>
-            </div>{{--div.form-group--}}
+            <div id="fcl">
+                <h3>Shipment cost</h3>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-6">
+                        <label for="20_lbl" class="input-control">20&#039*:</label>
+                        {!!Form::text('20_sc',null,['class'=>'form-control'])!!}
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label for="40_lbl" class="input-control">40&#039*:</label>
+                        {!!Form::text('40_sc',null,['class'=>'form-control'])!!}
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label for="40HC_lbl" class="input-control">40 HC&#039*:</label>
+                        {!!Form::text('40HC_sc',null,['class'=>'form-control'])!!}
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label for="other_lbl" class="input-control">Other:</label>
+                        {!!Form::text('other_sc',null,['class'=>'form-control'])!!}
+                    </div>
+                </div>{{--div.form-group--}}
+            </div>
             <h3>Inland cost</h3>
             <div class="form-group">
                 <div class="col-md-3 col-sm-6">
@@ -183,7 +208,7 @@
 
     <br>
     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-    <a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+    <a href="{{ url()->previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
     @include('shipments.partials.script')

@@ -4,11 +4,26 @@ namespace App\Http\Controllers;
 
 use App\shipment;
 use Illuminate\Http\Request;
-//use Yajra\Datatables;
 use Yajra\Datatables\Facades\Datatables;
 
 class ShipmentController extends Controller
 {
+    /*
+     * by: Octavio Cornejo
+     * select element for shipments options on datatable
+     */
+    private $docs = [
+        'DOCS',
+        'AMS',
+        'Edit AMS',
+        'Dates',
+        'Advice notice',
+        'AMANAC',
+        'Letters',
+        'HBL control',
+        'Releasse AA'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -94,20 +109,33 @@ class ShipmentController extends Controller
      */
     public function toDatatable()
     {
-        $shipments = Shipment::with('scheduleOption')->get();
-        dd($shipments[0]->scheduleOption->carrier);
-//        foreach($shipments as $shipment){
-//            dd($shipment->scheduleOption->carrier);
-//        }
+        $shipments = Shipment::with('scheduleOptions');
         return Datatables::eloquent($shipments)
-            ->addColumn('action', function ($shipment) {
-                dd($shipment->scheduleOption->carrier);
-                return 'hola';
-//                return view('shipments.partials.buttons', ['shipment' => $shipment]);
+            ->editColumn('etd', function ($shipment) {
+                return $shipment->scheduleOptions[0]->etd;
             })
-//            ->editColumn('status', function ($shipment) {
-//                return ($shipment->status == 1) ? "Activo" : "Inactivo";
-//            })
+            ->editColumn('atd', function ($shipment) {
+                return $shipment->scheduleOptions[0]->departures;
+            })
+            ->editColumn('eta', function ($shipment) {
+                return $shipment->scheduleOptions[0]->eta;
+            })
+            ->editColumn('final_arrived', function () {
+                return 'NA';
+            })
+            ->editColumn('booking_no', function () {
+                return 'NA';
+            })
+            ->editColumn('status', function () {
+                return 'NA';
+            })
+            ->editColumn('released_to_aa', function () {
+                return 'NA';
+            })
+            ->addColumn('actions', function () {
+                return view('shipments.partials.buttons', ['docs' => $this->docs]);
+            })
+            ->rawColumns(['actions'])
             ->make(true);
     }
 }

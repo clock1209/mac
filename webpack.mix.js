@@ -20,6 +20,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .combine([
        'public/css/app.css',
        'node_modules/admin-lte/dist/css/skins/_all-skins.css',
+       'node_modules/datatables.net-bs/css/dataTables.bootstrap.css',
        'public/css/adminlte-app.css',
        'node_modules/icheck/skins/square/blue.css',
        'public/css/toastr.css'

@@ -27,7 +27,7 @@ class shipment extends Model
         'incoterm',
     ];
 
-    public function scheduleOption() {
+    public function scheduleOptions() {
         return $this->hasMany("App\ScheduleOption");
     }
 }

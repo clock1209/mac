@@ -105,7 +105,15 @@ class ShipperController extends Controller
      */
     public function destroy(Shipper $shipper)
     {
-        //
+        $shipper->delete();
+
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Shipper deleted successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /*

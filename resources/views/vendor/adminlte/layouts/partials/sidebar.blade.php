@@ -23,7 +23,7 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('shipments') }}"><i class='fa fa-list-alt'></i> <span>Shipments</span></a></li>
+{{--            <li class="active"><a href="{{ url('shipments') }}"><i class='fa fa-list-alt'></i> <span>Shipments</span></a></li>--}}
             <li><a href="#"><i class='fa fa-list-alt'></i> <span>Shipping history</span></a></li>
             <li><a href="{{url('users')}}"><i class='fa fa-user'></i> <span>Users</span></a></li>
             {{--<li><a href="#"><i class='fa fa-users'></i> <span>Customers</span></a></li>--}}

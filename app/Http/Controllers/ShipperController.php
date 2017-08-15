@@ -131,14 +131,15 @@ class ShipperController extends Controller
             'tradename' => 'required',
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
             'business_name' => 'required',
             'street' => 'required',
-            'street_number' => 'required',
+            'street_number' => 'required|numeric',
             'neighborhood' => 'required',
             'city' => 'required',
             'country' => 'required',
-            'zip_code' => 'required'
+            'zip_code' => 'required|numeric',
+            'rfc_taxid' => 'numeric'
         ];
     }
 }

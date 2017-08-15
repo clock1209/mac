@@ -28,6 +28,13 @@ Route::get('users', function () {
     return view('vendor/adminlte/layouts/users/index');
 });
 
+Route::get('concepts', function () {
+    return view('/concepts/index');
+});
+
+Route::get('concepts/datos', 'ConceptsController@getconcepts')->name('datatable.concepts');
+Route::post('concepts/updates/{id}','ConceptsController@edit');
+
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware

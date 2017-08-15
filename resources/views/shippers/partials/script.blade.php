@@ -12,21 +12,22 @@
         ]
     });/*datatable*/
 
-    $('body').delegate('.delete-shipper','click',function(){
+    $('body').delegate('.status-shipper','click',function(){
         id_shipper = $(this).attr('id_shipper');
+        shipper_name = $(this).attr('shipper_name');
         swal({
             title: 'Are you sure?',
-            text: "it won't be possible to reverse this action.",
+            text: "you want to remove the shipper?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, delete shipper!'
+            confirmButtonText: 'Yes, remove!'
         }).then(function () {
             $.ajax({
-                url: '/shippers/' + id_shipper,
-                type: 'DELETE',
+                url: '/shippers/' + id_shipper + '/status',
+                type: 'GET',
                 dataType: 'json',
                 data: {id: id_shipper}
             }).done(function(data){
@@ -35,7 +36,7 @@
                 dTable.ajax.reload();
             });
         });
-    });//BUTTON .delete-shipper
+    });//BUTTON .active-shipper
 
     @if (Session::has('message'))
         sAlert(

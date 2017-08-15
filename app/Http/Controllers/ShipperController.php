@@ -28,7 +28,7 @@ class ShipperController extends Controller
      */
     public function create()
     {
-        //
+        return view('shippers.create');
     }
 
     /**
@@ -39,7 +39,30 @@ class ShipperController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $this->validate($request, $this->rules());
+
+        Shipper::create([
+            'tradename' => $request['tradename'],
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
+            'business_name' => $request['business_name'],
+            'street' => $request['street'],
+            'street_number' => $request['street_number'],
+            'neighborhood' => $request['neighborhood'],
+            'city' => $request['city'],
+            'country' => $request['country'],
+            'zip_code' => $request['zip_code'],
+            'rfc_taxid' => $request['rfc_taxid']
+        ]);
+
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Shipper created successfully.'
+        ];
+
+        return redirect('shippers')->with('message', $msg);
     }
 
     /**
@@ -100,5 +123,22 @@ class ShipperController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+
+    private function rules()
+    {
+        return [
+            'tradename' => 'required',
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'business_name' => 'required',
+            'street' => 'required',
+            'street_number' => 'required',
+            'neighborhood' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'zip_code' => 'required'
+        ];
     }
 }

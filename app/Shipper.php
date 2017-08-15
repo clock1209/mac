@@ -11,7 +11,7 @@ class Shipper extends Model
         'name',
         'email',
         'phone',
-        'bussines_name',
+        'business_name',
         'street',
         'street_number',
         'neighborhood',

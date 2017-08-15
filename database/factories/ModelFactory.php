@@ -73,3 +73,20 @@ $factory->define(App\ScheduleOption::class, function (Faker\Generator $faker) {
         'fcl_inland_cost_other' => '12',
     ];
 });
+
+$factory->define(App\Shipper::class, function (Faker\Generator $faker) {
+    return [
+        'tradename' => $faker->word,
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'phone' => $faker->phoneNumber,
+        'business_name' => $faker->sentence($nbWords = 3, $variableNbWords = true),
+        'street' => $faker->streetAddress,
+        'street_number' => $faker->buildingNumber,
+        'neighborhood' => $faker->name,
+        'city' => $faker->city,
+        'country' => $faker->country,
+        'zip_code' => $faker->postcode,
+        'rfc_taxid' => $faker->regexify('[\w0-9]{10}'),
+    ];
+});

@@ -9,10 +9,11 @@
 @endsection
 
 @section('main-content')
+    @include('alerts.messages')
     {!! Form::open(['route'=>'shipments.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
         <div class="form-group">
             <div class="col-md-4 col-sm-12">
-                <label for="reference_numbre_lbl" class="input-control">Reference number*:</label>
+                <label for="reference_number_lbl" class="input-control">Reference number*:</label>
                 {!! Form::text('reference_number',null,['class'=>'form-control']) !!}
             </div>
             <div class="col-md-4 col-md-offset-1 col-sm-12 ">
@@ -45,7 +46,7 @@
                 {!!Form::select('pay',['Prepaid', 'Collect'], null,['class'=>'form-control'])!!}
             </div>
         </div>
-        <h3>Origin</h3>
+        <h4>Origin</h4>
         <div class="form-group">
             <div class="col-md-5 col-sm-12">
                 <label for="place_of_receipt_lbl" class="input-control">Place of receipt*:</label>
@@ -56,7 +57,7 @@
                 {!!Form::text('pol',null,['class'=>'form-control'])!!}
             </div>
         </div>
-        <h3>Destination</h3>
+        <h4>Destination</h4>
         <div class="form-group">
             <div class="col-md-5 col-sm-12">
                 <label for="pod_lbl" class="input-control">POD*:</label>
@@ -74,7 +75,7 @@
             </div>
         </div>
         <div id="fcl">
-            <h3>FCL</h3>
+            <h4>FCL</h4>
             <div class="form-group">
                 <div class="col-md-3 col-sm-6">
                     <label for="20_lbl" class="input-control">20&#039*:</label>
@@ -95,7 +96,7 @@
             </div>
         </div> {{--#fcl--}}
         <div id="lcl" style="display: none;">
-            <h3>LCL</h3>
+            <h4>LCL</h4>
             <div class="form-group">
                <div class="col-md-4 col-ms-12">
                    <label for="lcl_package_lbl" class="input-control">Package*:</label>
@@ -126,7 +127,7 @@
 
         <h2>Schedule Options</h2>
         <div class="well">
-            <h3>Equipment</h3>
+            <h4>Equipment</h4>
             <div class="form-group">
                 <div class="col-md-3 col-sm-6">
                     <label for="carrier_lbl" class="input-control">Carrier*:</label>
@@ -164,7 +165,7 @@
                 </div>
             </div>{{--div.form-group--}}
             <div id="fcl">
-                <h3>Shipment cost</h3>
+                <h4>Shipment cost</h4>
                 <div class="form-group">
                     <div class="col-md-3 col-sm-6">
                         <label for="20_lbl" class="input-control">20&#039*:</label>
@@ -184,7 +185,7 @@
                     </div>
                 </div>{{--div.form-group--}}
             </div>
-            <h3>Inland cost</h3>
+            <h4>Inland cost</h4>
             <div class="form-group">
                 <div class="col-md-3 col-sm-6">
                     <label for="20_lbl" class="input-control">20&#039*:</label>

@@ -20,4 +20,14 @@ class Shipper extends Model
         'zip_code',
         'rfc_taxid',
     ];
+
+    public function ports()
+    {
+        return $this->hasMany(Port::class,'shipper_id','id');
+    }
+
+    public function getPortUrlAttribute()
+    {
+        return route('shippers.show', ['id' => $this->id,]);
+    }
 }

@@ -60,7 +60,8 @@ class ShipperController extends Controller
      */
     public function show(Shipper $shipper)
     {
-        //
+        $shipper->load('ports');
+        return view('ports.index',compact('shipper'));
     }
 
     /**

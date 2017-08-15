@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('shipments', 'ShipmentController');
 
     Route::resource('shippers', 'ShipperController');
+    Route::resource('ports', 'PortController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

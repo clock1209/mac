@@ -41,20 +41,7 @@ class ShipperController extends Controller
     {
        $this->validate($request, $this->rules());
 
-        Shipper::create([
-            'tradename' => $request['tradename'],
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'phone' => $request['phone'],
-            'business_name' => $request['business_name'],
-            'street' => $request['street'],
-            'street_number' => $request['street_number'],
-            'neighborhood' => $request['neighborhood'],
-            'city' => $request['city'],
-            'country' => $request['country'],
-            'zip_code' => $request['zip_code'],
-            'rfc_taxid' => $request['rfc_taxid']
-        ]);
+        Shipper::create($request->all());
 
         $msg = [
             'title' => 'Created!',
@@ -84,7 +71,7 @@ class ShipperController extends Controller
      */
     public function edit(Shipper $shipper)
     {
-        //
+        return view('shippers.edit', ['shipper' => $shipper]);
     }
 
     /**
@@ -96,7 +83,18 @@ class ShipperController extends Controller
      */
     public function update(Request $request, Shipper $shipper)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        $shipper->fill($request->all());
+        $shipper->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Shipper edited successfully.'
+        ];
+
+        return redirect('shippers')->with('message', $msg);
     }
 
     /**
@@ -118,8 +116,8 @@ class ShipperController extends Controller
     {
         $shippers = Shipper::get();
         return Datatables::of($shippers)
-            ->addColumn('actions', function () {
-                return view('shippers.partials.buttons');
+            ->addColumn('actions', function ($shipper) {
+                return view('shippers.partials.buttons', ['shipper' => $shipper]);
             })
             ->rawColumns(['actions'])
             ->make(true);

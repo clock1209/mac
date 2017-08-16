@@ -19,7 +19,7 @@ class ConceptsController extends Controller
        return Datatables::of($concepts)
         ->addColumn('actions', function ($concepts)
         {
-            return view('concepts.partials.buttons', ['shipper' => $concepts]);
+            return view('concepts.partials.buttons', ['concepts' => $concepts]);
         })
         ->rawColumns(['actions'])
         ->make(true);

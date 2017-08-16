@@ -9,7 +9,7 @@
 
 @section('main-content')
 Name*
-  <input id="name_concept" placeholder="Concept Name"> </input>
+  <input id="name_concept" type="text" onkeyup="this.value=this.value.replace(/[^a-z]/g,'');" placeholder="Concept Name"> </input>
     <a class="btn btn-success" onclick="Add()"><b>+ Add </b></a>
     <br><br>
     <div class="box box-solid">

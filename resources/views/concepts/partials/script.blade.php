@@ -49,7 +49,7 @@ function Add()
    if(name_concept=="" || name_concept == null)
    {
 
-       swal("Oops...", "El cambo Nombre de concepto es requerido", "error");
+       swal("Oops...", "Por favor completa el campo para continuar", "error");
        return false;
    }
    $.post('concepts/updates/{!! Auth::user()->id !!}',
@@ -75,7 +75,38 @@ function Add()
 function Eliminar(idconcepts)
 {
 
+
+      swal({
+          title: 'Are you sure?',
+          text: "you want to remove the concepts?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancel',
+          confirmButtonText: 'Yes, remove!'
+      }).then(function () {
+          $.ajax({
+              url: 'concepts/updates/{!! Auth::user()->id !!}',
+              type: 'POST',
+              data: {
+
+                val_concepts :idconcepts,
+                tipo:'Eliminar'
+              }
+          }).done(function(data){
+              console.log(data);
+              swal('Success', 'Concept deleted!!', 'success');
+              dTable.ajax.reload();
+          })
+          .fail(function() {
+              swal("Internal Error", "Consult with administrator", "warning");
+          });
+      });
+
   //console.log(idconcepts)
+
+   /*
     $.post('concepts/updates/{!! Auth::user()->id !!}',
     {
       _token: $('meta[name=csrf-token]').attr('content'),
@@ -91,6 +122,7 @@ function Eliminar(idconcepts)
     .fail(function() {
         swal("Error Interno", "Consultar con el Administrador", "error");
     });
+    */
 }
 
 

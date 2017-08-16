@@ -38,6 +38,16 @@
         });
     });//BUTTON .active-shipper
 
+    $('select[name="country"]').change(function () {
+        var country = $(this).val();
+        var cities = {{ require('./js/cities.json') }};
+        $('#selectCity').empty();
+        $.each( cities[country], function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
+        });
+    });//select COUNTRY
+
     @if (Session::has('message'))
         sAlert(
         "{{ Session::get('message.title') }}",

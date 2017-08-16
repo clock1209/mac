@@ -42,11 +42,12 @@
 <div class="form-group">
     <div class="col-md-3 col-sm-12 {{ $errors->has('country') ? ' has-error' : '' }}">
         <label for="country_lbl" class="input-control">Country*:</label>
-        {!! Form::text('country',$shipper ? $shipper->country : null,['class'=>'form-control', 'required']) !!}
+        {!! Form::select('country', $countries, $shipper ? $shipper->country : null, ['class'=>'form-control']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('city') ? ' has-error' : '' }}">
         <label for="city_lbl" class="input-control">City*:</label><br>
-        {!! Form::text('city',$shipper ? $shipper->city : null,['class'=>'form-control', 'required']) !!}
+        {!! Form::select('city', $shipper ? [$shipper->city] : ['Select country'], $shipper ? [$shipper->city] : null,
+            ['class'=>'form-control', 'id' => 'selectCity']) !!}
     </div>
     <div class="col-md-3 col-sm-12 {{ $errors->has('zip_code') ? ' has-error' : '' }}">
         <label for="zip_code_lbl" class="input-control">Zip code*:</label>

@@ -14,16 +14,15 @@ class ConceptsController extends Controller
     public function getconcepts()
     {
 
-      // Llamamos al método raw y le pasamos nuestra parte de consulta que queremos realizar.
+       $concepts = Concepts::where('status', 1)->get();
 
-       $raw = DB::table('concepts')->select('id', 'name')
-       ->where('status', '1')
-       ->get();
-
-
-          return Datatables::of($raw)
-
-              ->make(true);
+       return Datatables::of($concepts)
+        ->addColumn('actions', function ($concepts)
+        {
+            return view('concepts.partials.buttons', ['shipper' => $concepts]);
+        })
+        ->rawColumns(['actions'])
+        ->make(true);
     }
 
     public function store()
@@ -32,8 +31,7 @@ class ConceptsController extends Controller
     }
 
     public function edit(Request $request)
-   {
-       //return view('role.edit', ['role'=>$id]);
+    {
 
        $cambio = $request->input('tipo');
 
@@ -47,7 +45,6 @@ class ConceptsController extends Controller
        }
       else if ($cambio=="Agregar") {
 
-          //$idprospecto = $request->input('idprospecto');
 
           $flight = new Concepts;
           $flight->name = $request->val_name;

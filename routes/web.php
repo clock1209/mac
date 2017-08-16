@@ -34,12 +34,14 @@ Route::get('concepts', function () {
 
 Route::get('concepts/datos', 'ConceptsController@getconcepts')->name('datatable.concepts');
 Route::post('concepts/updates/{id}','ConceptsController@edit');
+//Route::resource('concepts', 'ConceptsController');
+Route::get('/concepts/{shipper}/status','ShipperController@shipperStatus');
 
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
-    Route::resource('shipments', 'ShipmentController');
+
 
     /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::resource('shippers', 'ShipperController');

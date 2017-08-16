@@ -15,28 +15,19 @@
 	                "visible": false,
 	                "searchable": false
 	         },
-          {
-            "targets": 2,
-            "width": "20%",
-            "data": null,
-            "defaultContent":
-            "  <a  class='btn btn-danger' id='eliminar' data-toggle='modal' data-target='#myModal2'><i class='glyphicon glyphicon-remove'></i> Delete  <t class='hidden-xs'></t></a>"
-
-           }
         ]
     });
 
 
     $('#concepts-table tbody').on( 'click', 'a', function () {
     				    var data = dTable.row( $(this).parents('tr') ).data();
-    				    var button_id = this.id; // get the id of the button clicked
-    						//console.log(button_id)
+    				    var button_id = this.id;
+
     						var data = dTable.row( $(this).parents('tr') ).data();
-    					       //alert( data.id +"'s salary is: "+ data.nombre );
-                    // console.log(data)
+
     				   	if (button_id=='eliminar')
                 {
-                   //console.log('eliminando: '+data.id)
+
                    Eliminar(data.id);
     						}
 
@@ -49,7 +40,7 @@ function Add()
    if(name_concept=="" || name_concept == null)
    {
 
-       swal("Oops...", "Por favor completa el campo para continuar", "error");
+       swal("Oops...", "Concept name is required", "error");
        return false;
    }
    $.post('concepts/updates/{!! Auth::user()->id !!}',
@@ -61,13 +52,13 @@ function Add()
    )
    .done(function(data) {
 
-       swal('Correcto', 'Concepto Agregador con Exito!!', 'success');
+       swal('Success', 'Concept added successfully!!', 'success');
        $('#name_concept').val('');
        dTable.ajax.reload();
 
    })
    .fail(function() {
-       swal("Error Interno", "Consultar con el Administrador", "error");
+       swal("Interno Error", "Consult with administrator", "error");
    });
 
 
@@ -104,25 +95,6 @@ function Eliminar(idconcepts)
           });
       });
 
-  //console.log(idconcepts)
-
-   /*
-    $.post('concepts/updates/{!! Auth::user()->id !!}',
-    {
-      _token: $('meta[name=csrf-token]').attr('content'),
-      val_concepts :idconcepts,
-      tipo:'Eliminar'
-     }
-    )
-    .done(function(data) {
-
-        swal('Correcto', 'Concepto Eliminado con Exito!!', 'success');
-        dTable.ajax.reload();
-    })
-    .fail(function() {
-        swal("Error Interno", "Consultar con el Administrador", "error");
-    });
-    */
 }
 
 

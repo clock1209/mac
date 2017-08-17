@@ -5,8 +5,10 @@
         columns: [
             {data: 'username'},
             {data: 'email'},
-            {data: 'rolename'},
+            {data: 'display_name'},
+                @permission('create_user')
             {data: 'action'},
+            @endpermission
         ],
     });
 

@@ -18,11 +18,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
+        $aUser = auth()->user();
         if ($request->ajax()) {
             return $this->toDatatable();
         }
         return view('users.index');
+
     }
 
     /**
@@ -134,7 +135,7 @@ class UserController extends Controller
 
         $users = DB::table('roles')
             ->join('users','users.role','=','roles.id')
-            ->select('users.id','users.username','users.email','roles.rolename')
+            ->select('users.id','users.username','users.email','roles.display_name')
             ->where('users.status','=','1','and','users.id','!=',Auth::user()->id)
             ->get();
 //        dd($users);

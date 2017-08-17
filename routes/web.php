@@ -15,25 +15,22 @@ Route::get('/', function () {
     return view('vendor/adminlte/auth/login');
 });
 
-
-Route::get('menu', function () {
-    return view('vendor/adminlte/layouts/app');
-});
-
-Route::get('Select', function () {
-    return view('vendor/adminlte/layouts/appMain');
-});
-
-Route::get('users', function () {
-    return view('vendor/adminlte/layouts/users/index');
-});
-
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
-    Route::resource('shipments', 'ShipmentController');
+    Route::get('Select', function () {
+        return view('vendor/adminlte/layouts/appMain');
+    });
 
+    Route::get('menu', function () {
+        return view('vendor/adminlte/layouts/app');
+    });
+
+    Route::resource('users','UserController');
+    Route::get('/users/{user}/status','UserController@userStatus');
+
+    Route::resource('shipments', 'ShipmentController');
     Route::resource('shippers', 'ShipperController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.

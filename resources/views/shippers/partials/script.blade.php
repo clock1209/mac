@@ -40,7 +40,7 @@
 
     $('select[name="country"]').change(function () {
         var country = $(this).val();
-        var cities = {{ require('./js/cities.json') }};
+        var cities = {{ require('./js/countryCities.json') }};
         $('#selectCity').empty();
         $.each( cities[country], function (i, item) {
             selected = (i != 0) ? '' : ' selected';

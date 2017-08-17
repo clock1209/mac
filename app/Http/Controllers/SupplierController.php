@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Supplier;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Facades\Datatables;
 
 class SupplierController extends Controller
 {
@@ -12,9 +13,12 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            return $this->toDatatable();
+        }
+        return view('suppliers.index');
     }
 
     /**
@@ -81,5 +85,20 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         //
+    }
+
+    /*
+     * by: Octavio Cornejo
+     * Creates datatable
+     */
+    public function toDatatable()
+    {
+        $suppliers = Supplier::where('status', 1)->get();
+        return Datatables::of($suppliers)
+            ->addColumn('actions', function ($supplier) {
+                return view('suppliers.partials.buttons', ['supplier' => $supplier]);
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

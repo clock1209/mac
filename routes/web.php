@@ -39,6 +39,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/shippers/{shipper}/status','ShipperController@shipperStatus');
     Route::resource('ports', 'PortController');
 
+    /*------------------ SUPPLIERS'S ROUTES ------------------*/
+    Route::resource('suppliers', 'SupplierController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

@@ -90,3 +90,12 @@ $factory->define(App\Shipper::class, function (Faker\Generator $faker) {
         'rfc_taxid' => $faker->regexify('[\w0-9]{10}'),
     ];
 });
+
+$factory->define(App\Supplier::class, function (Faker\Generator $faker) {
+    return [
+        'Abbreviation' => $faker->word,
+        'name' => $faker->name,
+        'type' => $faker->randomElement(['Co Loader', 'Carrier', 'Custom Broker', 'Truck Service', 'Werehouse',
+            'Port terminal', 'Insurence company', 'Agent']),
+    ];
+});

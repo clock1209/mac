@@ -17,11 +17,11 @@
     <div class="col-md-4 col-md-offset-1 col-sm-12 ">
         <label for="Role_lbl" class="input-control">Type*:</label>
         {!!Form::select('role',[
-        'Administrator'=>'Administrator',
-         'Agent'=>'Agent',
-         'Customer'=>'Customer',
-         'Operations'=>'Operations',
-         'Billing'=>'Billing'
+        1=>'Administrator',
+         2=>'Agent',
+         3=>'Customer',
+         4=>'Operations',
+         5=>'Billing'
         ], null,['class'=>'form-control'])!!}
     </div>
 </div>

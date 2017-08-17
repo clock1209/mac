@@ -5,7 +5,7 @@
         columns: [
             {data: 'username'},
             {data: 'email'},
-//                {data: 'role'},
+            {data: 'rolename'},
             {data: 'action'},
         ],
     });

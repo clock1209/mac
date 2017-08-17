@@ -19,7 +19,7 @@
                 <tr>
                     <th>Username</th>
                     <th>E-mail</th>
-                    {{--<th>Role</th>--}}
+                    <th>Role</th>
                     <th>Action</th>
                 </tr>
                 </thead>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use DB;
+use Auth;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -130,7 +132,15 @@ class UserController extends Controller
 
 //        return Datatables::eloquent(User::query())->make(true);
 
-        $users = User::where('status',1)->get();
+        $users = DB::table('roles')
+            ->join('users','users.role','=','roles.id')
+            ->select('users.id','users.username','users.email','roles.rolename')
+            ->where('users.status','=','1','and','users.id','!=',Auth::user()->id)
+            ->get();
+//        dd($users);
+
+//        $users = User::where('status',1)->get();
+
         return Datatables::of($users)
             ->addColumn('action', function ($users) {
                 return view('users.partials.buttons', ['users' => $users]);

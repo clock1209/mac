@@ -48,6 +48,7 @@ class UserController extends Controller
 
         $user = new User($request->all());
         $user->password = bcrypt($request['password']);
+        $user->signature = $request->file('signature');
         $user->save();
 
         $msg = [

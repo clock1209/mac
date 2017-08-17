@@ -9,7 +9,7 @@
 
 @section('main-content')
     <a class="btn btn-default" href="{{ route('consolidators.create') }}"><b>New consolidator</b></a>
-    <a class="btn btn-default" style="background-color: #9b59b6; color: #fff" href="#"><b>Stuff and Unstuff cost</b></a>
+    <a class="btn btn-default" style="background-color: #9b59b6; color: #fff" href="{{url('stuffs')}}"><b>Stuff and Unstuff cost</b></a>
     <a class="btn btn-default" href="#"><b>Agree MCC</b></a>
     <br />
     <br />

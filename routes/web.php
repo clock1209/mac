@@ -19,18 +19,19 @@ Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
-    Route::get('Select', function () {
-        return view('vendor/adminlte/layouts/appMain');
-    });
-
     Route::get('menu', function () {
         return view('vendor/adminlte/layouts/app');
+    });
+    Route::get('Select', function () {
+        return view('vendor/adminlte/layouts/appMain');
     });
     /*------------------ USERS'S ROUTES ------------------*/
     Route::resource('users','UserController');
     Route::get('/users/{user}/status','UserController@userStatus');
     /*------------------ SHIPMENT'S ROUTES ------------------*/
     Route::resource('shipments', 'ShipmentController');
+
+
     /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::resource('shippers', 'ShipperController');
     Route::get('/shippers/{shipper}/status','ShipperController@shipperStatus');

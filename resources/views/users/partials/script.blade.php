@@ -6,7 +6,7 @@
             {data: 'username'},
             {data: 'email'},
             {data: 'display_name'},
-                @permission('create_user')
+            @permission('create_user')
             {data: 'action'},
             @endpermission
         ],

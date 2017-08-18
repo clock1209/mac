@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
@@ -33,7 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $data = Role::pluck('display_name','id');
+        return view('users.create',compact('data'));
     }
 
     /**
@@ -80,7 +82,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user= User::find($id);
-        return view('users.edit',['user'=>$user]);
+        $data = Role::pluck('display_name','id');
+        return view('users.edit',['user'=>$user],compact('data'));
     }
 
     /**
@@ -132,16 +135,11 @@ class UserController extends Controller
 
     public function toDatatable(){
 
-//        return Datatables::eloquent(User::query())->make(true);
-
         $users = DB::table('roles')
             ->join('users','users.role','=','roles.id')
             ->select('users.id','users.username','users.email','roles.display_name')
             ->where('users.status','=','1','and','users.id','!=',Auth::user()->id)
             ->get();
-//        dd($users);
-
-//        $users = User::where('status',1)->get();
 
         return Datatables::of($users)
             ->addColumn('action', function ($users) {

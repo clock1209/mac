@@ -14,16 +14,16 @@ class Supplier extends Model
 
     public function bankAccount()
     {
-        $this->hasMany('bank_accounts');
+        return $this->hasMany("App\BankAccount");
     }
 
     public function aditionalCharge()
     {
-        $this->hasMany('aditional_charges');
+        return $this->hasMany('aditional_charges');
     }
 
     public function contact()
     {
-        $this->hasMany('contacts');
+        return $this->hasMany('contacts');
     }
 }

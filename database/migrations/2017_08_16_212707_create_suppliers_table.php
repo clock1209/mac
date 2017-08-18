@@ -23,53 +23,36 @@ class CreateSuppliersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('bank_accounts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('pay_of');
-            $table->integer('account');
-            $table->string('bank');
-            $table->string('clabe');
-            $table->integer('aba');
-            $table->string('swift');
-            $table->string('reference');
-            $table->string('currency');
-            $table->string('beneficiary');
-            $table->char('status',1)->default(1);
-            $table->integer('suppliers_id')->unsigned();
-
-            $table->foreign('suppliers_id')->references('id')->on('suppliers');
-            $table->timestamps();
-        });
-
-        Schema::create('aditional_charges', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('concept');
-            $table->string('collect_prepaid');
-            $table->string('import_export');
-            $table->string('amount');
-            $table->string('currency');
-            $table->string('charge_type');
-            $table->string('charge');
-            $table->longText('notes');
-            $table->char('status',1)->default(1);
-            $table->integer('suppliers_id')->unsigned();
-
-            $table->foreign('suppliers_id')->references('id')->on('suppliers');
-            $table->timestamps();
-        });
-
-        Schema::create('contacts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('select_an_area');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->char('status',1)->default(1);
-            $table->integer('suppliers_id')->unsigned();
-
-            $table->foreign('suppliers_id')->references('id')->on('suppliers');
-            $table->timestamps();
-        });
+//        Schema::create('additional_charges', function (Blueprint $table) {
+//            $table->increments('id');
+//            $table->string('concept');
+//            $table->string('collect_prepaid');
+//            $table->string('import_export');
+//            $table->string('amount');
+//            $table->string('currency');
+//            $table->string('last_updated');
+//            $table->string('charge_type');
+//            $table->string('charge');
+//            $table->longText('notes');
+//            $table->char('status',1)->default(1);
+//            $table->integer('suppliers_id')->unsigned();
+//
+//            $table->foreign('suppliers_id')->references('id')->on('suppliers');
+//            $table->timestamps();
+//        });
+//
+//        Schema::create('contacts', function (Blueprint $table) {
+//            $table->increments('id');
+//            $table->string('select_an_area');
+//            $table->string('name');
+//            $table->string('email');
+//            $table->string('phone');
+//            $table->char('status',1)->default(1);
+//            $table->integer('suppliers_id')->unsigned();
+//
+//            $table->foreign('suppliers_id')->references('id')->on('suppliers');
+//            $table->timestamps();
+//        });
     }
 
     /**
@@ -79,9 +62,9 @@ class CreateSuppliersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contacts');
-        Schema::dropIfExists('aditional_charges');
-        Schema::dropIfExists('bank_accounts');
+//        Schema::dropIfExists('contacts');
+//        Schema::dropIfExists('aditional_charges');
+//        Schema::dropIfExists('bank_accounts');
         Schema::dropIfExists('suppliers');
     }
 }

@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\BankAccount;
 use App\Supplier;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
 class SupplierController extends Controller
 {
+    protected $ba_type = [
+        'Co Loader',
+        'Carrier',
+        'Custom Broker',
+        'Truck Service',
+        'Werehouse',
+        'Port terminal',
+        'Insurence company',
+        'Agent'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +37,12 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            return $this->toBankAccountDatatable();
+        }
+        return view('suppliers.create', ['types' => $this->ba_type]);
     }
 
     /**
@@ -39,7 +53,17 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        Supplier::create($request->all());
+
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Supplier created successfully.'
+        ];
+
+        return redirect('suppliers')->with('message', $msg);
     }
 
     /**
@@ -100,5 +124,29 @@ class SupplierController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+
+    /*
+     * by: Octavio Cornejo
+     * Creates bankAccount datatable
+     */
+    public function toBankAccountDatatable()
+    {
+        $bankAccounts = BankAccount::with('supplier')->where('id', 1)->get();
+        return Datatables::of($bankAccounts)
+            ->addColumn('actions', function ($bankAccount) {
+                return view('bankAccounts.partials.buttons', ['bankAccount' => $bankAccount]);
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    private function rules()
+    {
+        return [
+            'abbreviation' => 'required',
+            'type' => 'required',
+            'name' => 'required'
+        ];
     }
 }

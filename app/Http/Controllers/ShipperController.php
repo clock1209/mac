@@ -60,7 +60,8 @@ class ShipperController extends Controller
      */
     public function show(Shipper $shipper)
     {
-        //
+        $shipper->load('ports');
+        return view('ports.index',compact('shipper'));
     }
 
     /**
@@ -105,7 +106,16 @@ class ShipperController extends Controller
      */
     public function destroy(Shipper $shipper)
     {
-        $shipper->delete();
+        //
+    }
+
+    /*
+     * Changes shipper status
+     */
+    public function shipperStatus(Shipper $shipper)
+    {
+        $shipper->status = ($shipper->status == 1) ? 0 : 1;
+        $shipper->save();
 
         $msg = [
             'title' => 'Deleted!',
@@ -122,7 +132,7 @@ class ShipperController extends Controller
      */
     public function toDatatable()
     {
-        $shippers = Shipper::get();
+        $shippers = Shipper::where('status', 1)->get();
         return Datatables::of($shippers)
             ->addColumn('actions', function ($shipper) {
                 return view('shippers.partials.buttons', ['shipper' => $shipper]);

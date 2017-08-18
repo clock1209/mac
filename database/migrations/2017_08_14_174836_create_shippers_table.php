@@ -27,6 +27,7 @@ class CreateShippersTable extends Migration
             $table->string('country');
             $table->string('zip_code');
             $table->string('rfc_taxid');
+            $table->char('status',1)->default(1);
             $table->timestamps();
         });
     }

@@ -26,12 +26,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('menu', function () {
         return view('vendor/adminlte/layouts/app');
     });
-
+    /*------------------ USERS'S ROUTES ------------------*/
     Route::resource('users','UserController');
     Route::get('/users/{user}/status','UserController@userStatus');
-
+    /*------------------ SHIPMENT'S ROUTES ------------------*/
     Route::resource('shipments', 'ShipmentController');
+    /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::resource('shippers', 'ShipperController');
+    Route::get('/shippers/{shipper}/status','ShipperController@shipperStatus');
+    Route::resource('ports', 'PortController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

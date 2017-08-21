@@ -28,11 +28,16 @@ Route::get('users', function () {
     return view('vendor/adminlte/layouts/users/index');
 });
 
+
+//Route::resource('concepts', 'ConceptsController');
+Route::get('/concepts/{shipper}/status','ShipperController@shipperStatus');
+
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
-    Route::resource('shipments', 'ShipmentController');
+
+    Route::resource('concepts', 'ConceptsController');
 
     /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::resource('shippers', 'ShipperController');

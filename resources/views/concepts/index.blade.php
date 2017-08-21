@@ -9,13 +9,17 @@
 @section('main-content')
 @include('alerts.messages')
 {!! Form::open(['route'=>'concepts.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
-    <div class="form-group">
-        <div class="col-md-4 col-sm-12">
-            <label for="reference_number_lbl" class="input-control">Name*:</label>
-            {!! Form::text('name_concept',null,['class'=>'form-control']) !!}
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button>
-        </div>
+<div class="row">
+  <div class="col-md-9">
+    Name*
+  </div>
+  <div class="col-md-4">
+    {!! Form::text('name_concept',null,['class'=>'form-control']) !!}
+  </div>
+  <div class="col-md-4">  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button>
     </div>
+</div>
+<br>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="concepts-table">

@@ -27,7 +27,12 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->toDatatable();
+            if($request->dt == 'bank') {
+                return $this->toBankAccountDatatable($request->supplier_id);
+            }
+            if ($request->dt == 'index') {
+                return $this->toDatatable();
+            }
         }
         return view('suppliers.index');
     }
@@ -39,9 +44,6 @@ class SupplierController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->ajax()) {
-            return $this->toBankAccountDatatable();
-        }
         return view('suppliers.create', ['types' => $this->ba_type]);
     }
 
@@ -83,9 +85,9 @@ class SupplierController extends Controller
      * @param  \App\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Request $request, Supplier $supplier)
     {
-        //
+        return view('suppliers.edit', ['supplier' => $supplier, 'types' => $this->ba_type]);
     }
 
     /**
@@ -130,10 +132,10 @@ class SupplierController extends Controller
      * by: Octavio Cornejo
      * Creates bankAccount datatable
      */
-    public function toBankAccountDatatable()
+    public function toBankAccountDatatable($id)
     {
-        $bankAccounts = BankAccount::with('supplier')->where('id', 1)->get();
-        return Datatables::of($bankAccounts)
+        $bankAccounts = BankAccount::where('supplier_id', $id)->where('status', 1);
+        return Datatables::eloquent($bankAccounts)
             ->addColumn('actions', function ($bankAccount) {
                 return view('bankAccounts.partials.buttons', ['bankAccount' => $bankAccount]);
             })

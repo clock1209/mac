@@ -15,6 +15,8 @@ class BankAccount extends Model
         'swift',
         'reference',
         'currency',
+        'beneficiary',
+        'supplier_id'
     ];
 
     public function supplier()

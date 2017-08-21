@@ -14,6 +14,7 @@
         {!! Form::text('name',$supplier ? $supplier->name : null,['class'=>'form-control', 'required']) !!}
     </div>
 </div>
+{!! Form::hidden('supplier_id',$supplier ? $supplier->id : null,['class'=>'form-control']) !!}
 @if($supplier != null)
     @include('bankAccounts.index')
 

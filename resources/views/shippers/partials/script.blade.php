@@ -30,7 +30,8 @@
                 type: 'GET',
                 dataType: 'json',
                 data: {id: id_shipper}
-            }).done(function(data){
+            }).done(function(data)
+            {
                 console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();

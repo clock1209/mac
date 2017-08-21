@@ -25,34 +25,35 @@ class ConceptsController extends Controller
         ->make(true);
     }
 
-    public function store()
+    public function store(Request $request)
     {
 
-    }
+          $this->validate($request, $this->rules());
 
+          $concepts = new Concepts;
+          $concepts->name = $request->name_concept;
+          $concepts->status = 1;
+          $concepts->save();
+
+           return view('concepts.index');
+
+    }
     public function edit(Request $request)
     {
 
-       $cambio = $request->input('tipo');
+       $idconcept = $request->input('val_concepts');
+       $idconcept = concepts::find($idconcept);
+       $idconcept->status = 0;
+       $idconcept->save();
 
+       $msg = [
+           'title' => 'Delete!',
+           'type' => 'success',
+           'text' => 'Concepts deleted successfully.'
+       ];
 
-       if ($cambio=="Eliminar") {
-         # code...
-           $idconcept = $request->input('val_concepts');
-           $idconcept = concepts::find($idconcept);
-           $idconcept->status = 0;
-           $idconcept->save();
-       }
-      else if ($cambio=="Agregar") {
+       return redirect('concepts')->with('message', $msg);
 
-
-          $flight = new Concepts;
-          $flight->name = $request->val_name;
-          $flight->status = 1;
-          $flight->save();
-
-
-      }
 
    }
 
@@ -62,10 +63,23 @@ class ConceptsController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if(!auth()->user())
+         return abort(404);
 
-       //return view('seguros.agenda');
+        if ($request->ajax()) {
+         return $this->getconcepts();
+       }
+
+       return view('concepts.index');
+    }
+
+    private function rules()
+    {
+        return [
+            'name_concept' => 'required|regex:/^[\pL\s\-]+$/u'
+        ];
     }
 
 }

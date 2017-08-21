@@ -28,12 +28,7 @@ Route::get('users', function () {
     return view('vendor/adminlte/layouts/users/index');
 });
 
-Route::get('concepts', function () {
-    return view('/concepts/index');
-});
 
-Route::get('concepts/datos', 'ConceptsController@getconcepts')->name('datatable.concepts');
-Route::post('concepts/updates/{id}','ConceptsController@edit');
 //Route::resource('concepts', 'ConceptsController');
 Route::get('/concepts/{shipper}/status','ShipperController@shipperStatus');
 
@@ -42,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 //        // Uses Auth Middleware
 //    });
 
+    Route::resource('concepts', 'ConceptsController');
 
     /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::resource('shippers', 'ShipperController');

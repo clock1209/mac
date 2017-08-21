@@ -1,3 +1,3 @@
-<a  href="concepts/updates/{$id}" class='btn btn-danger' id='eliminar'
-  data-toggle='modal' data-target='#myModal2'><i class='glyphicon glyphicon-remove'></i> Delete
-  <t class='hidden-xs'></t></a>
+<a  id_concepts="{{ $concepts->id }}" class='btn btn-danger' id='eliminar'
+><i class='glyphicon glyphicon-remove'></i> Delete
+<t class='hidden-xs'></t></a>

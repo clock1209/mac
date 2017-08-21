@@ -12,7 +12,8 @@
         ]
     });/*datatable*/
 
-    $('body').delegate('.status-shipper','click',function(){
+    $('body').delegate('.status-shipper','click',function()
+    {
         id_shipper = $(this).attr('id_shipper');
         shipper_name = $(this).attr('shipper_name');
         swal({

@@ -1,14 +1,14 @@
 @push('scripts')
 <script>
+    var act1 = $('#action').val();
+
     var dTable = $("#users-table").DataTable({
         ajax: '/users',
         columns: [
             {data: 'username'},
             {data: 'email'},
             {data: 'display_name'},
-            @permission('create_user')
-            {data: 'action'},
-            @endpermission
+            {data: 'action', visible: act1},
         ],
     });
 

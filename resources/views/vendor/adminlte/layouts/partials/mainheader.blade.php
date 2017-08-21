@@ -47,7 +47,9 @@
                                 </li><!-- end message -->
                             </ul><!-- /.menu -->
                         </li>
-                        <li class="footer"><a href="#">c</a></li>
+                        <li class="footer">
+                            <a href="#">{{ trans('adminlte_lang::message.alltasks') }}</a>
+                        </li>
                     </ul>
                 </li><!-- /.messages-menu -->
 
@@ -56,7 +58,7 @@
                     <li><a href="{{ url('/login') }}">{{ trans('adminlte_lang::message.login') }}</a></li>
             @else
                 <!-- User Account Menu -->
-                    <li class="dropdown user user-menu" id="user_menu">
+                    <li class="dropdown user user-menu" id="user_menu" >
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
@@ -88,7 +90,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="{{ url('/settings') }}" class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.profile') }}</a>
+                                    <a href="{{ url('#') }}" class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.profile') }}</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="{{ url('/logout') }}" class="btn btn-default btn-flat" id="logout"

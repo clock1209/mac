@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use DB;
 use Auth;
+use Entrust;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -52,7 +53,7 @@ class UserController extends Controller
         $user->password = bcrypt($request['password']);
         $user->signature = $request->file('signature');
         $user->save();
-
+        $user->attachRole($request['role']);
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
@@ -99,6 +100,8 @@ class UserController extends Controller
 
         $user= User::find($id);
         $user->fill($request->all());
+        $user->password = bcrypt($request['password']);
+        $user->attachRole($request['role']);
         $user->save();
 
         $msg = [
@@ -140,12 +143,11 @@ class UserController extends Controller
             ->select('users.id','users.username','users.email','roles.display_name')
             ->where('users.status','=','1','and','users.id','!=',Auth::user()->id)
             ->get();
-
-        return Datatables::of($users)
-            ->addColumn('action', function ($users) {
-                return view('users.partials.buttons', ['users' => $users]);
-            })
-            ->make(true);
+            return Datatables::of($users)
+                ->addColumn('action', function ($users) {
+                    return view('users.partials.buttons', ['users' => $users]);
+                })
+                ->make(true);
 
     }
 

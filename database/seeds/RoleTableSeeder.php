@@ -72,12 +72,18 @@ class RoleTableSeeder extends Seeder
         $deleteUser->description 	= 'allows delete users'; /*OPTIONAL*/
         $deleteUser->save();
 
+        $seeAction = new App\Permission();
+        $seeAction->name 			= 'see_actions';
+        $seeAction->display_name 	= 'see Actions'; /*OPTIONAL*/
+        $seeAction->description 	= 'see actions'; /*OPTIONAL*/
+        $seeAction->save();
 
-        /*
-            ASSIGN PERMISSION'S
-        */
-        //TO ADMIN
-        $agent->attachPermission($seeUser);
+
+
+        $agent->attachPermission($seeAction);
+        $Customer->attachPermission($seeAction);
+        $Operations->attachPermission($seeAction);
+        $Billing->attachPermission($seeAction);
 
         $admin->attachPermission($createUser);
         $admin->attachPermission($editUser);

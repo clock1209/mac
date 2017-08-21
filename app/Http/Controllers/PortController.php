@@ -100,7 +100,6 @@ class PortController extends Controller
     {
         if ($port) {
             $status = $port->status ? 0 : 1;
-            $message = $status ? 'Incidencia Activa' : 'Incidencia Inactiva';
 
             if($status) {
                 $msg = [
@@ -140,6 +139,12 @@ class PortController extends Controller
             })
             ->editColumn('shipper_id', function ($port) {
                 return $port->shipper->tradename;
+            })
+            ->editColumn('status', function ($port) {
+                if($port->status)
+                    return 'Activo';
+                else
+                    return 'Inactivo';
             })
             ->rawColumns(['actions'])
             ->make(true);

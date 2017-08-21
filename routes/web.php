@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
+
     Route::get('menu', function () {
         return view('vendor/adminlte/layouts/app');
     });
@@ -31,12 +32,26 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ SHIPMENT'S ROUTES ------------------*/
     Route::resource('shipments', 'ShipmentController');
 
-
     /*------------------ SHIPPER'S ROUTES ------------------*/
-    Route::resource('shippers', 'ShipperController');
     Route::get('/shippers/{shipper}/status','ShipperController@shipperStatus');
+    Route::resource('shippers', 'ShipperController');
     Route::resource('ports', 'PortController');
 
+    /*------------------ CONSOLIDATOR'S ROUTES ------------------*/
+    Route::resource('consolidators','ConsolidatorController');
+
+    /*------------------ CONCEPTS'S ROUTES ------------------*/
+    Route::get('concepts/datos', 'ConceptsController@getconcepts')->name('datatable.concepts');
+    Route::post('concepts/updates/{id}','ConceptsController@edit');
+    Route::get('/concepts/{shipper}/status','ShipperController@shipperStatus');
+    Route::get('concepts', function () {
+        return view('/concepts/index');
+    });
+    Route::resource('concepts', 'ConceptsController');
+
+    /*------------------ STUFF'S ROUTES ------------------*/
+    Route::resource('stuffs', 'StuffController');
+    
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

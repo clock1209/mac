@@ -8,6 +8,7 @@
 @endsection
 
 @section('main-content')
+@include('alerts.messages')
     <a class="btn btn-default" href="{{ route('shippers.create') }}"><b>New Shipper</b></a><br><br>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">

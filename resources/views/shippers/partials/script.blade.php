@@ -12,7 +12,8 @@
         ]
     });/*datatable*/
 
-    $('body').delegate('.status-shipper','click',function(){
+    $('body').delegate('.status-shipper','click',function()
+    {
         id_shipper = $(this).attr('id_shipper');
         shipper_name = $(this).attr('shipper_name');
         swal({
@@ -30,7 +31,8 @@
                 type: 'GET',
                 dataType: 'json',
                 data: {id: id_shipper}
-            }).done(function(data){
+            }).done(function(data)
+            {
                 console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();

@@ -12,7 +12,11 @@
 @section('main-content')
     @permission('create_user')
     <a class="btn btn-default" href="{{ route('users.create') }}"><b>New User</b></a>
+    <input type="hidden" id="action" name="action" value="true">
     @endpermission
+
+    <input type="hidden" id="action" name="action" value="">
+
     <br><br>
     <div class="box box-solid box-primary">
         <div class="box-body" style="overflow-x: auto;">
@@ -22,9 +26,7 @@
                     <th>Username</th>
                     <th>E-mail</th>
                     <th>Role</th>
-                    @permission('create_user')
                     <th>Action</th>
-                    @endpermission
                 </tr>
                 </thead>
             </table>

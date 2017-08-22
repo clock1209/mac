@@ -5,7 +5,7 @@
 @endsection
 
 @section('contentheader_title')
-    Create User
+    Edit User
 @endsection
 
 @section('main-content')

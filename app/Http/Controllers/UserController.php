@@ -101,6 +101,7 @@ class UserController extends Controller
         $user= User::find($id);
         $user->fill($request->all());
         $user->password = bcrypt($request['password']);
+        DB::table('role_user')->where('user_id',$id)->delete();
         $user->attachRole($request['role']);
         $user->save();
 

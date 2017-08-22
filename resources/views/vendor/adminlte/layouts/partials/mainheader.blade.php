@@ -11,6 +11,7 @@
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation" >
+
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ trans('adminlte_lang::message.togglenav') }}</span>
@@ -27,27 +28,27 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header">{{ trans('adminlte_lang::message.tabmessages') }}</li>
-                        <li>
-                            <!-- inner menu: contains the messages -->
-                            <ul class="menu">
-                                <li><!-- start message -->
-                                    <a href="#">
-                                        <div class="pull-left">
-                                            <!-- User Image -->
-                                            <img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image"/>
-                                        </div>
-                                        <!-- Message title and timestamp -->
-                                        <h4>
-                                            {{ trans('adminlte_lang::message.supteam') }}
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
-                                        <!-- The message -->
-                                        <p>{{ trans('adminlte_lang::message.awesometheme') }}</p>
-                                    </a>
-                                </li><!-- end message -->
-                            </ul><!-- /.menu -->
-                        </li>
-                        <li class="footer">
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <!-- User Image -->
+                                                <img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image"/>
+                                            </div>
+                                            <!-- Message title and timestamp -->
+                                            <h4>
+                                                {{ trans('adminlte_lang::message.supteam') }}
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <!-- The message -->
+                                            <p>{{ trans('adminlte_lang::message.awesometheme') }}</p>
+                                        </a>
+                                    </li><!-- end message -->
+                                </ul><!-- /.menu -->
+                            </li>
+                         <li class="footer">
                             <a href="#">{{ trans('adminlte_lang::message.alltasks') }}</a>
                         </li>
                     </ul>

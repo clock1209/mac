@@ -1,7 +1,7 @@
 @push('scripts')
 <script>
     var dTableBank = $("#bank-accounts-table").DataTable({
-        ajax: '/suppliers?dt=bank&supplier_id=' + $('[name="supplier_id"]').val(),
+        ajax: '/bank-accounts?supplier_id=' + $('[name="supplier_id"]').val(),
         columns: [
             {data: 'pay_of'},
             {data: 'account'},
@@ -38,6 +38,7 @@
         }).done(function (data) {
             console.log(data);
             resetBankAccountInputs();
+            sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
         }).fail(function (data) {
             var errors = data.responseJSON;
@@ -83,7 +84,6 @@
         $('[name="reference"]').val('');
         $('[name="currency"]').val('');
         $('[name="beneficiary"]').val('');
-        $('[name="supplier_id"]').val('');
     }
 
     @if (Session::has('message'))

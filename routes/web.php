@@ -42,9 +42,13 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ SUPPLIERS'S ROUTES ------------------*/
     Route::resource('suppliers', 'SupplierController');
 
-    /*------------------ BANK ACCOUNTS'S ROUTES ------------------*/
+    /*------------------ BANK ACCOUNT'S ROUTES ------------------*/
     Route::resource('bank-accounts', 'BankAccountController');
     Route::get('/bank-accounts/{bankAccount}/status','BankAccountController@bankAccountStatus');
+
+    /*------------------ ADDITIONAL CHARGE'S ROUTES ------------------*/
+    Route::resource('additional-charges', 'AdditionalChargeController');
+    Route::get('/additional-charges/{additionalCharge}/status','AdditionalChargeController@additionalChargeStatus');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

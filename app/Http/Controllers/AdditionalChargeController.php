@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\BankAccount;
-use App\Supplier;
+use App\AdditionalCharge;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
-class BankAccountController extends Controller
+class AdditionalChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class BankAccountController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return $this->toDatatable($request->supplier_id);
         }
     }
@@ -39,14 +38,15 @@ class BankAccountController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $this->validate($request, $this->rules());
 
-        BankAccount::create($request->all());
+        AdditionalCharge::create($request->all());
 
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
-            'text' => 'Bank account created successfully.'
+            'text' => 'Additional charge created successfully.'
         ];
 
         return response()->json($msg);
@@ -55,10 +55,10 @@ class BankAccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\AdditionalCharge  $additionalCharge
      * @return \Illuminate\Http\Response
      */
-    public function show(BankAccount $bankAccount)
+    public function show(AdditionalCharge $additionalCharge)
     {
         //
     }
@@ -66,10 +66,10 @@ class BankAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\AdditionalCharge  $additionalCharge
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankAccount $bankAccount)
+    public function edit(AdditionalCharge $additionalCharge)
     {
         //
     }
@@ -78,10 +78,10 @@ class BankAccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\AdditionalCharge  $additionalCharge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankAccount $bankAccount)
+    public function update(Request $request, AdditionalCharge $additionalCharge)
     {
         //
     }
@@ -89,35 +89,41 @@ class BankAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\AdditionalCharge  $additionalCharge
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankAccount $bankAccount)
+    public function destroy(AdditionalCharge $additionalCharge)
     {
         //
     }
+
     /*
-     * Changes bankAccount status
+     * Changes additionalCharge status
      */
-    public function bankAccountStatus(BankAccount $bankAccount)
+    public function additionalChargeStatus(AdditionalCharge $additionalCharge)
     {
-        $bankAccount->status = ($bankAccount->status == 1) ? 0 : 1;
-        $bankAccount->save();
+        $additionalCharge->status = ($additionalCharge->status == 1) ? 0 : 1;
+        $additionalCharge->save();
 
         $msg = [
             'title' => 'Deleted!',
             'type' => 'success',
-            'text' => 'Bank account deleted successfully.'
+            'text' => 'Additional charge deleted successfully.'
         ];
 
         return response()->json($msg);
     }
 
-    public function toDatatable($id) {
-        $bankAccounts = BankAccount::where('supplier_id', $id)->where('status', 1);
-        return Datatables::eloquent($bankAccounts)
-            ->addColumn('actions', function ($bankAccount) {
-                return view('bankAccounts.partials.buttons', ['bankAccount' => $bankAccount]);
+    /*
+     * by: Octavio Cornejo
+     * Creates datatable
+     */
+    public function toDatatable($id)
+    {
+        $additionalCharges = AdditionalCharge::where('supplier_id', $id)->where('status', 1)->get();
+        return Datatables::of($additionalCharges)
+            ->addColumn('actions', function ($additionalCharge) {
+                return view('additionalCharges.partials.buttons', ['additionalCharge' => $additionalCharge]);
             })
             ->rawColumns(['actions'])
             ->make(true);
@@ -126,15 +132,15 @@ class BankAccountController extends Controller
     private function rules()
     {
         return [
-            'pay_of' => 'required',
-            'account' => 'required|numeric',
-            'bank' => 'required',
-            'clabe' => 'required',
-            'aba' => 'required|numeric',
-            'swift' => 'required',
-            'reference' => 'required',
+            'concept' => 'required',
+            'collect_prepaid' => 'required',
+            'import_export' => 'required',
+            'amount' => 'required|numeric',
             'currency' => 'required',
-            'beneficiary' => 'required',
+            'last_updated' => 'required',
+            'charge_type' => 'required',
+            'charge' => 'required',
+            'notes' => 'required',
         ];
     }
 }

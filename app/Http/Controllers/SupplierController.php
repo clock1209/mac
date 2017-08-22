@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AdditionalCharge;
 use App\BankAccount;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -27,12 +28,7 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if($request->dt == 'bank') {
-                return $this->toBankAccountDatatable($request->supplier_id);
-            }
-            if ($request->dt == 'index') {
                 return $this->toDatatable();
-            }
         }
         return view('suppliers.index');
     }
@@ -123,21 +119,6 @@ class SupplierController extends Controller
         return Datatables::of($suppliers)
             ->addColumn('actions', function ($supplier) {
                 return view('suppliers.partials.buttons', ['supplier' => $supplier]);
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
-    }
-
-    /*
-     * by: Octavio Cornejo
-     * Creates bankAccount datatable
-     */
-    public function toBankAccountDatatable($id)
-    {
-        $bankAccounts = BankAccount::where('supplier_id', $id)->where('status', 1);
-        return Datatables::eloquent($bankAccounts)
-            ->addColumn('actions', function ($bankAccount) {
-                return view('bankAccounts.partials.buttons', ['bankAccount' => $bankAccount]);
             })
             ->rawColumns(['actions'])
             ->make(true);

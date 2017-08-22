@@ -51,6 +51,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*------------------ STUFF'S ROUTES ------------------*/
     Route::resource('stuffs', 'StuffController');
+
+    /*------------------ GET IMG ------------------*/
+    Route::get('/userimage/{filename}',[
+        'users' => 'UserController@getUserImage',
+        'as' => 'account.image'
+    ]);
     
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

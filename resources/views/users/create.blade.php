@@ -10,7 +10,7 @@
 
 @section('main-content')
     @include('alerts.messages')
-       {!! Form::open(['route' => 'users.store', 'method' => 'post','class' =>'form-horizontal' ,'files'=>true]) !!}
+       {!! Form::open(['route' => 'users.store', 'method' => 'post','class' =>'form-horizontal' ,'files'=>true, 'enctype'=>'multipart/form-data']) !!}
 
 
     @include('users.partials.inputs')

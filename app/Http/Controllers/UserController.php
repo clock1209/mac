@@ -10,6 +10,8 @@ use Auth;
 use Entrust;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Facades\Datatables;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -51,7 +53,15 @@ class UserController extends Controller
 
         $user = new User($request->all());
         $user->password = bcrypt($request['password']);
-        $user->signature = $request->file('signature');
+
+        /*------------------ save img ------------------*/
+        $file = $request->file('signature');
+        $filename = $request['username'] . '-' . '.jpg';
+        if ($file) {
+            Storage::disk('local')->put($filename, File::get($file));
+        }
+
+        $user->signature = $filename;
         $user->save();
         $user->attachRole($request['role']);
         $msg = [
@@ -103,6 +113,26 @@ class UserController extends Controller
         $user->password = bcrypt($request['password']);
         DB::table('role_user')->where('user_id',$id)->delete();
         $user->attachRole($request['role']);
+
+        /*------------------ save img ------------------*/
+        $old_name = $user->username;
+        $file = $request->file('signature');
+        $filename = $request['username'] . '-' .  '.jpg';
+        $old_filename = $old_name . '-' . '.jpg';
+        $update = false;
+        if (Storage::disk('local')->has($old_filename)) {
+            $old_file = Storage::disk('local')->get($old_filename);
+            Storage::disk('local')->put($filename, $old_file);
+            $update = true;
+        }
+        if ($file) {
+            Storage::disk('local')->put($filename, File::get($file));
+        }
+        if ($update && $old_filename !== $filename) {
+            Storage::delete($old_filename);
+        }
+
+        $user->signature = $filename;
         $user->save();
 
         $msg = [
@@ -150,6 +180,12 @@ class UserController extends Controller
                 })
                 ->make(true);
 
+    }
+
+    public function getUserImage($filename)
+    {
+        $file = Storage::disk('local')->get($filename);
+        return new Response($file, 200);
     }
 
     private function rules()

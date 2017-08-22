@@ -29,7 +29,7 @@
 
 <div class="form-group">
     <div class=" col-sm-4 ">
-        <label for="" class="input-control">Confirm password*:</label>
+        <label for="" class="input-control">{{$msgError}}*:</label>
         {!! Form::password('confirmPass',['class'=>'form-control']) !!}
     </div>
 </div>

@@ -38,7 +38,8 @@ class UserController extends Controller
     public function create()
     {
         $data = Role::pluck('display_name','id');
-        return view('users.create',compact('data'));
+        $msgError = 'Confirm password';
+        return view('users.create',compact('data','msgError'));
     }
 
     /**
@@ -52,25 +53,34 @@ class UserController extends Controller
         $this->validate($request, $this->rules());
 
         $user = new User($request->all());
-        $user->password = bcrypt($request['password']);
 
-        /*------------------ save img ------------------*/
-        $file = $request->file('signature');
-        $filename = $request['username'] . '-' . '.jpg';
-        if ($file) {
-            Storage::disk('local')->put($filename, File::get($file));
+        if( $request->password === $request->confirmPass) {
+
+
+            $user->password = bcrypt($request['password']);
+
+            /*------------------ save img ------------------*/
+            $file = $request->file('signature');
+            $filename = $request['username'] . '-' . '.jpg';
+            if ($file) {
+                Storage::disk('local')->put($filename, File::get($file));
+            }
+
+            $user->signature = $filename;
+            $user->save();
+            $user->attachRole($request['role']);
+            $msg = [
+                'title' => 'Created!',
+                'type' => 'success',
+                'text' => 'User created successfully.'
+            ];
+
+            return redirect('users')->with('message', $msg);
+        }else{
+            $msgError = 'The password doesn\'t match Confirm password';
+            $data = Role::pluck('display_name','id');
+            return view('users.create',compact('data','msgError'));
         }
-
-        $user->signature = $filename;
-        $user->save();
-        $user->attachRole($request['role']);
-        $msg = [
-            'title' => 'Created!',
-            'type' => 'success',
-            'text' => 'User created successfully.'
-        ];
-
-        return redirect('users')->with('message', $msg);
     }
 
     /**
@@ -94,7 +104,8 @@ class UserController extends Controller
     {
         $user= User::find($id);
         $data = Role::pluck('display_name','id');
-        return view('users.edit',['user'=>$user],compact('data'));
+        $msgError = 'Confirm password';
+        return view('users.edit',['user'=>$user],compact('data','msgError'));
     }
 
     /**
@@ -106,7 +117,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, $this->rules());
+        $this->validate($request, $this->rulesEdit());
 
         $user= User::find($id);
         $user->fill($request->all());
@@ -195,6 +206,14 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'confirmPass' => 'required'
+        ];
+    }
+    private function rulesEdit()
+    {
+        return [
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'required'
         ];
     }
 }

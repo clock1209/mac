@@ -15,23 +15,23 @@ Route::get('/', function () {
     return view('vendor/adminlte/auth/login');
 });
 
-
-Route::get('menu', function () {
-    return view('vendor/adminlte/layouts/app');
-});
-
-Route::get('Select', function () {
-    return view('vendor/adminlte/layouts/appMain');
-});
-
-Route::get('users', function () {
-    return view('vendor/adminlte/layouts/users/index');
-});
-
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
+
+    Route::get('menu', function () {
+        return view('vendor/adminlte/layouts/app');
+    });
+    Route::get('Select', function () {
+        return view('vendor/adminlte/layouts/appMain');
+    });
+    /*------------------ USERS'S ROUTES ------------------*/
+    Route::resource('users','UserController');
+    Route::get('/users/{user}/status','UserController@userStatus');
+    /*------------------ SHIPMENT'S ROUTES ------------------*/
+    Route::resource('shipments', 'ShipmentController');
+
     /*------------------ SHIPPER'S ROUTES ------------------*/
     Route::get('/shippers/{shipper}/status','ShipperController@shipperStatus');
     Route::resource('shippers', 'ShipperController');
@@ -51,6 +51,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*------------------ STUFF'S ROUTES ------------------*/
     Route::resource('stuffs', 'StuffController');
+
+    /*------------------ GET IMG ------------------*/
+    Route::get('/userimage/{filename}',[
+        'users' => 'UserController@getUserImage',
+        'as' => 'account.image'
+    ]);
     
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

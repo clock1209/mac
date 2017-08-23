@@ -16,10 +16,10 @@ class UsersTableSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         factory(App\User::class)->create([
-            'name' => 'Admin',
             'email' => 'support@nuvemtecnologia.mx',
             'username' => 'admin',
             'password' => bcrypt('secret'),
         ]);
+
     }
 }

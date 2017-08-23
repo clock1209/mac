@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\BankAccount;
 use App\Supplier;
+use App\SupplierContact;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
-class BankAccountController extends Controller
+class SupplierContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,12 +41,12 @@ class BankAccountController extends Controller
     {
         $this->validate($request, $this->rules());
 
-        BankAccount::create($request->all());
+        SupplierContact::create($request->all());
 
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
-            'text' => 'Bank account created successfully.'
+            'text' => 'Additional charge created successfully.'
         ];
 
         return response()->json($msg);
@@ -55,10 +55,10 @@ class BankAccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\SupplierContact  $supplierContact
      * @return \Illuminate\Http\Response
      */
-    public function show(BankAccount $bankAccount)
+    public function show(SupplierContact $supplierContact)
     {
         //
     }
@@ -66,10 +66,10 @@ class BankAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\SupplierContact  $supplierContact
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankAccount $bankAccount)
+    public function edit(SupplierContact $supplierContact)
     {
         //
     }
@@ -78,10 +78,10 @@ class BankAccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\SupplierContact  $supplierContact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankAccount $bankAccount)
+    public function update(Request $request, SupplierContact $supplierContact)
     {
         //
     }
@@ -89,35 +89,41 @@ class BankAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  \App\SupplierContact  $supplierContact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankAccount $bankAccount)
+    public function destroy(SupplierContact $supplierContact)
     {
         //
     }
+
     /*
-     * Changes bankAccount status
+     * Changes supplierContact status
      */
-    public function bankAccountStatus(BankAccount $bankAccount)
+    public function supplierContactStatus(SupplierContact $supplierContact)
     {
-        $bankAccount->status = ($bankAccount->status == 1) ? 0 : 1;
-        $bankAccount->save();
+        $supplierContact->status = ($supplierContact->status == 1) ? 0 : 1;
+        $supplierContact->save();
 
         $msg = [
             'title' => 'Deleted!',
             'type' => 'success',
-            'text' => 'Bank account deleted successfully.'
+            'text' => 'Contact deleted successfully.'
         ];
 
         return response()->json($msg);
     }
 
-    public function toDatatable($id) {
-        $bankAccounts = BankAccount::where('supplier_id', $id)->where('status', 1);
-        return Datatables::eloquent($bankAccounts)
-            ->addColumn('actions', function ($bankAccount) {
-                return view('bankAccounts.partials.buttons', ['bankAccount' => $bankAccount]);
+    /*
+     * by: Octavio Cornejo
+     * Creates datatable
+     */
+    public function toDatatable($id)
+    {
+        $contacts = SupplierContact::where('supplier_id', $id)->where('status', 1)->get();
+        return Datatables::of($contacts)
+            ->addColumn('actions', function ($contact) {
+                return view('supplierContacts.partials.buttons', ['contact' => $contact]);
             })
             ->rawColumns(['actions'])
             ->make(true);
@@ -126,15 +132,10 @@ class BankAccountController extends Controller
     private function rules()
     {
         return [
-            'pay_of' => 'required',
-            'account' => 'required|numeric',
-            'bank' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
-            'clabe' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'aba' => 'required|numeric',
-            'swift' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'reference' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'currency' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'beneficiary' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
+            'select_an_area' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
+            'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|email',
+            'phone' => 'required|numeric|digits_between:12,20'
         ];
     }
 }

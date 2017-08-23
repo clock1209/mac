@@ -18,7 +18,7 @@ class CreateAdditionalChargesTable extends Migration
             $table->string('concept');
             $table->string('collect_prepaid');
             $table->string('import_export');
-            $table->integer('amount');
+            $table->double('amount', 15, 2);
             $table->string('currency');
             $table->date('last_updated');
             $table->enum('charge_type', ['BL', 'Container', 'Others']);

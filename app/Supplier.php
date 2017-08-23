@@ -24,6 +24,6 @@ class Supplier extends Model
 
     public function contact()
     {
-        return $this->hasMany('App\Contacts');
+        return $this->hasMany('App\SupplierContact');
     }
 }

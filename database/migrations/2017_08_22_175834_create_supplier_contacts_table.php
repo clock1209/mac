@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBankAccountsTable extends Migration
+class CreateSupplierContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateBankAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('supplier_contacts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('pay_of');
-            $table->bigInteger('account');
-            $table->string('bank');
-            $table->string('clabe');
-            $table->bigInteger('aba');
-            $table->string('swift');
-            $table->string('reference');
-            $table->string('currency');
-            $table->string('beneficiary');
-            $table->char('status',1)->default(1);
+            $table->string('select_an_area');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->char('status', 1)->default(1);
             $table->integer('supplier_id')->unsigned();
 
             $table->foreign('supplier_id')->references('id')->on('suppliers');
@@ -39,6 +34,6 @@ class CreateBankAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('supplier_contacts');
     }
 }

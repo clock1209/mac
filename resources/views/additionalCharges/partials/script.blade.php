@@ -79,10 +79,19 @@
         $('[name="collect_prepaid"]').val('');
         $('[name="import_export"]').val('');
         $('[name="amount"]').val('');
-        $('div#ac-form [name="currency"]').val('');
         $('[name="last_updated"]').val('');
         $('[name="notes"]').val('');
     }
+
+    $(document).ready(function () {
+        var currency = {{ require('./js/currency.json') }};
+        $('#currency-ac').empty();
+        $('#currency-ac').select2();
+        $.each( currency, function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+    });
 
     @if (Session::has('message'))
         sAlert(

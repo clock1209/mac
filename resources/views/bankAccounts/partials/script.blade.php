@@ -82,9 +82,20 @@
         $('[name="aba"]').val('');
         $('[name="swift"]').val('');
         $('[name="reference"]').val('');
-        $('[name="currency"]').val('');
         $('[name="beneficiary"]').val('');
     }
+
+
+
+    $(document).ready(function () {
+        var currency = {{ require('./js/currency.json') }};
+        $('#currency').empty();
+        $('#currency').select2();
+        $.each( currency, function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+    });
 
     @if (Session::has('message'))
         sAlert(

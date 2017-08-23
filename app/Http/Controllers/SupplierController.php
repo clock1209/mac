@@ -11,14 +11,14 @@ use Yajra\Datatables\Facades\Datatables;
 class SupplierController extends Controller
 {
     protected $ba_type = [
-        'Co Loader',
-        'Carrier',
-        'Custom Broker',
-        'Truck Service',
-        'Werehouse',
-        'Port terminal',
-        'Insurence company',
-        'Agent'
+        'Co Loader' => 'Co Loader',
+        'Carrier' => 'Carrier',
+        'Custom Broker' => 'Custom Broker',
+        'Truck Service' => 'Truck Service',
+        'Werehouse' => 'Werehouse',
+        'Port terminal' => 'Port terminal',
+        'Insurence company' => 'Insurence company',
+        'Agent' => 'Agent'
     ];
     /**
      * Display a listing of the resource.
@@ -95,7 +95,18 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        $supplier->fill($request->all());
+        $supplier->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Supplier edited successfully.'
+        ];
+
+        return redirect('suppliers')->with('message', $msg);
     }
 
     /**
@@ -107,6 +118,23 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         //
+    }
+
+    /*
+     * Changes supplier status
+     */
+    public function supplierStatus(Supplier $supplier)
+    {
+        $supplier->status = ($supplier->status == 1) ? 0 : 1;
+        $supplier->save();
+
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Supplier deleted successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /*
@@ -127,9 +155,9 @@ class SupplierController extends Controller
     private function rules()
     {
         return [
-            'abbreviation' => 'required',
+            'abbreviation' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
             'type' => 'required',
-            'name' => 'required'
+            'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u'
         ];
     }
 }

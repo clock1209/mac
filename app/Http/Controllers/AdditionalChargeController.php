@@ -38,7 +38,6 @@ class AdditionalChargeController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $this->validate($request, $this->rules());
 
         AdditionalCharge::create($request->all());
@@ -133,14 +132,14 @@ class AdditionalChargeController extends Controller
     {
         return [
             'concept' => 'required',
-            'collect_prepaid' => 'required',
-            'import_export' => 'required',
+            'collect_prepaid' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
+            'import_export' => 'required|regex:/^[\pL\s\-0-9]+$/u',
             'amount' => 'required|numeric',
-            'currency' => 'required',
+            'currency' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'last_updated' => 'required',
             'charge_type' => 'required',
             'charge' => 'required',
-            'notes' => 'required',
+            'notes' => 'required|min:2',
         ];
     }
 }

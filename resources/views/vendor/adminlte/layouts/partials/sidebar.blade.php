@@ -28,6 +28,8 @@
             <li><a href="{{url('users')}}"><i class='fa fa-user'></i> <span>Users</span></a></li>
             <li><a href="{{url('consolidators')}}"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>
             {{--<li><a href="#"><i class='fa fa-users'></i> <span>Customers</span></a></li>--}}
+            <li><a href="{{ url('suppliers') }}"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>
+            {{--<li><a href="#"><i class='fa fa-money'></i> <span>Concepts</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>--}}
             <li><a href="{{ url('concepts') }}"><i class='fa fa-money'></i> <span>Concepts</span></a></li>
             {{--<li><a href="#"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>--}}

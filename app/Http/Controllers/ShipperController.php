@@ -29,7 +29,8 @@ class ShipperController extends Controller
      */
     public function create()
     {
-        $countries = Country::pluck('name', 'name');
+        $countries = [null => 'Select country'];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
         return view('shippers.create', ['countries' => $countries]);
     }
 

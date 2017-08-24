@@ -37,6 +37,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('shippers', 'ShipperController');
     Route::resource('ports', 'PortController');
 
+    /*------------------ SUPPLIERS'S ROUTES ------------------*/
+    Route::resource('suppliers', 'SupplierController');
+    Route::get('/suppliers/{supplier}/status','SupplierController@supplierStatus');
+
+    /*------------------ BANK ACCOUNT'S ROUTES ------------------*/
+    Route::resource('bank-accounts', 'BankAccountController');
+    Route::get('/bank-accounts/{bankAccount}/status','BankAccountController@bankAccountStatus');
+
+    /*------------------ ADDITIONAL CHARGE'S ROUTES ------------------*/
+    Route::resource('additional-charges', 'AdditionalChargeController');
+    Route::get('/additional-charges/{additionalCharge}/status','AdditionalChargeController@additionalChargeStatus');
+
+    /*------------------ CONTACT'S ROUTES ------------------*/
+    Route::resource('contacts', 'SupplierContactController');
+    Route::get('/contacts/{supplierContact}/status','SupplierContactController@supplierContactStatus');
+
     /*------------------ CONSOLIDATOR'S ROUTES ------------------*/
     Route::resource('consolidators','ConsolidatorController');
 

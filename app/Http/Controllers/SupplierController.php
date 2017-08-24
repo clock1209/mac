@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AdditionalCharge;
 use App\BankAccount;
 use App\Supplier;
+use App\SupplierContact;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -53,7 +54,10 @@ class SupplierController extends Controller
     {
         $this->validate($request, $this->rules());
 
-        Supplier::create($request->all());
+        $supplier = Supplier::create($request->all());
+        $supplier->assignBankAccounts($supplier->id);
+        $supplier->assignAdditionalCharges($supplier->id);
+        $supplier->assignContacts($supplier->id);
 
         $msg = [
             'title' => 'Created!',
@@ -143,7 +147,7 @@ class SupplierController extends Controller
      */
     public function toDatatable()
     {
-        $suppliers = Supplier::where('status', 1)->get();
+        $suppliers = Supplier::where('status', 1)->where('id', '!=', 1)->get();
         return Datatables::of($suppliers)
             ->addColumn('actions', function ($supplier) {
                 return view('suppliers.partials.buttons', ['supplier' => $supplier]);

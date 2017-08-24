@@ -15,6 +15,12 @@ class SuppliersTableSeeder extends Seeder
         DB::table('suppliers')->truncate();
         Schema::enableForeignKeyConstraints();
 
-        factory(App\Supplier::class, 5)->create();
+//        factory(App\Supplier::class, 5)->create();
+        App\Supplier::create([
+            'id'            => 0,
+            'abbreviation'  => 'pivot(dont delete)',
+            'type'          => 'Co Loader',
+            'name'          => 'pivot(dont delete)'
+        ]);
     }
 }

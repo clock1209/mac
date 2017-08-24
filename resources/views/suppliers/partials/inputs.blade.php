@@ -14,11 +14,10 @@
         {!! Form::text('name',$supplier ? $supplier->name : null,['class'=>'form-control', 'required']) !!}
     </div>
 </div>
-{!! Form::hidden('supplier_id',$supplier ? $supplier->id : null,['class'=>'form-control']) !!}
-@if($supplier != null)
-    @include('bankAccounts.index')
+{!! Form::hidden('supplier_id',$supplier ? $supplier->id : 1,['class'=>'form-control']) !!}
 
-    @include('additionalCharges.index')
+@include('bankAccounts.index')
 
-    @include('supplierContacts.index')
-@endif
+@include('additionalCharges.index')
+
+@include('supplierContacts.index')

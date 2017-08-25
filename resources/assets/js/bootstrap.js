@@ -20,6 +20,7 @@ require('icheck')
 require('datatables.net')
 require('datatables.net-bs')
 window.swal = require('sweetalert2')
+require('multiselect')
 require('select2')
 
 /**

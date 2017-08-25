@@ -1,5 +1,7 @@
 @push('scripts')
 <script>
+    var cities = {{ require('./js/countryCities.json') }};
+
     var dTable = $("#shippers-table").DataTable({
         ajax: '/shippers',
         columns: [
@@ -39,6 +41,32 @@
             });
         });
     });//BUTTON .active-shipper
+
+    $('select[name="country"]').change(function () {
+        var country = $(this).val();
+        $('#selectCity').empty().select2();
+        $.each( cities[country], function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
+        });
+    });//select COUNTRY
+
+    $('select[name="country"]').hover(function () {
+        $(this).select2();
+    });
+
+    $('#selectCity').hover(function () {
+        var selectedCity = $('#selectCity option:selected').html();
+        $(this).select2();
+        var country = $('select[name="country"]').val();
+        if (country != '') {
+            $('#selectCity').empty().select2();
+            $.each( cities[country], function (i, item) {
+                selected = (item != selectedCity) ? '' : ' selected';
+                $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
+            });
+        }
+    });//select CITY
 
     @if (Session::has('message'))
         sAlert(

@@ -12,7 +12,7 @@
     @include('alerts.messages')
     {!!Form::model($shipper, ['route'=> ['shippers.update',$shipper->id], 'method'=>'PUT', 'class'=>'form-horizontal'])!!}
 
-        @include('shippers.partials.inputs', ['shipper' => null])
+        @include('shippers.partials.inputs', ['shipper' => $shipper])
 
         <br>
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Shipper;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
+use App\Country;
 
 class ShipperController extends Controller
 {
@@ -28,7 +29,9 @@ class ShipperController extends Controller
      */
     public function create()
     {
-        return view('shippers.create');
+        $countries = [null => 'Select country'];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+        return view('shippers.create', ['countries' => $countries]);
     }
 
     /**
@@ -72,7 +75,8 @@ class ShipperController extends Controller
      */
     public function edit(Shipper $shipper)
     {
-        return view('shippers.edit', ['shipper' => $shipper]);
+        $countries = Country::pluck('name', 'name');
+        return view('shippers.edit', ['shipper' => $shipper, 'countries' => $countries]);
     }
 
     /**

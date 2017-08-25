@@ -1,10 +1,9 @@
 <div id="ac-form">
-    <h4 style=" font-variant: small-caps; text-shadow: 1px 1px 2px gray;">Additional charges</h4>
+    <h4 class="n-caption">Additional charges</h4>
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('concept') ? ' has-error' : '' }}">
             <label for="concept_lbl" class="control-label">Concept*:</label>
-            {!! Form::select('concept', ['Ocean freight' => 'Ocean freight', 'BL fee' => 'BL fee', 'ISPS' => 'ISPS',
-                'AMS' => 'AMS'], null, ['class'=>'form-control']) !!}
+            {!! Form::select('concept', $concepts, null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('collect_prepaid') ? ' has-error' : '' }}">
             <label for="collect_prepaid_lbl" class="control-label">Collect/prepaid*:</label>

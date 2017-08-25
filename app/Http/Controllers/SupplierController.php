@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\AdditionalCharge;
-use App\BankAccount;
+use App\Concepts;
 use App\Supplier;
-use App\SupplierContact;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
 class SupplierController extends Controller
 {
     protected $ba_type = [
-        'Co Loader' => 'Co Loader',
-        'Carrier' => 'Carrier',
-        'Custom Broker' => 'Custom Broker',
-        'Truck Service' => 'Truck Service',
-        'Werehouse' => 'Werehouse',
-        'Port terminal' => 'Port terminal',
+        'Co Loader'         => 'Co Loader',
+        'Carrier'           => 'Carrier',
+        'Custom Broker'     => 'Custom Broker',
+        'Truck Service'     => 'Truck Service',
+        'Werehouse'         => 'Werehouse',
+        'Port terminal'     => 'Port terminal',
         'Insurence company' => 'Insurence company',
-        'Agent' => 'Agent'
+        'Agent'             => 'Agent'
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -41,7 +40,8 @@ class SupplierController extends Controller
      */
     public function create(Request $request)
     {
-        return view('suppliers.create', ['types' => $this->ba_type]);
+        $concepts = Concepts::pluck('name', 'name')->toArray();
+        return view('suppliers.create', ['types' => $this->ba_type, 'concepts' => $concepts]);
     }
 
     /**
@@ -87,7 +87,13 @@ class SupplierController extends Controller
      */
     public function edit(Request $request, Supplier $supplier)
     {
-        return view('suppliers.edit', ['supplier' => $supplier, 'types' => $this->ba_type]);
+        $concepts = Concepts::pluck('name', 'name')->toArray();
+        $data = [
+            'concepts'  => $concepts,
+            'supplier'  => $supplier,
+            'types'     => $this->ba_type
+        ];
+        return view('suppliers.edit', $data);
     }
 
     /**

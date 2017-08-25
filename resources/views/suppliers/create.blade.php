@@ -5,7 +5,7 @@
 @endsection
 
 @section('contentheader_title')
-    Create supplier
+    Create Supplier
 @endsection
 
 @section('main-content')

@@ -1,11 +1,11 @@
-<h4 style=" font-variant: small-caps; text-shadow: 1px 1px 2px gray;">Shippers</h4>
+<h4 class="n-caption">Shippers</h4>
 <div class="form-group">
     <div class="col-md-4 col-sm-12{{ $errors->has('tradename') ? ' has-error' : '' }}">
         <label for="tradename_lbl" class="input-control">Tradename*:</label>
         {!! Form::text('tradename',$shipper ? $shipper->tradename : null,['class'=>'form-control', 'required']) !!}
     </div>
 </div>
-<h4 style=" font-variant: small-caps; text-shadow: 1px 1px 2px gray;">Contact</h4>
+<h4 class="n-caption">Contact</h4>
 <div class="form-group">
     <div class="col-md-3 col-sm-12{{ $errors->has('name') ? ' has-error' : '' }}">
         <label for="name_lbl" class="input-control">Name*:</label>
@@ -24,7 +24,7 @@
         {!! Form::text('business_name',$shipper ? $shipper->business_name : null,['class'=>'form-control', 'required']) !!}
     </div>
 </div>
-<h4 style=" font-variant: small-caps; text-shadow: 1px 1px 2px gray;">Address</h4>
+<h4 class="n-caption">Address</h4>
 <div class="form-group">
     <div class="col-md-3 col-sm-12{{ $errors->has('street') ? ' has-error' : '' }}">
         <label for="street_lbl" class="input-control">Street*:</label>

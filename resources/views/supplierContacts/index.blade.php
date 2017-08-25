@@ -1,5 +1,5 @@
 <div id="sc-form">
-    <h4 style=" font-variant: small-caps; text-shadow: 1px 1px 2px gray;">Contacts</h4>
+    <h4 class="n-caption">Contacts</h4>
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('select_an_area') ? ' has-error' : '' }}">
             <label for="select_an_area_lbl" class="control-label">Select an area*:</label>

@@ -22,10 +22,15 @@ mix.js('resources/assets/js/app.js', 'public/js')
        'node_modules/admin-lte/dist/css/skins/_all-skins.css',
        'node_modules/datatables.net-bs/css/dataTables.bootstrap.css',
        'node_modules/sweetalert2/dist/sweetalert2.css',
+<<<<<<< HEAD
        'node_modules/multiselect/css/multi-select.css',
+=======
+       'node_modules/select2/dist/css/select2.css',
+>>>>>>> 82f692abb1639d9bd49c1299a303b81818b66be5
        'public/css/adminlte-app.css',
        'node_modules/icheck/skins/square/blue.css',
-       'public/css/toastr.css'
+       'public/css/toastr.css',
+       'public/css/nuvem.css'
    ], 'public/css/all.css')
    .combine([
        'public/css/bootstrap.css',

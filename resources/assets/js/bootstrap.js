@@ -21,6 +21,7 @@ require('datatables.net')
 require('datatables.net-bs')
 window.swal = require('sweetalert2')
 require('multiselect')
+require('select2')
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

@@ -1,5 +1,7 @@
 <head>
     <meta charset="UTF-8">
+    <meta charset="ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title> Admin @yield('htmlheader_title', '') </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- CSRF Token -->

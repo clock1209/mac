@@ -37,6 +37,7 @@
             {{--<li><a href="#"><i class='fa fa-gift'></i> <span>Special rates</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-dollar'></i> <span>Payments</span></a></li>--}}
             {{--<li><a href="#"><i class='fa '></i> <span>Invoice</span></a></li>--}}
+            <li><a href="{{ url('roles') }}"><i class='glyphicon glyphicon-knight'></i> <span>Roles</span></a></li>
             {{--<li><a href="#"><i class='fa fa-truck'></i> <span>Intermodal</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-clock-o'></i> <span>Demurrage</span></a></li>--}}
 

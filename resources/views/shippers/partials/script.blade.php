@@ -1,6 +1,6 @@
 @push('scripts')
 <script>
-    var cities = {{ require('./js/countryCities.json') }};
+    var cities = {{ include('./js/countryCities.json') }};
 
     var dTable = $("#shippers-table").DataTable({
         ajax: '/shippers',

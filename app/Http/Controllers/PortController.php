@@ -140,12 +140,7 @@ class PortController extends Controller
             ->editColumn('shipper_id', function ($port) {
                 return $port->shipper->tradename;
             })
-            ->editColumn('status', function ($port) {
-                if($port->status)
-                    return 'Activo';
-                else
-                    return 'Inactivo';
-            })
+          
             ->rawColumns(['actions'])
             ->make(true);
     }

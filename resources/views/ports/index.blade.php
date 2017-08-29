@@ -16,13 +16,12 @@
                 <tr>
                     <th>Port</th>
                     <th>Shipper</th>
-                    <th>Estatus</th>
                     <th width="210px;">Actions</th>
                 </tr>
                 </thead>
             </table>
         </div>
-    </div>
+    </div> 
 
     @include('ports.partials.script')
 

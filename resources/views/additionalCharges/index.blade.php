@@ -7,11 +7,13 @@
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('collect_prepaid') ? ' has-error' : '' }}">
             <label for="collect_prepaid_lbl" class="control-label">Collect/prepaid*:</label>
-            {!! Form::text('collect_prepaid', null,['class'=>'form-control']) !!}
+            {!! Form::select('collect_prepaid', ['Collect' => 'Collect', 'Prepaid' => 'Prepaid'], null,
+                ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('import_export') ? ' has-error' : '' }}">
             <label for="import_export_lbl" class="control-label">Import/Export*:</label>
-            {!! Form::text('import_export', null,['class'=>'form-control']) !!}
+            {!! Form::select('import_export', ['Import' => 'Import', 'Export' => 'Export'], null,
+                ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('amount') ? ' has-error' : '' }}">
             <label for="amount_lbl" class="control-label">Amount*:</label>
@@ -25,16 +27,17 @@
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('last_updated') ? ' has-error' : '' }}">
             <label for="last_updated_lbl" class="control-label">Last updated*:</label>
-            {!! Form::date('last_updated', null,['class'=>'form-control']) !!}
+            {!! Form::date('last_updated', \Carbon\Carbon::now(), ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge_type') ? ' has-error' : '' }}">
             <label for="charge_type_lbl" class="control-label">Charge type*:</label>
-            {!! Form::select('charge_type', ['BL' => 'BL', 'Container' => 'Container', 'Others' => 'Others'], null,
-                    ['class'=>'form-control']) !!}
+            {!! Form::select('charge_type', ['BL' => 'BL', 'ETB' => 'ETB', 'Container' => 'Container', 'Others' => 'Others'],
+                null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge') ? ' has-error' : '' }}">
             <label for="charge_lbl" class="control-label">Charge*:</label>
-            {!! Form::select('charge', ['ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board'], null, ['class'=>'form-control']) !!}
+            {!! Form::select('charge', ['ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board'], null,
+                ['class'=>'form-control']) !!}
         </div>
     </div>{{--form-group--}}
     <div class="form-group">
@@ -43,6 +46,7 @@
             {!! Form::textarea('notes', null, ['class'=>'form-control', 'rows'=>'3']) !!}
         </div>
     </div>{{--form-group--}}
+    {!! Form::hidden('notes', null, ['id'=>'mdlIdAdditionalCharge']) !!}
 </div>{{--ac-form--}}
 <span class="btn btn-success" id="btn-additional-charge"><span class="glyphicon glyphicon-plus"></span> Add</span><br><br>
 <div class="box box-solid">
@@ -51,8 +55,8 @@
             <thead>
             <tr>
                 <th>Concept</th>
-                <th>Collect/prepaid</th>
-                <th>Import/Export</th>
+                <th>Collect / prepaid</th>
+                <th>Import / Export</th>
                 <th>Amount</th>
                 <th>Currency</th>
                 <th>Last updated</th>
@@ -66,4 +70,5 @@
     </div>
 </div>
 
+@include('additionalCharges.partials.editModal')
 @include('additionalCharges.partials.script')

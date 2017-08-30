@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\AdditionalCharge;
+use App\BankAccount;
 use App\Concepts;
 use App\Supplier;
+use App\SupplierContact;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -40,6 +43,8 @@ class SupplierController extends Controller
      */
     public function create(Request $request)
     {
+        $supplier = new Supplier();
+        $supplier->clearOptionalDatatables();
         $concepts = Concepts::pluck('name', 'name')->toArray();
         return view('suppliers.create', ['types' => $this->ba_type, 'concepts' => $concepts]);
     }
@@ -165,8 +170,7 @@ class SupplierController extends Controller
     private function rules()
     {
         return [
-            'abbreviation' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'type' => 'required',
+            'abbreviation' => 'nullable|min:2|regex:/^[\pL\s\-0-9]+$/u',
             'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u'
         ];
     }

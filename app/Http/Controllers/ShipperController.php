@@ -42,7 +42,7 @@ class ShipperController extends Controller
      */
     public function store(Request $request)
     {
-       $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules(), $this->ruleMessages());
 
         Shipper::create($request->all());
 
@@ -88,7 +88,7 @@ class ShipperController extends Controller
      */
     public function update(Request $request, Shipper $shipper)
     {
-        $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules(), $this->ruleMessages());
 
         $shipper->fill($request->all());
         $shipper->save();
@@ -149,17 +149,24 @@ class ShipperController extends Controller
     {
         return [
             'tradename' => 'required',
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
-            'business_name' => 'required',
-            'street' => 'required',
-            'street_number' => 'required|numeric',
-            'neighborhood' => 'required',
-            'city' => 'required',
-            'country' => 'required',
-            'zip_code' => 'required|numeric',
+            'name' => 'nullable',
+            'email' => 'email',
+            'phone' => 'nullable|size:10',
+            'business_name' => 'nullable',
+            'street' => 'nullable',
+            'street_number' => 'numeric',
+            'neighborhood' => 'nullable',
+            'city' => 'nullable',
+            'country' => 'nullable',
+            'zip_code' => 'numeric',
             'rfc_taxid' => 'numeric'
+        ];
+    }
+
+    private function ruleMessages()
+    {
+        return [
+            'regex' => 'The phone must be 10 numbers long'
         ];
     }
 }

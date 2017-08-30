@@ -75,21 +75,71 @@
         });
     });//BUTTON .active-additionalCharge
 
+    //shows additionalCharge modal to edit data
+    $('body').delegate('.get-additionalCharge','click',function(){
+        id_additionalCharge = $(this).attr('id_additionalCharge');
+        $.ajax({
+            url : '/additional-charges/' + id_additionalCharge + '/edit',
+            type : 'GET',
+            dataType: 'json',
+            data : {id: id_additionalCharge}
+        }).done(function(data){
+            console.log(data);
+            $('#mdl_concept option[value="' + data.concept + '"]').attr('selected', 'selected');
+            $('#mdl_collect_prepaid option[value="' + data.collect_prepaid + '"]').attr('selected', 'selected');
+            $('#mdl_import_export option[value="' + data.import_export + '"]').attr('selected', 'selected');
+            $('#mdl_amount').val(data.amount);
+            $('#mdl_currency-ac').val(data.currency);
+            $('#mdl_last_updated').val(data.last_updated);
+            $('#mdl_charge_type option[value="' + data.charge_type + '"]').attr('selected', 'selected');
+            $('#mdl_charge option[value="' + data.charge + '"]').attr('selected', 'selected');
+            $('#mdl_notes').val(data.notes);
+            $('#mdlIdAdditionalCharge').val(id_additionalCharge);
+        });
+    });//MODAL .get-additionalCharge
+
+    //Update additionalCharge data changed on modal
+    $('body').delegate('#additionalChargeUpdate','click',function(){
+        id_additionalCharge = $('#mdlIdAdditionalCharge').val();
+        $.ajax({
+            url : '/additional-charges/' + id_additionalCharge,
+            type : 'PUT',
+            dataType: 'json',
+            data : {
+                concept:  $('#mdl_concept').val(),
+                collect_prepaid: $('#mdl_collect_prepaid').val(),
+                import_export: $('#mdl_import_export').val(),
+                amount: $('#mdl_amount').val(),
+                currency: $('#mdl_currency-ac').val(),
+                last_updated: $('#mdl_last_updated').val(),
+                charge_type: $('#mdl_charge_type').val(),
+                charge: $('#mdl_charge').val(),
+                notes: $('#mdl_notes').val(),
+            }
+        }).done(function(data){
+            console.log(data);
+            $('#additionalCharge_modal').modal('hide');
+            sAlert(data.title, data.type, data.text);
+            dTableCharge.ajax.reload();
+        });
+    });//MODAL .get-additionalCharge
+
     function resetAdditionalChargeInputs() {
-        $('[name="collect_prepaid"]').val('');
-        $('[name="import_export"]').val('');
         $('[name="amount"]').val('');
-        $('[name="last_updated"]').val('');
+        $('[name="last_updated"]').val('{!! \Carbon\Carbon::now() !!}');
         $('[name="notes"]').val('');
     }
 
     $(document).ready(function () {
         var currency = {{ require('./js/currency.json') }};
         $('#currency-ac').empty();
+        $('#mdl_currency-ac').empty();
         $('#currency-ac').select2();
+        $('#mdl_currency-ac').select2();
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+            $('#mdl_currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
     });
 

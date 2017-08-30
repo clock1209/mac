@@ -39,7 +39,7 @@ class SupplierContactController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules(), $this->ruleMessages());
 
         SupplierContact::create($request->all());
 
@@ -71,7 +71,7 @@ class SupplierContactController extends Controller
      */
     public function edit(SupplierContact $supplierContact)
     {
-        //
+        return response()->json($supplierContact);
     }
 
     /**
@@ -83,7 +83,18 @@ class SupplierContactController extends Controller
      */
     public function update(Request $request, SupplierContact $supplierContact)
     {
-        //
+        $this->validate($request, $this->rules(), $this->ruleMessages());
+
+        $supplierContact->fill($request->all());
+        $supplierContact->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Contact edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -135,7 +146,14 @@ class SupplierContactController extends Controller
             'select_an_area' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'email' => 'required|email',
-            'phone' => 'required|numeric|digits_between:12,20'
+            'phone' => 'nullable|numeric'
+        ];
+    }
+
+    private function ruleMessages()
+    {
+        return [
+            'numeric' => 'The phone must be 10 numbers long'
         ];
     }
 }

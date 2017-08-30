@@ -16,8 +16,8 @@
         {!! Form::email('email',$shipper ? $shipper->email : null,['class'=>'form-control', 'required']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('phone') ? ' has-error' : '' }}">
-        <label for="phone_lbl" class="control-label">Phone*:</label>
-        {!! Form::text('phone',$shipper ? $shipper->phone : null,['class'=>'form-control', 'required']) !!}
+        <label for="phone_lbl" class="control-label">(area code) Phone*:</label>
+        {!! Form::text('phone',$shipper ? $shipper->phone : null,['class'=>'form-control', 'id' => 'phone']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('business_name') ? ' has-error' : '' }}">
         <label for="business_name_lbl" class="control-label">Business name*:</label>
@@ -55,6 +55,6 @@
     </div>
     <div class="col-md-3 col-sm-12 {{ $errors->has('rfc_taxid') ? ' has-error' : '' }}">
         <label for="rfc_taxid_lbl" class="control-label">RFC/TAX ID:</label>
-        {!! Form::text('rfc_taxid',$shipper ? $shipper->rfc_taxid : null,['class'=>'form-control']) !!}
+        {!! Form::number('rfc_taxid',$shipper ? $shipper->rfc_taxid : null,['class'=>'form-control']) !!}
     </div>
 </div>{{--form-group--}}

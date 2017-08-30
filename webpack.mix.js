@@ -26,6 +26,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
        'node_modules/select2/dist/css/select2.css',
        'public/css/adminlte-app.css',
        'node_modules/icheck/skins/square/blue.css',
+       'node_modules/inputmask/css/inputmask.css',
        'public/css/toastr.css',
        'public/css/nuvem.css'
    ], 'public/css/all.css')

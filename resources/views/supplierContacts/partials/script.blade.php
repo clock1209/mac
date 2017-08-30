@@ -1,5 +1,7 @@
 @push('scripts')
 <script>
+    addInputmask();
+
     var dTableContact = $("#contacts-table").DataTable({
         ajax: '/contacts?&supplier_id=' + $('[name="supplier_id"]').val(),
         columns: [
@@ -14,6 +16,7 @@
     $('#btn-contact').click( function() {
         $('div.has-error').removeClass('has-error');
         $('span.help-block').remove();
+        Inputmask("9999999999", {"nullable": true, "greedy": false}).mask('#supplierPhone');
         $.ajax({
             url: '/contacts',
             type: 'POST',
@@ -30,6 +33,7 @@
             resetContatInputs();
             sAlert(data.title, data.type, data.text);
             dTableContact.ajax.reload();
+            addInputmask();
         }).fail(function (data) {
             var errors = data.responseJSON;
             $.each(errors, function(index, value){
@@ -37,6 +41,7 @@
                 $('div#sc-form [name="' + contactInput + index +'"]').after('<span class="help-block">'+value+'</span>')
                     .parent().addClass('has-error');
             });
+            addInputmask();
         });
     });//BUTTON btn-contact
 
@@ -65,11 +70,61 @@
         });
     });//BUTTON .active-contact
 
+    //shows contact modal to edit data
+    $('body').delegate('.get-contact','click',function(){
+        id_contact = $(this).attr('id_contact');
+        $.ajax({
+            url : '/contacts/' + id_contact + '/edit-contact',
+            type : 'GET',
+            dataType: 'json',
+            data : {id: id_contact}
+        }).done(function(data){
+            console.log(data);
+            $('#mdl_select_an_area').val(data.select_an_area);
+            $('#mdl_contact_name').val(data.name);
+            $('#mdl_email').val(data.email);
+            $('#mdl_supplierPhone').val(data.phone);
+            $('#mdlIdContact').val(id_contact);
+        });
+    });//MODAL .get-contact
+
+    //Update contact data changed on modal
+    $('body').delegate('#contactUpdate','click',function(){
+        id_contact = $('#mdlIdContact').val();
+        Inputmask("9999999999", {"nullable": true, "greedy": false}).mask('#mdl_supplierPhone');
+        $.ajax({
+            url : '/contacts/' + id_contact + '/update-contact',
+            type : 'PUT',
+            dataType: 'json',
+            data : {
+                select_an_area:  $('#mdl_select_an_area').val(),
+                name: $('#mdl_contact_name').val(),
+                email: $('#mdl_email').val(),
+                phone: $('#mdl_supplierPhone').val()
+            }
+        }).done(function(data){
+            console.log(data);
+            $('#contact_modal').modal('hide');
+            sAlert(data.title, data.type, data.text);
+            dTableContact.ajax.reload();
+            addInputmask();
+        }).fail(function(data){
+            console.log(data);
+            addInputmask();
+        });
+    });//MODAL .get-contact
+
     function resetContatInputs() {
         $('[name="select_an_area"]').val('');
         $('div#sc-form [name="contact_name"]').val('');
         $('[name="email"]').val('');
         $('[name="phone"]').val('');
+    }
+
+    function addInputmask()
+    {
+        Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#supplierPhone');
+        Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#mdl_supplierPhone');
     }
 
     @if (Session::has('message'))

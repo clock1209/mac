@@ -16,9 +16,9 @@ class CreateSupplierContactsTable extends Migration
         Schema::create('supplier_contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('select_an_area');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->char('status', 1)->default(1);
             $table->integer('supplier_id')->unsigned();
 

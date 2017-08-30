@@ -21,7 +21,7 @@ class CreateAdditionalChargesTable extends Migration
             $table->double('amount', 15, 2);
             $table->string('currency');
             $table->date('last_updated');
-            $table->enum('charge_type', ['BL', 'Container', 'Others']);
+            $table->enum('charge_type', ['BL', 'ETB', 'Container', 'Others']);
             $table->enum('charge', ['ETD', 'Gate in', 'ATD/On board']);
             $table->longText('notes');
             $table->char('status',1)->default(1);

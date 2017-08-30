@@ -81,7 +81,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permisos','PermissionController@index');
     Route::get('/permisos/asignar','PermissionController@asignar');
     Route::get('/permisos/desasignar','PermissionController@desasignar');
-    
+
+
+    /*------------------ CUSTOMER'S ROUTES ------------------*/
+    Route::resource('customers','customerController');
+
+    /*------------------ CUSTOMER BROKER ROUTES ------------------*/
+    Route::resource('Broker','CustomBrokerController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

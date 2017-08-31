@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use App\Customer;
+use App\Country;
 
 class CustomerController extends Controller
 {
@@ -28,7 +29,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customers.create');
+        $countries = [null => 'Select country'];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+        return view('customers.create', ['countries' => $countries]);
     }
 
     /**
@@ -39,7 +42,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//         Customer::create($request->all());
+        $customer = new Customer($request->all());
+        $customer->
+        $customer->save();
+
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Supplier created successfully.'
+        ];
+
+        return redirect('customers')->with('message', $msg);
     }
 
     /**

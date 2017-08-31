@@ -1,7 +1,7 @@
 @push('scripts')
 <script>
-    var dTableContact = $("#broker-table").DataTable({
-        ajax: '/Broker?dt=index',
+    var dTableBroker = $("#broker-table").DataTable({
+        ajax: '/broker',
         columns: [
             {data: 'name'},
             {data: 'patent'},
@@ -9,39 +9,30 @@
             {data: 'phone'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
         ]
-    });/*datatable*/
+    });
 
-    $('#btn-contact').click( function() {
-        $('div.has-error').removeClass('has-error');
-        $('span.help-block').remove();
+    $('#btn-customBroker').click( function() {
         $.ajax({
-            url: '/contacts',
+            url: '/broker',
             type: 'POST',
             dataType: 'json',
             data: {
-                select_an_area:  $('[name="select_an_area"]').val(),
-                name: $('div#sc-form [name="contact_name"]').val(),
+
+                name: $('[name="name"]').val(),
+                patent: $('[name="patent"]').val(),
                 email: $('[name="email"]').val(),
                 phone: $('[name="phone"]').val(),
-                supplier_id: $('[name="supplier_id"]').val()
             }
         }).done(function (data) {
             console.log(data);
-            resetContatInputs();
+            resetBrokerInputs();
             sAlert(data.title, data.type, data.text);
-            dTableContact.ajax.reload();
-        }).fail(function (data) {
-            var errors = data.responseJSON;
-            $.each(errors, function(index, value){
-                var contactInput = (index == 'name') ? 'contact_' : '';
-                $('div#sc-form [name="' + contactInput + index +'"]').after('<span class="help-block">'+value+'</span>')
-                    .parent().addClass('has-error');
-            });
-        });
+            dTableBroker.ajax.reload();
+        })
     });//BUTTON btn-contact
 
-    $('body').delegate('.status-contact','click',function(){
-        id_contact = $(this).attr('id_contact');
+    $('body').delegate('.status-broke','click',function(){
+        id_broke = $(this).attr('id_broke');
         swal({
             title: 'Are you sure?',
             text: "you want to remove the contact?",
@@ -53,21 +44,21 @@
             confirmButtonText: 'Yes, remove!'
         }).then(function () {
             $.ajax({
-                url: '/contacts/' + id_contact + '/status',
+                url: '/broker/' + id_broke + '/status',
                 type: 'GET',
                 dataType: 'json',
-                data: {id: id_contact}
+                data: {id: id_broke}
             }).done(function(data){
                 console.log(data);
                 sAlert(data.title, data.type, data.text);
-                dTableContact.ajax.reload();
+                dTableBroker.ajax.reload();
             });
         });
     });//BUTTON .active-contact
 
-    function resetContatInputs() {
-        $('[name="select_an_area"]').val('');
-        $('div#sc-form [name="contact_name"]').val('');
+    function resetBrokerInputs() {
+        $('[name="name"]').val('');
+        $('[name="patent"]').val('');
         $('[name="email"]').val('');
         $('[name="phone"]').val('');
     }

@@ -39,9 +39,10 @@
         <label for="username_lbl" class="input-control">Suburb*:</label>
         {!! Form::text('suburb',null,['class'=>'form-control']) !!}
     </div>
-    <div class="col-md-4 col-md-offset-1 col-sm-12" style="border-color: transparent">
-        <label for="username_lbl" class="input-control">City*:</label>
-        {!! Form::text('city_id',null,['class'=>'form-control']) !!}
+    <div class="col-md-4 col-md-offset-1 col-sm-12">
+        <label for="city_lbl" class="control-label">City*:</label><br>
+        {!! Form::select('city', $customer ? [$customer->city] : [null => 'Select country'], $customer ? [$customer->city] : null,
+            ['class'=>'form-control', 'id' => 'selectCity']) !!}
     </div>
 </div>
 <div class="form-group">
@@ -49,9 +50,9 @@
         <label for="username_lbl" class="input-control">State*:</label>
         {!! Form::text('state_id',null,['class'=>'form-control']) !!}
     </div>
-    <div class="col-md-4 col-md-offset-1 col-sm-12" style="border-color: transparent">
-        <label for="username_lbl" class="input-control">Country*:</label>
-        {!! Form::text('country_id',null,['class'=>'form-control']) !!}
+    <div class="col-md-4 col-md-offset-1 col-sm-12 ">
+        <label for="country_lbl" class="control-label">Country*:</label>
+        {!! Form::select('country', $countries, $customer ? $customer->country : null, ['class'=>'form-control']) !!}
     </div>
 </div>
 <div class="form-group">

@@ -1,11 +1,11 @@
 @extends('adminlte::layouts.app')
 
 @section('htmlheader_title')
-    Create supplier
+    Create Customer
 @endsection
 
 @section('contentheader_title')
-    Create Supplier
+    Create Customer
 @endsection
 
 @section('main-content')
@@ -13,7 +13,7 @@
     {!! Form::open(['route' => 'customers.store', 'method' => 'post','class' =>'form-horizontal' ]) !!}
 
 
-    @include('customers.partials.inputs')
+    @include('customers.partials.inputs', ['customer' => null])
 
     <div class="form-group">
         <div class="col-sm-12">
@@ -22,4 +22,6 @@
         </div>
     </div>
     {!! Form::close() !!}
+
+    @include('customers.partials.script')
 @endsection

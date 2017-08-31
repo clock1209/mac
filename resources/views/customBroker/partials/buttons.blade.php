@@ -1,3 +1,3 @@
-<a id_contact="{{ $contact->id }}" class="btn btn-danger btn-sm status-contact" >
+<a id_broke="{{ $customBroker->id }}" class="btn btn-danger btn-sm status-broke" >
     <span class="fa fa-trash"></span> Delete
 </a>

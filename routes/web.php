@@ -81,7 +81,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permisos','PermissionController@index');
     Route::get('/permisos/asignar','PermissionController@asignar');
     Route::get('/permisos/desasignar','PermissionController@desasignar');
-    
+
+
+    /*------------------ DOC'S ROUTES ------------------*/
+    Route::resource('docs','DocController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

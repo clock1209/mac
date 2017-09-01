@@ -3,23 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CustomBroker;
-use App\Broker;
-use Illuminate\Support\Facades\App;
-use Yajra\Datatables\Facades\Datatables;
 
-class CustomBrokerController extends Controller
+class BrokerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($request->ajax()){
-            return $this->toDatatable();
-        }
+        //
     }
 
     /**
@@ -40,17 +34,7 @@ class CustomBrokerController extends Controller
      */
     public function store(Request $request)
     {
-//        $this->validate($request, $this->rules());
-
-        Broker::create($request->all());
-
-        $msg = [
-            'title' => 'Created!',
-            'type' => 'success',
-            'text' => 'Custom Broker created successfully.'
-        ];
-
-        return response()->json($msg);
+        //
     }
 
     /**
@@ -96,27 +80,5 @@ class CustomBrokerController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function BrokerStatus(Broker $broker)
-    {
-        $broker->status = ($broker->status == 2) ? 0 : 2;
-        $broker->save();
-
-        $msg = [
-            'title' => 'Deleted!',
-            'type' => 'success',
-            'text' => 'Customer Broker deleted successfully.'
-        ];
-
-        return response()->json($msg);
-    }
-    public function toDatatable() {
-        $customBrokers = Broker::where('status', 2);
-        return Datatables::eloquent($customBrokers)
-            ->addColumn('actions', function ($customBroker) {
-                return view('customBroker.partials.buttons', ['customBroker' => $customBroker]);
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
     }
 }

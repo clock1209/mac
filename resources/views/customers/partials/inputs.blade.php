@@ -48,7 +48,7 @@
 <div class="form-group">
     <div class="col-md-4 col-sm-12">
         <label for="username_lbl" class="input-control">State*:</label>
-        {!! Form::text('state_id',null,['class'=>'form-control']) !!}
+        {!! Form::text('state',null,['class'=>'form-control']) !!}
     </div>
     <div class="col-md-4 col-md-offset-1 col-sm-12 ">
         <label for="country_lbl" class="control-label">Country*:</label>

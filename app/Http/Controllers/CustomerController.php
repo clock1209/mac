@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Broker;
+use App\Providers\BroadcastServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Facades\Datatables;
 use App\Customer;
 use App\Country;
+use App\CustomBroker;
 
 class CustomerController extends Controller
 {
@@ -42,10 +46,20 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-//         Customer::create($request->all());
-        $customer = new Customer($request->all());
-        $customer->
-        $customer->save();
+        Customer::create($request->all());
+        $customer = Customer::all()->last();
+        $brokers = Broker::all();
+        foreach ($brokers as $broker){
+            if($broker->status == 2) {
+                $broker->status = 1;
+                $broker->save();
+                $customerBroker = new CustomBroker();
+                $customerBroker['customer_id'] = $customer['id'];
+                $customerBroker['broker_id'] = $broker['id'];
+                $customerBroker->save();
+            }
+        }
+
 
         $msg = [
             'title' => 'Created!',

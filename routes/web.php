@@ -82,7 +82,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permisos/asignar','PermissionController@asignar');
     Route::get('/permisos/desasignar','PermissionController@desasignar');
 
-
     /*------------------ DOC'S ROUTES ------------------*/
     Route::resource('docs','DocController');
 

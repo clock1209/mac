@@ -18,14 +18,13 @@ class DocController extends Controller
      */
     public function index(Request $request)
     {
-        //
+      
         if(!auth()->user())
             return abort(404);
 
         if ($request->ajax()) {
             return $this->toDatatable();
         }
-
 
         return view('docs.index');
     }
@@ -37,7 +36,6 @@ class DocController extends Controller
      */
     public function create()
     {
-        //
 
     }
 
@@ -49,7 +47,7 @@ class DocController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         $this->validate($request, $this->rules());
         $extension = Input::file('doc')->getClientOriginalExtension();
         $path = Storage::putFile($request->name, $request->file('doc'));
@@ -76,11 +74,8 @@ class DocController extends Controller
      */
     public function show($id)
     {
-        //(
       $doc  = Doc::find($id);
-      //$realpath = response()->download(storage_path('docs/' . $doc->doc));
       return response()->download($doc->doc);
-      //dd($doc->doc);
     }
 
     /**
@@ -91,7 +86,7 @@ class DocController extends Controller
      */
     public function edit($id)
     {
-        //
+
         $doc = Doc::find($id);
         File::delete($doc->doc);
         $doc->status = 0;
@@ -117,8 +112,6 @@ class DocController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
 
     }
 
@@ -130,7 +123,6 @@ class DocController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 
     public function toDatatable()

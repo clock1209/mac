@@ -6,15 +6,15 @@
             {data: 'name'},
             {data: 'doc'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
-
         ],
-        "columnDefs": [ {
+        "columnDefs": [{
         "targets": 1,
         "data": "doc",
         "render": function ( data, type, full, meta )
         {
           return '<a href="docs/'+full.id+'">'+full.name+'</a>';
-        } } ]
+        }
+      }]
     });
 
     @if (Session::has('message'))
@@ -35,6 +35,6 @@
             timer: 3000
         });
     }
-    
+
 </script>
 @endpush

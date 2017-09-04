@@ -17,11 +17,10 @@
             type: 'POST',
             dataType: 'json',
             data: {
-
-                name: $('[name="name"]').val(),
+                name: $('[name="nameBroker"]').val(),
                 patent: $('[name="patent"]').val(),
-                email: $('[name="email"]').val(),
-                phone: $('[name="phone"]').val(),
+                email: $('[name="emailBroker"]').val(),
+                phone:$('[name="countrycodebroker"]').val()+' '+$('[name="phoneBroker"]').val(),
             }
         }).done(function (data) {
             console.log(data);
@@ -57,10 +56,10 @@
     });//BUTTON .active-contact
 
     function resetBrokerInputs() {
-        $('[name="name"]').val('');
+        $('[name="nameBroker"]').val('');
         $('[name="patent"]').val('');
-        $('[name="email"]').val('');
-        $('[name="phone"]').val('');
+        $('[name="emailBroker"]').val('');
+        $('[name="phoneBroker"]').val('');
     }
 
     @if (Session::has('message'))

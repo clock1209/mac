@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-2 col-md-offset-1 col-sm-12 ">
         <label for="Role_lbl" class="input-control">Country code*:</label>
-        {!!Form::select('country_id',['+53','+52'],null,['class'=>'form-control'])!!}
+        {!!Form::select('countrycode',$countriesCode,null,['class'=>'form-control'])!!}
     </div>
     <div class="col-md-2 col-sm-12">
         <label for="email_lbl" class="input-control">Phone*:</label>

@@ -10,6 +10,7 @@ use Yajra\Datatables\Facades\Datatables;
 use App\Customer;
 use App\Country;
 use App\CustomBroker;
+use App\CoutryCode;
 
 class CustomerController extends Controller
 {
@@ -35,7 +36,8 @@ class CustomerController extends Controller
     {
         $countries = [null => 'Select country'];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        return view('customers.create', ['countries' => $countries]);
+        $countriesCode=CoutryCode::pluck('name','code');
+        return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 
     /**
@@ -46,7 +48,11 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        Customer::create($request->all());
+        $this->validate($request, $this->rules());
+
+        $customer = new Customer($request->all());
+        $customer->phone= $request['countrycode'].' '.$request['phone'];
+        $customer->save();
         $customer = Customer::all()->last();
         $brokers = Broker::all();
         foreach ($brokers as $broker){
@@ -89,7 +95,11 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer= Customer::find($id);
+        $countries = [null => 'Select country'];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+        $countriesCode=CoutryCode::pluck('name','code');
+        return view('customers.edit', ['customer'=>$customer],compact('countriesCode','countries'));
     }
 
     /**
@@ -114,15 +124,47 @@ class CustomerController extends Controller
     {
         //
     }
+    public function CustomerStatus(Customer $customer)
+    {
+        $customer->status = ($customer->status == 1) ? 0 : 1;
+        $customer->save();
+
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Customer deleted successfully.'
+        ];
+
+        return response()->json($msg);
+    }
 
     public function toDatatable()
     {
         $customers = Customer::where('status', 1)->get();
         return Datatables::of($customers)
             ->addColumn('actions', function ($customers) {
-                return view('suppliers.partials.buttons', ['supplier' => $customers]);
+                return view('customers.partials.buttons', ['customer' => $customers]);
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+    private function rules()
+    {
+        return [
+            'name' => 'required',
+            'business_name' => 'required',
+            'rfc' => 'required',
+            'countrycode' => 'required',
+            'phone' => 'required|numeric',
+            'street' => 'required',
+            'outside_number' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'zipcode' => 'required|numeric',
+            'email' => 'required|email',
+            'contact_name' => 'required',
+            'contact_job' => 'required'
+        ];
     }
 }

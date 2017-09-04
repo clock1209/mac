@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CustomBroker;
 use App\Broker;
+use DB;
 use Illuminate\Support\Facades\App;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -42,8 +43,8 @@ class CustomBrokerController extends Controller
     {
 //        $this->validate($request, $this->rules());
 
-        Broker::create($request->all());
-
+        $broker = new Broker($request->all());
+        $broker->save();
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
@@ -118,5 +119,14 @@ class CustomBrokerController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+    private function rules()
+    {
+        return [
+            'nameBroker' => 'required',
+            'patentBroker' => 'required',
+            'emailBroker' => 'required|email',
+            'phoneBroker' => 'required|numeric'
+        ];
     }
 }

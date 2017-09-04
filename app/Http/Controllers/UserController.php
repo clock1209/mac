@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Entrust;
 use Illuminate\Support\Facades\Redirect;
+use SebastianBergmann\Environment\Console;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -121,10 +122,15 @@ class UserController extends Controller
 
         $user= User::find($id);
         $user->fill($request->all());
-        $user->password = bcrypt($request['password']);
+
+        if ($request['password'] == '') {
+            $user->password = User::find($id)->password;
+        }elseif($request['password'] != ''){
+            $user->password = bcrypt($request['password']);
+        }
+
         DB::table('role_user')->where('user_id',$id)->delete();
         $user->attachRole($request['role']);
-
         /*------------------ save img ------------------*/
         $old_name = $user->username;
         $file = $request->file('signature');
@@ -212,8 +218,7 @@ class UserController extends Controller
     {
         return [
             'username' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => 'required|email'
         ];
     }
 }

@@ -74,10 +74,6 @@
 
 
 
-        $('body').delegate('#msj-authorized','click', function(){
-            $(this).hide();
-        });
-
         $('body').delegate('#btnActionDelete','click',function(){
             rol_id = $(this).attr('rol_id');
             swal({
@@ -125,4 +121,5 @@
         });
     }
 </script>
+
 @endpush

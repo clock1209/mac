@@ -26,6 +26,7 @@ class CreateCustomersTable extends Migration
             $table->string('city')->nullable();
             $table->string('state');
             $table->string('country');
+            $table->integer('countrycode');
             $table->string('zipcode');
             $table->string('email');
             $table->string('contact_name');

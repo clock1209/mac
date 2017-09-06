@@ -51,18 +51,13 @@ class CustomerController extends Controller
         $this->validate($request, $this->rules());
 
         $customer = new Customer($request->all());
-        $customer->phone= $request['countrycode'].' '.$request['phone'];
         $customer->save();
-        $customer = Customer::all()->last();
+        $customerLast = Customer::all()->last();
         $brokers = Broker::all();
         foreach ($brokers as $broker){
-            if($broker->status == 2) {
-                $broker->status = 1;
+            if($broker->customer_id == null) {
+                $broker->customer_id= $customerLast['id'];
                 $broker->save();
-                $customerBroker = new CustomBroker();
-                $customerBroker['customer_id'] = $customer['id'];
-                $customerBroker['broker_id'] = $broker['id'];
-                $customerBroker->save();
             }
         }
 
@@ -111,7 +106,19 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        $customer= Customer::find($id);
+        $customer->fill($request->all());
+        $customer->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Customer edited successfully.'
+        ];
+
+        return redirect('customers')->with('message', $msg);
     }
 
     /**

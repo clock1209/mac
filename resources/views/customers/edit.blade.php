@@ -13,7 +13,7 @@
     {!! Form::model($customer,['route' => ['customers.update',$customer->id], 'method' => 'PUT','class' =>'form-horizontal' ]) !!}
 
 
-    @include('customers.partials.inputs', ['customer' => null])
+    @include('customers.partials.inputs', ['customer' => $customer])
 
     <div class="form-group">
         <div class="col-sm-12">

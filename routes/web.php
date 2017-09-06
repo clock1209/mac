@@ -88,8 +88,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/customers/{customer}/status','customerController@CustomerStatus');
 
     /*------------------ CUSTOMER BROKER ROUTES ------------------*/
-    Route::resource('broker','CustomBrokerController');
-    Route::get('/broker/{broker}/status','CustomBrokerController@BrokerStatus');
+    Route::resource('broker','BrokerController');
+    Route::get('/broker/{broker}/status','BrokerController@BrokerStatus');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

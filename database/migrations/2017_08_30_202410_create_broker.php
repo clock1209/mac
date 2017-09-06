@@ -19,7 +19,9 @@ class CreateBroker extends Migration
             $table->string('patent');
             $table->string('email');
             $table->string('phone');
-            $table->char('status',1)->default(2);
+            $table->char('status',1)->default(1);
+            $table->integer('customer_id')->unsigned()->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });
     }

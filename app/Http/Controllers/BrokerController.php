@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use Illuminate\Http\Request;
-use App\CustomBroker;
 use App\Broker;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Yajra\Datatables\Facades\Datatables;
+use Illuminate\Database\Query\Builder;
 
-class CustomBrokerController extends Controller
+class BrokerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class CustomBrokerController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            return $this->toDatatable();
+            return $this->toDatatable($request->customer_id);
         }
     }
 
@@ -42,9 +43,17 @@ class CustomBrokerController extends Controller
     public function store(Request $request)
     {
 //        $this->validate($request, $this->rules());
-
-        $broker = new Broker($request->all());
-        $broker->save();
+        if($request['customer_id']==0){
+            $broker = new Broker($request->all());
+            $broker['customer_id']= null;
+            $broker->save();
+        }
+        if($request['customer_id']!=0){
+            $broker = new Broker($request->all());
+            $broker['customer_id']= $request['customer_id'];
+            $broker->customer_id =$request['customer_id'];
+            $broker->save();
+        }
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
@@ -100,7 +109,7 @@ class CustomBrokerController extends Controller
     }
     public function BrokerStatus(Broker $broker)
     {
-        $broker->status = ($broker->status == 2) ? 0 : 2;
+        $broker->status = ($broker->status == 1) ? 0 : 1;
         $broker->save();
 
         $msg = [
@@ -111,9 +120,17 @@ class CustomBrokerController extends Controller
 
         return response()->json($msg);
     }
-    public function toDatatable() {
-        $customBrokers = Broker::where('status', 2);
-        return Datatables::eloquent($customBrokers)
+    public function toDatatable($id) {
+        if ($id==0){
+            $customBrokers = Broker::where('customer_id', null)
+                ->where('status',1);
+        }
+        if($id!=0){
+            $customBrokers = Customer::find($id)
+                ->customBrokers()
+                ->where('status',1);
+        }
+        return Datatables::of($customBrokers)
             ->addColumn('actions', function ($customBroker) {
                 return view('customBroker.partials.buttons', ['customBroker' => $customBroker]);
             })

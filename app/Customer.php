@@ -18,10 +18,15 @@ class Customer extends Model
         'city',
         'state',
         'country',
+        'countrycode',
         'zipcode',
         'email',
         'contact_name',
         'contact_job',
         'status',
     ];
+    public function customBrokers()
+    {
+        return $this->hasMany(Broker::class,'customer_id','id');
+    }
 }

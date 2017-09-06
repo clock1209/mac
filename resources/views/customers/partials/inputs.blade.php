@@ -75,5 +75,6 @@
         {!! Form::text('contact_job',null,['class'=>'form-control']) !!}
     </div>
 </div>
+{!! Form::hidden('customer_id',$customer ? $customer->id : 0,['class'=>'form-control']) !!}
 @include('customBroker.index')
 

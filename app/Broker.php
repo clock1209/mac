@@ -10,7 +10,9 @@ class Broker extends Model
         'name',
         'patent',
         'email',
+        'customer_id',
         'phone',
         'status',
     ];
+
 }

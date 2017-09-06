@@ -1,7 +1,7 @@
 @push('scripts')
 <script>
     var dTableBroker = $("#broker-table").DataTable({
-        ajax: '/broker',
+        ajax: '/broker?customer_id=' + $('[name="customer_id"]').val(),
         columns: [
             {data: 'name'},
             {data: 'patent'},
@@ -20,6 +20,7 @@
                 name: $('[name="nameBroker"]').val(),
                 patent: $('[name="patent"]').val(),
                 email: $('[name="emailBroker"]').val(),
+                customer_id:$('[name="customer_id"]').val(),
                 phone:$('[name="countrycodebroker"]').val()+' '+$('[name="phoneBroker"]').val(),
             }
         }).done(function (data) {

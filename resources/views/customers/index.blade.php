@@ -17,6 +17,7 @@
                     <th>Name</th>
                     <th>Business name</th>
                     <th>RFC/TAX ID</th>
+                    <th>Country Code</th>
                     <th>Phone</th>
                     <th>Contact name</th>
                     <th>Contact job</th>

@@ -67,8 +67,8 @@ class StuffController extends Controller
              'concepts' => 'required',
              'cost' => 'required|numeric',
              'type' => 'required',
-             'agreed_cost' => 'required',
-             'currency' => 'required|numeric'
+             'agreed_cost' => 'required|not_in:0',
+             'currency' => 'required|not_in:0'
          ];
      }
 
@@ -88,9 +88,15 @@ class StuffController extends Controller
        $concepts = Stuff::where('status', 1)->get();
 
        return Datatables::of($concepts)
-        ->addColumn('actions', function ($concepts)
+        ->addColumn('actions', function ($concept)
         {
-            return view('stuffs.partials.buttons', ['stuffs' => $concepts]);
+            return view('stuffs.partials.buttons', ['stuffs' => $concept]);
+        })
+        ->editColumn('type', function($concept) {
+            return strtoupper($concept->type);
+        })
+        ->editColumn('agreed_cost', function($concept) {
+            return strtoupper($concept->agreed_cost);
         })
         ->rawColumns(['actions'])
         ->make(true);
@@ -113,7 +119,7 @@ class StuffController extends Controller
     public function edit(Stuff $stuff)
     {
 
-        return view('stuffs.edit', ['stuffs' => $stuff]);
+        return view('stuffs.edit', ['stuff' => $stuff]);
     }
 
     /**

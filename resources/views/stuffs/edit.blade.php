@@ -10,7 +10,7 @@
 
 @section('main-content')
     @include('alerts.messages')
-    {!!Form::model($stuffs, ['route'=> ['stuffs.update',$stuffs->id], 'method'=>'PUT', 'class'=>'form-horizontal'])!!}
+    {!!Form::model($stuff, ['route'=> ['stuffs.update',$stuff->id], 'method'=>'PUT', 'class'=>'form-horizontal'])!!}
 
     @include('stuffs.partials.inputs')
 

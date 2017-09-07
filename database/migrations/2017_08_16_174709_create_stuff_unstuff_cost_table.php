@@ -20,7 +20,7 @@ class CreateStuffUnstuffCostTable extends Migration
           $table->string('type');
           $table->string('agreed_cost');
           $table->char('status',1)->default(1);
-          $table->float('currency', 8, 2);
+          $table->string('currency');
           $table->timestamps();
       });
     }

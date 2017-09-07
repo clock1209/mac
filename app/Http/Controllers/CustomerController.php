@@ -136,6 +136,7 @@ class CustomerController extends Controller
      Broker::where('customer_id',null)->delete();
      return view('customers.index');
     }
+
     public function CustomerStatus(Customer $customer)
     {
         $customer->status = ($customer->status == 1) ? 0 : 1;

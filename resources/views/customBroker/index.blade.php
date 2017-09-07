@@ -40,21 +40,4 @@
     </div>
 </div>
 
-{{--<div class="form-group">--}}
-    {{--<div class="col-md-2 col-sm-12">--}}
-        {{--<label for="checkbox_lbl" class="input-control">All in rate:</label>--}}
-        {{--{!! Form::checkbox('allRate', 'value', false) !!}--}}
-        {{--<label for="checkbox_lbl" class="input-control">Logistic & cargo:</label>--}}
-        {{--{!! Form::checkbox('logistic&cargo', 'value', false) !!}--}}
-        {{--<label for="checkbox_lbl" class="input-control">Overweight:</label>--}}
-        {{--{!! Form::checkbox('overweight', 'value', false) !!}--}}
-        {{--<label for="profit_lbl" class="input-control">Profit:</label>--}}
-        {{--{!! Form::text('profit',null,['class'=>'form-control']) !!}--}}
-    {{--</div>--}}
-    {{--<div class="col-md-2 col-sm-12" style="border-color: transparent">--}}
-        {{--<label for="username_lbl" class="input-control">Carrier inlad costo:</label>--}}
-        {{--{!! Form::checkbox('carriercost', 'value', false) !!}--}}
-        {{--{!!Form::select('carrier',['All truck','Rail + truck','Rail ramp'],null,['class'=>'form-control'])!!}--}}
-    {{--</div>--}}
-{{--</div>--}}
 @include('customBroker.partials.scripts')

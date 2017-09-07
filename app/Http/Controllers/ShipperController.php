@@ -50,8 +50,10 @@ class ShipperController extends Controller
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
         $data = $request->all();
-        $areacode = str_replace('_', '', $data['area_code']);
-        $data['phone'] = $areacode . ' ' . $data['phone'];
+        if ($data['phone'] != null) {
+            $areacode = str_replace('_', '', $data['area_code']);
+            $data['phone'] = $areacode . ' ' . $data['phone'];
+        }
         Shipper::create($data);
 
         $msg = [
@@ -85,8 +87,11 @@ class ShipperController extends Controller
     {
         $countries = Country::pluck('name', 'name');
         $area_codes = Country::pluck('area_code', 'code')->toArray();
-        list($areacode, $phone) = explode(' ', $shipper->phone);
-        $areacode = '_' . $areacode;
+        if ($shipper->phone != null) {
+            list($areacode, $phone) = explode(' ', $shipper->phone);
+            $areacode = '_' . $areacode;
+        }
+        $areacode = null; $phone = null;
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
@@ -169,16 +174,16 @@ class ShipperController extends Controller
         return [
             'tradename' => 'required',
             'name' => 'nullable',
-            'email' => 'email',
+            'email' => 'nullable|email',
             'phone' => 'nullable|size:10',
             'business_name' => 'nullable',
             'street' => 'nullable',
-            'street_number' => 'numeric',
+            'street_number' => 'nullable|numeric',
             'neighborhood' => 'nullable',
             'city' => 'nullable',
             'country' => 'nullable',
-            'zip_code' => 'numeric',
-            'rfc_taxid' => 'alpha_num'
+            'zip_code' => 'nullable|numeric',
+            'rfc_taxid' => 'nullable|alpha_num'
         ];
     }
 

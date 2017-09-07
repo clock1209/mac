@@ -18,7 +18,7 @@ class DocController extends Controller
      */
     public function index(Request $request)
     {
-      
+
         if(!auth()->user())
             return abort(404);
 
@@ -54,7 +54,7 @@ class DocController extends Controller
         Storage::move($path, $request->name."/".$request->name.".".$extension);
         $doc = new Doc;
         $doc->name = $request->name;
-        $doc->doc = storage_path("docs/".$request->name."/".$request->name.".".$extension);
+        $doc->doc = storage_path("signature/".$request->name."/".$request->name.".".$extension);
         $doc->save();
 
          $msg = [

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Facades\Datatables;
 use App\Customer;
 use App\Country;
-use App\CustomBroker;
 use App\CoutryCode;
 
 class CustomerController extends Controller
@@ -130,6 +129,12 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function deleteCustomerBroker()
+    {
+     Broker::where('customer_id',null)->delete();
+     return view('customers.index');
     }
     public function CustomerStatus(Customer $customer)
     {

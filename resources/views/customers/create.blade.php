@@ -18,7 +18,7 @@
     <div class="form-group">
         <div class="col-sm-12">
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-            <a href="{{ url('/customers') }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+            <a href="{{ url('CustomersBrokersDelete') }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
         </div>
     </div>
     {!! Form::close() !!}

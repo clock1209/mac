@@ -41,7 +41,10 @@ class SupplierContactController extends Controller
     {
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
-        SupplierContact::create($request->all());
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        SupplierContact::create($data);
 
         $msg = [
             'title' => 'Created!',
@@ -71,7 +74,9 @@ class SupplierContactController extends Controller
      */
     public function edit(SupplierContact $supplierContact)
     {
-        return response()->json($supplierContact);
+        list($areacode, $phone) = explode(' ', $supplierContact->phone);
+        $areacode = '_' . $areacode;
+        return response()->json([$supplierContact, $areacode, $phone]);
     }
 
     /**
@@ -85,7 +90,10 @@ class SupplierContactController extends Controller
     {
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
-        $supplierContact->fill($request->all());
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        $supplierContact->fill($data);
         $supplierContact->save();
 
         $msg = [

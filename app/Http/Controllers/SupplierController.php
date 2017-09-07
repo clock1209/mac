@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AdditionalCharge;
 use App\BankAccount;
 use App\Concepts;
+use App\Country;
 use App\Supplier;
 use App\SupplierContact;
 use Illuminate\Http\Request;
@@ -46,7 +47,12 @@ class SupplierController extends Controller
         $supplier = new Supplier();
         $supplier->clearOptionalDatatables();
         $concepts = Concepts::pluck('name', 'name')->toArray();
-        return view('suppliers.create', ['types' => $this->ba_type, 'concepts' => $concepts]);
+        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $array = [];
+        foreach ($area_codes as $code => $area_code) {
+            $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
+        }
+        return view('suppliers.create', ['types' => $this->ba_type, 'concepts' => $concepts, 'area_codes' => $array]);
     }
 
     /**
@@ -93,10 +99,16 @@ class SupplierController extends Controller
     public function edit(Request $request, Supplier $supplier)
     {
         $concepts = Concepts::pluck('name', 'name')->toArray();
+        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $array = [];
+        foreach ($area_codes as $code => $area_code) {
+            $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
+        }
         $data = [
             'concepts'  => $concepts,
             'supplier'  => $supplier,
-            'types'     => $this->ba_type
+            'types'     => $this->ba_type,
+            'area_codes' => $array,
         ];
         return view('suppliers.edit', $data);
     }

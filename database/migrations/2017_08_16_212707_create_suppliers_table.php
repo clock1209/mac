@@ -15,7 +15,7 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('abbreviation')->nullable();
+            $table->string('abbreviation');
             $table->enum('type', ['Co Loader', 'Carrier', 'Custom Broker', 'Truck Service', 'Werehouse',
                     'Port terminal', 'Insurence company', 'Agent']);
             $table->string('name');

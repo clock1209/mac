@@ -12,7 +12,7 @@
     @include('alerts.messages')
     {!! Form::open(['route'=>'shippers.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
 
-    @include('shippers.partials.inputs', ['shipper' => null])
+    @include('shippers.partials.inputs', ['shipper' => null, 'areacode' => null, 'phone' => null])
 
     <br>
     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>

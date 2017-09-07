@@ -31,7 +31,12 @@ class ShipperController extends Controller
     {
         $countries = [null => 'Select country'];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        return view('shippers.create', ['countries' => $countries]);
+        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $array = [];
+        foreach ($area_codes as $code => $area_code) {
+            $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
+        }
+        return view('shippers.create', ['countries' => $countries, 'area_codes' => $array]);
     }
 
     /**
@@ -44,7 +49,10 @@ class ShipperController extends Controller
     {
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
-        Shipper::create($request->all());
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        Shipper::create($data);
 
         $msg = [
             'title' => 'Created!',
@@ -76,7 +84,15 @@ class ShipperController extends Controller
     public function edit(Shipper $shipper)
     {
         $countries = Country::pluck('name', 'name');
-        return view('shippers.edit', ['shipper' => $shipper, 'countries' => $countries]);
+        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        list($areacode, $phone) = explode(' ', $shipper->phone);
+        $areacode = '_' . $areacode;
+        $array = [];
+        foreach ($area_codes as $code => $area_code) {
+            $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
+        }
+        return view('shippers.edit', ['shipper' => $shipper, 'countries' => $countries, 'area_codes' => $array,
+            'areacode' => $areacode, 'phone' => $phone]);
     }
 
     /**
@@ -90,7 +106,10 @@ class ShipperController extends Controller
     {
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
-        $shipper->fill($request->all());
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        $shipper->fill($data);
         $shipper->save();
 
         $msg = [
@@ -159,7 +178,7 @@ class ShipperController extends Controller
             'city' => 'nullable',
             'country' => 'nullable',
             'zip_code' => 'numeric',
-            'rfc_taxid' => 'numeric'
+            'rfc_taxid' => 'alpha_num'
         ];
     }
 

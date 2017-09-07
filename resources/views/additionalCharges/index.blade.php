@@ -31,12 +31,13 @@
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge_type') ? ' has-error' : '' }}">
             <label for="charge_type_lbl" class="control-label">Charge type*:</label>
-            {!! Form::select('charge_type', ['BL' => 'BL', 'ETB' => 'ETB', 'Container' => 'Container', 'Others' => 'Others'],
+            {!! Form::select('charge_type', ['BL' => 'BL', 'Container' => 'Container', 'Others' => 'Others'],
                 null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge') ? ' has-error' : '' }}">
             <label for="charge_lbl" class="control-label">Charge*:</label>
-            {!! Form::select('charge', ['ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board'], null,
+            {!! Form::select('charge', ['ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board',
+                'ETB' => 'ETB'], null,
                 ['class'=>'form-control']) !!}
         </div>
     </div>{{--form-group--}}

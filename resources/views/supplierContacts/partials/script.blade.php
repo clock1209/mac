@@ -26,6 +26,7 @@
                 name: $('div#sc-form [name="contact_name"]').val(),
                 email: $('[name="email"]').val(),
                 phone: $('[name="phone"]').val(),
+                area_code: $('[name="area_code"]').val(),
                 supplier_id: $('[name="supplier_id"]').val()
             }
         }).done(function (data) {
@@ -79,11 +80,12 @@
             dataType: 'json',
             data : {id: id_contact}
         }).done(function(data){
-            console.log(data);
-            $('#mdl_select_an_area').val(data.select_an_area);
-            $('#mdl_contact_name').val(data.name);
-            $('#mdl_email').val(data.email);
-            $('#mdl_supplierPhone').val(data.phone);
+            console.log(data[2]);
+            $('#mdl_select_an_area').val(data[0].select_an_area);
+            $('#mdl_contact_name').val(data[0].name);
+            $('#mdl_email').val(data[0].email);
+            $('#mdl_supplierPhone').val(data[2]);
+            $('#mdl_area_code').val(data[1]);
             $('#mdlIdContact').val(id_contact);
         });
     });//MODAL .get-contact
@@ -100,7 +102,8 @@
                 select_an_area:  $('#mdl_select_an_area').val(),
                 name: $('#mdl_contact_name').val(),
                 email: $('#mdl_email').val(),
-                phone: $('#mdl_supplierPhone').val()
+                phone: $('#mdl_supplierPhone').val(),
+                area_code: $('#mdl_area_code').val()
             }
         }).done(function(data){
             console.log(data);

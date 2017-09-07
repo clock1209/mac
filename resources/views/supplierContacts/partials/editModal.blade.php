@@ -25,7 +25,12 @@
                             </div>
                             <div class="col-md-12 col-sm-12{{ $errors->has('phone') ? ' has-error' : '' }}">
                                 <label for="phone_lbl" class="control-label">(area code) Phone*:</label>
-                                {!! Form::text('phone', null,['class'=>'form-control', 'id' => 'mdl_supplierPhone']) !!}
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        {!! Form::select('area_code', $area_codes, null, ['class'=>'btn btn-secundary', 'id'=>'mdl_area_code']) !!}
+                                    </div>
+                                    {!! Form::text('phone', null,['class'=>'form-control', 'id' => 'mdl_supplierPhone']) !!}
+                                </div>
                             </div>
                         </div>{{--form-group--}}
                     </div>

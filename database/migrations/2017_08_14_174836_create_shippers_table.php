@@ -16,17 +16,17 @@ class CreateShippersTable extends Migration
         Schema::create('shippers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tradename');
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('business_name')->nullable();
-            $table->string('street')->nullable();
-            $table->string('street_number')->nullable();
-            $table->string('neighborhood')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('rfc_taxid')->nullable();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('business_name');
+            $table->string('street');
+            $table->string('street_number');
+            $table->string('neighborhood');
+            $table->string('city');
+            $table->string('country');
+            $table->string('zip_code');
+            $table->string('rfc_taxid');
             $table->char('status',1)->default(1);
             $table->timestamps();
         });

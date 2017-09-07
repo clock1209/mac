@@ -87,11 +87,11 @@ class ShipperController extends Controller
     {
         $countries = Country::pluck('name', 'name');
         $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $areacode = null; $phone = null;
         if ($shipper->phone != null) {
             list($areacode, $phone) = explode(' ', $shipper->phone);
             $areacode = '_' . $areacode;
         }
-        $areacode = null; $phone = null;
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);

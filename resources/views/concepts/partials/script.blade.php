@@ -76,6 +76,8 @@ function sAlert(title, type, text)
         confirmButtonText: "Continue",
         timer: 3000
     });
+
+    
 }
 
 </script>

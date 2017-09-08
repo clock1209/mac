@@ -168,7 +168,7 @@ class CustomerController extends Controller
             'business_name' => 'required',
             'rfc' => 'required',
             'countrycode' => 'required',
-            'phone' => 'required|numeric',
+            'phone' => 'required|numeric|digits:8',
             'street' => 'required',
             'outside_number' => 'required',
             'city' => 'required',

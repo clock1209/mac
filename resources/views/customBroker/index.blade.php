@@ -1,15 +1,15 @@
-<div id="sc-form">
+<div id="sb-form">
     <h4 class="n-caption">Custom Broker</h4>
     <div class="form-group">
-        <div class="col-md-2 col-sm-12 col-md-offset-1{{ $errors->has('select_an_area') ? ' has-error' : '' }}">
+        <div class="col-md-2 col-sm-12 col-md-offset-1{{ $errors->has('nameBroker') ? ' has-error' : '' }}">
             <label for="select_name_lbl" class="control-label">Name*:</label>
             {!! Form::text('nameBroker', null, ['class'=>'form-control']) !!}
         </div>
-        <div class="col-md-2 col-sm-12 {{ $errors->has('contact_name') ? ' has-error' : '' }}">
+        <div class="col-md-2 col-sm-12 {{ $errors->has('patent') ? ' has-error' : '' }}">
             <label for="contact_name_lbl" class="control-label">patent*:</label>
             {!! Form::text('patent', null,['class'=>'form-control']) !!}
         </div>
-        <div class="col-md-2 col-sm-12{{ $errors->has('email') ? ' has-error' : '' }}">
+        <div class="col-md-2 col-sm-12{{ $errors->has('emailBroker') ? ' has-error' : '' }}">
             <label for="email_lbl" class="control-label">E-mail*:</label>
             {!! Form::email('emailBroker', null,['class'=>'form-control']) !!}
         </div>
@@ -17,7 +17,7 @@
             <label for="Role_lbl" class="input-control">Country code*:</label>
             {!!Form::select('countrycodebroker',$countriesCode,null,['class'=>'form-control'])!!}
         </div>
-        <div class="col-md-2 col-sm-12{{ $errors->has('phone') ? ' has-error' : '' }}">
+        <div class="col-md-2 col-sm-12{{ $errors->has('phoneBroker') ? ' has-error' : '' }}">
             <label for="phone_lbl" class="control-label">Phone*:</label>
             {!! Form::text('phoneBroker', null,['class'=>'form-control']) !!}
         </div>
@@ -32,6 +32,7 @@
                 <th>Name</th>
                 <th>Patent</th>
                 <th>Email</th>
+                <th>Country code</th>
                 <th>Phone</th>
                 <th width="210px;">Actions</th>
             </tr>

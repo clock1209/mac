@@ -11,8 +11,8 @@ class Broker extends Model
         'patent',
         'email',
         'customer_id',
+        'countrycode',
         'phone',
         'status',
     ];
-
 }

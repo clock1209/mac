@@ -12,7 +12,7 @@
     @include('alerts.messages')
     {!! Form::open(['route'=>'stuffs.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
 
-    @include('stuffs.partials.inputs', ['stuffs' => null])
+    @include('stuffs.partials.inputs', ['stuff' => null])
 
     <br>
     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>

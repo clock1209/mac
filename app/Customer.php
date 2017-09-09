@@ -29,4 +29,9 @@ class Customer extends Model
     {
         return $this->hasMany(Broker::class,'customer_id','id');
     }
+
+   public function customDocs()
+   {
+       return $this->hasMany(Doc::class,'customer_id','id');
+   }
 }

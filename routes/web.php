@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permisos/desasignar','PermissionController@desasignar');
 
 
+
     /*------------------ CUSTOMER'S ROUTES ------------------*/
     Route::resource('customers','customerController');
     Route::get('/customers/{customer}/status','customerController@CustomerStatus');
@@ -91,6 +92,10 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ CUSTOMER BROKER ROUTES ------------------*/
     Route::resource('broker','BrokerController');
     Route::get('/broker/{broker}/status','BrokerController@BrokerStatus');
+
+    /*------------------ DOC'S ROUTES ------------------*/
+    Route::resource('docs','DocController');
+
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

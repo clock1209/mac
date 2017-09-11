@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*------------------ CONTACT'S ROUTES ------------------*/
     Route::resource('contacts', 'SupplierContactController');
+    Route::get('/contacts/{supplierContact}/edit-contact', 'SupplierContactController@edit')->name('contacts.edit');
+    Route::put('/contacts/{supplierContact}/update-contact', 'SupplierContactController@update')->name('contacts.update');
     Route::get('/contacts/{supplierContact}/status','SupplierContactController@supplierContactStatus');
 
     /*------------------ CONSOLIDATOR'S ROUTES ------------------*/

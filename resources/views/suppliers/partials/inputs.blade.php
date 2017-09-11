@@ -1,7 +1,7 @@
 <div class="form-group">
     <div class="col-md-4 col-sm-12{{ $errors->has('abbreviation') ? ' has-error' : '' }}">
         <label for="abbreviation_lbl" class="control-label">Abbreviation*:</label>
-        {!! Form::text('abbreviation',$supplier ? $supplier->abbreviation : old('abbreviation'),['class'=>'form-control', 'required']) !!}
+        {!! Form::text('abbreviation',$supplier ? $supplier->abbreviation : old('abbreviation'),['class'=>'form-control']) !!}
     </div>
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Type*:</label>

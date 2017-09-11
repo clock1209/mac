@@ -53,4 +53,11 @@ class Supplier extends Model
             $supplierContact->save();
         }
     }
+
+    public function clearOptionalDatatables()
+    {
+        AdditionalCharge::where('supplier_id', 1)->delete();
+        BankAccount::where('supplier_id', 1)->delete();
+        SupplierContact::where('supplier_id', 1)->delete();
+    }
 }

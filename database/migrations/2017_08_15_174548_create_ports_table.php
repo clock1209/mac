@@ -16,10 +16,9 @@ class CreatePortsTable extends Migration
         Schema::create('ports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('place_of_load');
-            $table->char('status',1)->default(1);
             $table->integer('shipper_id')->unsigned();
             $table->timestamps();
-
+            $table->char('status',1)->default(1);
             $table->foreign('shipper_id')->references('id')->on('shippers');
         });
     }

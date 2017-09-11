@@ -415,6 +415,7 @@ a:focus {
   transition: width 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  background-color: #BDBDBD !important;
 }
 @media (max-width: 767px) {
   .main-sidebar,
@@ -483,6 +484,7 @@ a:focus {
   padding-right: 5px;
   margin-top: 3px;
   font-size: 11px;
+  color: #fff;
 }
 .user-panel > .info > a > .fa,
 .user-panel > .info > a > .ion,
@@ -502,6 +504,7 @@ a:focus {
 .sidebar-menu > li > a {
   padding: 12px 5px 12px 15px;
   display: block;
+  color: #fff !important;
 }
 .sidebar-menu > li > a > .fa,
 .sidebar-menu > li > a > .glyphicon,

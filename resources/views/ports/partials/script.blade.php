@@ -5,11 +5,9 @@
         columns: [
             {data: 'place_of_load'},
             {data: 'shipper_id'},
-            {data: 'status'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
         ]
     });/*datatable*/
-
     $('body').delegate('.delete-port','click',function(){
         port_id = $(this).attr('port_id');
         swal({

@@ -14,7 +14,7 @@
     Name*
   </div>
   <div class="col-md-4">
-    {!! Form::text('name_concept',null,['class'=>'form-control']) !!}
+    {!! Form::text('name','',['class'=>'form-control']) !!}
   </div>
   <div class="col-md-4">  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button>
     </div>

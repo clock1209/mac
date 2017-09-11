@@ -70,7 +70,7 @@ class AdditionalChargeController extends Controller
      */
     public function edit(AdditionalCharge $additionalCharge)
     {
-        //
+        return response()->json($additionalCharge);
     }
 
     /**
@@ -82,7 +82,18 @@ class AdditionalChargeController extends Controller
      */
     public function update(Request $request, AdditionalCharge $additionalCharge)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        $additionalCharge->fill($request->all());
+        $additionalCharge->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Additional charge edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -131,7 +142,6 @@ class AdditionalChargeController extends Controller
     private function rules()
     {
         return [
-            'concept' => 'required',
             'collect_prepaid' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
             'import_export' => 'required|regex:/^[\pL\s\-0-9]+$/u',
             'amount' => 'required|numeric',

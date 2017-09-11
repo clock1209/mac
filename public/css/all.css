@@ -24909,6 +24909,63 @@ label,
         background-size: 240px 24px;
     }
 }
+.im-caret {
+	-webkit-animation: 1s blink step-end infinite;
+	-moz-animation: 1s blink step-end infinite;
+	-ms-animation: 1s blink step-end infinite;
+	-o-animation: 1s blink step-end infinite;
+	animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+	from, to {
+		border-right-color: black;
+	}
+	50% {
+		border-right-color: transparent;
+	}
+}
+
+@-moz-keyframes blink {
+	from, to {
+		border-right-color: black;
+	}
+	50% {
+		border-right-color: transparent;
+	}
+}
+
+@-webkit-keyframes blink {
+	from, to {
+		border-right-color: black;
+	}
+	50% {
+		border-right-color: transparent;
+	}
+}
+
+@-ms-keyframes blink {
+	from, to {
+		border-right-color: black;
+	}
+	50% {
+		border-right-color: transparent;
+	}
+}
+
+@-o-keyframes blink {
+	from, to {
+		border-right-color: black;
+	}
+	50% {
+		border-right-color: transparent;
+	}
+}
+
+.im-static {
+	color: grey;
+}
+
 .toast-title {
   font-weight: bold;
 }

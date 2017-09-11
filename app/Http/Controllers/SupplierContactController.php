@@ -39,9 +39,12 @@ class SupplierContactController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules(), $this->ruleMessages());
 
-        SupplierContact::create($request->all());
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        SupplierContact::create($data);
 
         $msg = [
             'title' => 'Created!',
@@ -71,7 +74,9 @@ class SupplierContactController extends Controller
      */
     public function edit(SupplierContact $supplierContact)
     {
-        //
+        list($areacode, $phone) = explode(' ', $supplierContact->phone);
+        $areacode = '_' . $areacode;
+        return response()->json([$supplierContact, $areacode, $phone]);
     }
 
     /**
@@ -83,7 +88,21 @@ class SupplierContactController extends Controller
      */
     public function update(Request $request, SupplierContact $supplierContact)
     {
-        //
+        $this->validate($request, $this->rules(), $this->ruleMessages());
+
+        $data = $request->all();
+        $areacode = str_replace('_', '', $data['area_code']);
+        $data['phone'] = $areacode . ' ' . $data['phone'];
+        $supplierContact->fill($data);
+        $supplierContact->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Contact edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -135,7 +154,14 @@ class SupplierContactController extends Controller
             'select_an_area' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'email' => 'required|email',
-            'phone' => 'required|numeric|digits_between:12,20'
+            'phone' => 'nullable|numeric'
+        ];
+    }
+
+    private function ruleMessages()
+    {
+        return [
+            'numeric' => 'The phone must be 10 numbers long'
         ];
     }
 }

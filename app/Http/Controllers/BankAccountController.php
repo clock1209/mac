@@ -71,7 +71,7 @@ class BankAccountController extends Controller
      */
     public function edit(BankAccount $bankAccount)
     {
-        //
+        return response()->json($bankAccount);
     }
 
     /**
@@ -83,7 +83,18 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, BankAccount $bankAccount)
     {
-        //
+        $this->validate($request, $this->rules());
+
+        $bankAccount->fill($request->all());
+        $bankAccount->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Bank account edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**

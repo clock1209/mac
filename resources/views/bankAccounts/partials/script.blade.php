@@ -75,6 +75,55 @@
         });
     });//BUTTON .active-bankAccount
 
+    //shows bankAccount modal to edit data
+    $('body').delegate('.get-bankAccount','click',function(){
+        id_bankAccount = $(this).attr('id_bankAccount');
+        $.ajax({
+            url : '/bank-accounts/' + id_bankAccount + '/edit',
+            type : 'GET',
+            dataType: 'json',
+            data : {id: id_bankAccount}
+        }).done(function(data){
+            console.log(data);
+            $('#mdlPayof option[value="' + data.pay_of + '"]').attr('selected', 'selected');
+            $('#mdlAccount').val(data.account);
+            $('#mdlBank').val(data.bank);
+            $('#mdlClabe').val(data.clabe);
+            $('#mdlAba').val(data.aba);
+            $('#mdlSwift').val(data.swift);
+            $('#mdlReference').val(data.reference);
+            $('#mdlCurrency').val(data.currency);
+            $('#mdlBeneficiary').val(data.beneficiary);
+            $('#mdlIdBankAccount').val(id_bankAccount);
+        });
+    });//MODAL .get-bankAccount
+
+    //Update bankAccount data changed on modal
+    $('body').delegate('#bankAccountUpdate','click',function(){
+        id_bankAccount = $('#mdlIdBankAccount').val();
+        $.ajax({
+            url : '/bank-accounts/' + id_bankAccount,
+            type : 'PUT',
+            dataType: 'json',
+            data : {
+                pay_of:  $('#mdlPayof').val(),
+                account: $('#mdlAccount').val(),
+                bank: $('#mdlBank').val(),
+                clabe: $('#mdlClabe').val(),
+                aba: $('#mdlAba').val(),
+                swift: $('#mdlSwift').val(),
+                reference: $('#mdlReference').val(),
+                currency: $('#mdlCurrency').val(),
+                beneficiary: $('#mdlBeneficiary').val()
+            }
+        }).done(function(data){
+            console.log(data);
+            $('#bankAccount_modal').modal('hide');
+            sAlert(data.title, data.type, data.text);
+            dTableBank.ajax.reload();
+        });
+    });//MODAL .get-bankAccount
+
     function resetBankAccountInputs() {
         $('[name="account"]').val('');
         $('[name="bank"]').val('');
@@ -90,10 +139,13 @@
     $(document).ready(function () {
         var currency = {{ require('./js/currency.json') }};
         $('#currency').empty();
+        $('#mdlCurrency').empty();
         $('#currency').select2();
+        $('#mdlCurrency').select2();
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+            $('#mdlCurrency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
     });
 

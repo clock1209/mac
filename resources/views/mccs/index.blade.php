@@ -23,7 +23,7 @@
     <div class="col-md-4">
       <div class="form-group">
           {!! Form::label('name_currency', 'Currency*') !!}
-          {!! Form::text('currency', null, ['class' => 'form-control']) !!}
+          {!! Form::select('currency', [''], null,['class'=>'form-control', 'id' => 'currency']) !!}
       </div>
     </div>
 

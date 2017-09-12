@@ -78,5 +78,15 @@
         });
     });//BUTTON .delete-shipper
 
+    $(document).ready(function () {
+        var currency = {{ require('./js/currency.json') }};
+        $('#currency').empty();
+        $('#currency').select2();
+        $.each( currency, function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+    });
+    
 </script>
 @endpush

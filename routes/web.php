@@ -96,9 +96,17 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ DOC'S ROUTES ------------------*/
     Route::resource('docs','DocController');
 
-    /*------------------ DOC'S MCC ------------------*/
+    /*------------------ DOC'S ROUTES ------------------*/
     Route::resource('mcc','MccController');
 
+    /*------------------ CARRIER'S ROUTES ------------------*/
+    Route::resource('carriers','CarrierController');
+
+    /*------------------ CARRIER PORT'S ROUTES ------------------*/
+    Route::resource('carrierport','CarrierPortController');
+
+    /*------------------ CARRIER PORT'S ROUTES ------------------*/
+    Route::resource('prices','PriceController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

@@ -108,6 +108,13 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ CARRIER PORT'S ROUTES ------------------*/
     Route::resource('prices','PriceController');
 
+    /*------------------ REMARK'S ROUTES ------------------*/
+    Route::resource('remarks','RemarkController');
+
+    /*------------------ REMARK'S ROUTES ------------------*/
+    Route::resource('overweight','OverweightController');
+
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

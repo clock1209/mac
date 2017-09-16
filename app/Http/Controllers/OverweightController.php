@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Price;
+use App\Remark;
+use App\Overweight;
 use Yajra\Datatables\Facades\Datatables;
 
-class PriceController extends Controller
+class OverweightController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +16,9 @@ class PriceController extends Controller
      */
     public function index(Request $request)
     {
-      if ($request->ajax()) {
+      if($request->ajax()){
           return $this->toDatatable();
       }
-      return view('prices.index');
     }
 
     /**
@@ -39,15 +39,16 @@ class PriceController extends Controller
      */
     public function store(Request $request)
     {
-      Price::create($request->all());
+      $this->validate($request, $this->rules());
+      Overweight::create($request->all());
 
       $msg = [
           'title' => 'Created!',
           'type' => 'success',
-          'text' => 'Price created successfully.'
+          'text' => 'Overweight created successfully.'
       ];
 
-      return redirect('prices')->with('message', $msg);
+      return redirect('/remarks')->with('message', $msg);
     }
 
     /**
@@ -67,9 +68,9 @@ class PriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Overweight $overweight)
     {
-        //
+        return view('remarks.index',['overweight' => $overweight]);
     }
 
     /**
@@ -79,9 +80,22 @@ class PriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Overweight $overweight)
     {
-        //
+
+      $this->validate($request, $this->rules());
+
+      $overweight->fill($request->all());
+      $overweight->save();
+
+      $msg = [
+          'title' => 'Edited!',
+          'type' => 'success',
+          'text' => 'Overweight edited successfully.'
+      ];
+
+      return redirect('remarks')->with('message',$msg);
+
     }
 
     /**
@@ -94,12 +108,21 @@ class PriceController extends Controller
     {
         //
     }
-    public function toDatatable()
+
+    private function rules()
     {
-        $prices = Price::all();
-        return Datatables::of($prices)
-            ->addColumn('actions', function ($prices) {
-                return view('prices.partials.buttons', ['port' => $prices]);
+        return [
+            'rangeup' => 'required|numeric',
+            'rangeto' => 'required|numeric',
+            'cost' => 'required|numeric',
+        ];
+    }
+
+    public function toDatatable() {
+        $overweight = Overweight::all();
+        return Datatables::of($overweight)
+            ->addColumn('actions', function ($overweight) {
+                return view('overweight.partials.buttons', ['overweight' => $overweight]);
             })
             ->rawColumns(['actions'])
             ->make(true);

@@ -3,22 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Price;
-use Yajra\Datatables\Facades\Datatables;
+use App\Remark;
 
-class PriceController extends Controller
+class RemarkController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-      if ($request->ajax()) {
-          return $this->toDatatable();
-      }
-      return view('prices.index');
+        return view('remarks.index',['overweight' => 0]);
     }
 
     /**
@@ -39,15 +35,25 @@ class PriceController extends Controller
      */
     public function store(Request $request)
     {
-      Price::create($request->all());
 
+      $remark = new Remark($request->all());
+
+      if($request->nameconditions=="Free demurrage at destinations")
+      {
+        $remark->valuecondition=$request->valueconditionsone;
+      }
+      else if($request->nameconditions=="Price per day")
+      {
+        $remark->valuecondition=$request->valueconditionstwo;
+      }
+      $remark->save();
       $msg = [
           'title' => 'Created!',
           'type' => 'success',
-          'text' => 'Price created successfully.'
+          'text' => 'Remark created successfully.'
       ];
 
-      return redirect('prices')->with('message', $msg);
+      return redirect('/remarks')->with('message', $msg);
     }
 
     /**
@@ -93,15 +99,5 @@ class PriceController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function toDatatable()
-    {
-        $prices = Price::all();
-        return Datatables::of($prices)
-            ->addColumn('actions', function ($prices) {
-                return view('prices.partials.buttons', ['port' => $prices]);
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
     }
 }

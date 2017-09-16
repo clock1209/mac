@@ -8,12 +8,16 @@
 @endsection
 
 @section('main-content')
-
+  {!! Form::open(['route'=>'prices.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
 <div class="form-group">
-    {!! Form::label('name_price', 'Name*') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+  <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
+      {!! Form::text('name', null, ['class' => 'form-control','required','placeholder'=>'Name*' ]) !!}
+  </div>
+  <div class="col-md-2 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
+    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+  </div>
 </div>
-
+{!! Form::close() !!}
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="prices-table">

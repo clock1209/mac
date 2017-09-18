@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Remark;
+use App\Subject;
+use App\Concepts;
 use App\PortName;
-use App\Overweight;
-use Yajra\Datatables\Facades\Datatables;
+use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
-class OverweightController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +31,7 @@ class OverweightController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -40,16 +42,18 @@ class OverweightController extends Controller
      */
     public function store(Request $request)
     {
+
       $this->validate($request, $this->rules());
-      Overweight::create($request->all());
+      Subject::create($request->all());
 
       $msg = [
           'title' => 'Created!',
           'type' => 'success',
-          'text' => 'Overweight created successfully.'
+          'text' => 'Subject created successfully.'
       ];
 
       return redirect('/remarks')->with('message', $msg);
+
     }
 
     /**
@@ -58,19 +62,18 @@ class OverweightController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Overweight $overweight)
+    public function show(Subject $subject)
     {
+      $subject->status = ($subject->status == 1) ? 0 : 1;
+      $subject->save();
 
-        $overweight->status = ($overweight->status == 1) ? 0 : 1;
-        $overweight->save();
+      $msg = [
+          'title' => 'Deleted!',
+          'type' => 'success',
+          'text' => 'Subject deleted successfully.'
+      ];
 
-        $msg = [
-            'title' => 'Deleted!',
-            'type' => 'success',
-            'text' => 'Overweight deleted successfully.'
-        ];
-
-        return response()->json($msg);
+      return response()->json($msg);
     }
 
     /**
@@ -79,10 +82,11 @@ class OverweightController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Overweight $overweight)
+    public function edit(Subject $subject)
     {
+        $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = PortName::pluck('name','id')->toArray();
-        return view('remarks.index',['overweight' => $overweight,'concepts' => 0,'inlands' => 0,'subject' => 0,'port' => $ports]);
+        return view('remarks.index',['overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
     }
 
     /**
@@ -92,22 +96,21 @@ class OverweightController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Overweight $overweight)
+    public function update(Request $request, Subject $subject)
     {
-
       $this->validate($request, $this->rules());
 
-      $overweight->fill($request->all());
-      $overweight->save();
+      $subject->fill($request->all());
+      $subject->save();
 
       $msg = [
           'title' => 'Edited!',
           'type' => 'success',
-          'text' => 'Overweight edited successfully.'
+          'text' => 'Subject edited successfully.'
       ];
 
 
-      return redirect('/remarks')->with(['message'=> $msg,'overweight' => $overweight,'concepts'=>0,'subject'=>0,'inlands'=>0]);
+      return redirect('/remarks')->with(['message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>$subject,'inlands'=>0]);
 
     }
 
@@ -119,25 +122,30 @@ class OverweightController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+
+    public function toDatatable()
+    {
+
+      $subject = DB::table('subjectto')
+            ->select('subjectto.id','subjectto.cost','subjectto.status', 'concepts.name')
+            ->join('concepts', 'concepts.id', '=', 'subjectto.concept_id')
+            ->where('subjectto.status',1)->get();
+        return Datatables::of($subject)
+            ->addColumn('actions', function ($subject) {
+                return view('subject.partials.buttons', ['subject' => $subject]);
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 
     private function rules()
     {
         return [
-            'rangeup' => 'required|numeric',
-            'rangeto' => 'required|numeric',
-            'cost' => 'required|numeric',
+            'concept_id' => 'required|not_in:0',
+            'cost' => 'required|not_in:0|numeric',
         ];
     }
 
-    public function toDatatable() {
-        $overweight = Overweight::where('status', 1)->get();
-        return Datatables::of($overweight)
-            ->addColumn('actions', function ($overweight) {
-                return view('overweight.partials.buttons', ['overweight' => $overweight]);
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
-    }
 }

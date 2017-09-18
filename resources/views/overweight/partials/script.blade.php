@@ -52,12 +52,12 @@
         });
     });//BUTTON .active-bankAccount
 
-    $('body').delegate('.status-bankAccount','click',function(){
-        id_bankAccount = $(this).attr('id_bankAccount');
-        bankAccount_name = $(this).attr('bankAccount_name');
+    $('body').delegate('.status-overweight','click',function(){
+        id_overweight = $(this).attr('id_overweight');
+
         swal({
             title: 'Are you sure?',
-            text: "you want to remove the bankAccount?",
+            text: "you want to remove the overweight?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -66,12 +66,11 @@
             confirmButtonText: 'Yes, remove!'
         }).then(function () {
             $.ajax({
-                url: '/bank-accounts/' + id_bankAccount + '/status',
-                type: 'GET',
+                url: '/overweight/' + id_overweight ,
+                type: 'GET', 
                 dataType: 'json',
-                data: {id: id_bankAccount}
+                data: {id: id_overweight}
             }).done(function(data){
-                console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTableBank.ajax.reload();
             });
@@ -88,17 +87,6 @@
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
     });
-
-    function resetBankAccountInputs() {
-        $('[name="account"]').val('');
-        $('[name="bank"]').val('');
-        $('[name="clabe"]').val('');
-        $('[name="aba"]').val('');
-        $('[name="swift"]').val('');
-        $('[name="reference"]').val('');
-        $('[name="beneficiary"]').val('');
-    }
-
 
     @if (Session::has('message'))
         sAlert(
@@ -118,5 +106,6 @@
             timer: 3000
         });
     }
+
 </script>
 @endpush

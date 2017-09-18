@@ -24,7 +24,6 @@ class ConceptsController extends Controller
         ->rawColumns(['actions'])
         ->make(true);
     }
-
     public function store(Request $request)
     {
 

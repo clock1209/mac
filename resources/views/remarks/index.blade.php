@@ -24,39 +24,25 @@
         </div>
         <br>
         <div role="tabpanel" class="tab-pane @if ($overweight) active @else @endif"  id="tab2">
-        
           @if($overweight)
               @include('overweight.edit')
           @else
               @include('overweight.index')
           @endif
-
         </div>
         <div role="tabpanel" class="tab-pane" id="tab3">
-          TAB 3
-          {!! Form::open(['route'=>'remarks.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
-        <div class="form-group">
-          <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-              {!! Form::textarea('name', null, ['class' => 'form-control','required','placeholder'=>'Name*' ]) !!}
-          </div>
-          <div class="col-md-2 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-          </div>
-        </div>
-        {!! Form::close() !!}
+          @if($subject)
+              @include('subject.edit')
+          @else
+              @include('subject.index')
+          @endif
         </div>
         <div role="tabpanel" class="tab-pane" id="tab4">
-          TAB 4
-          {!! Form::open(['route'=>'remarks.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
-        <div class="form-group">
-          <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-              {!! Form::textarea('name', null, ['class' => 'form-control','required','placeholder'=>'Name*' ]) !!}
-          </div>
-          <div class="col-md-2 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-          </div>
-        </div>
-        {!! Form::close() !!}
+          @if($inlands)
+              @include('inlandscharges.edit')
+          @else
+              @include('inlandscharges.index')
+          @endif
         </div>
     </div>
 </div>

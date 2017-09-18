@@ -111,9 +111,14 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ REMARK'S ROUTES ------------------*/
     Route::resource('remarks','RemarkController');
 
-    /*------------------ REMARK'S ROUTES ------------------*/
+    /*------------------ OVERWEIGHT'S ROUTES ------------------*/
     Route::resource('overweight','OverweightController');
 
+    /*------------------ SUBJECT'S ROUTES ------------------*/
+    Route::resource('subject','SubjectController');
+
+    /*------------------ INLANDS'S ROUTES ------------------*/
+    Route::resource('inlandscharges','InlandController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

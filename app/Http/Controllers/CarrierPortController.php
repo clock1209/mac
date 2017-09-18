@@ -25,7 +25,6 @@ class CarrierPortController extends Controller
               return $this->toDatatable($request->id);
           }
 
-
       return view('carrierport.index');
     }
 
@@ -36,14 +35,7 @@ class CarrierPortController extends Controller
      */
     public function create(Request $request)
     {
-        /*$carrierPort = CarrierPort::pluck('port','arbitraryone',
-        'arbitrarytwo','arbitrarythree','departures','tt',
-        'rate','remarks','pricecal_id')->toArray();
 
-        dd($carrierPort);
-
-        'carrierport' => $carrierPort,
-        */
         $price = Price::select('id','name') ->where('status', '=', 1)->get();
         $ports = PortName::pluck('name','id')->toArray();
 

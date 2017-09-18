@@ -1,0 +1,172 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Remark;
+use App\Subject;
+use App\Concepts;
+use App\Inlandscharges;
+use App\PortName;
+use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
+
+class InlandController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            return $this->toDatatable();
+        }
+        return view('remarks.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+      $request->flash();
+      $this->validate($request, $this->rules());
+      $Id = Inlandscharges::create($request->all());
+      $Id->dischargeport_id = $request->dischargeport_id;
+      $Id->delivery_id = $request->delivery_id;
+      $Id->save();
+
+      $msg = [
+          'title' => 'Created!',
+          'type' => 'success',
+          'text' => 'Inlands created successfully.'
+      ];
+
+      return redirect('/remarks')->with('message', $msg);
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit( $inlands)
+    {
+
+        $inland = Inlandscharges::find($inlands);
+        $concepts = Concepts::pluck('name', 'id')->toArray();
+        $ports = PortName::pluck('name','id')->toArray();
+        return view('remarks.index',['port' => $ports,'inlands' => $inland,'overweight' => 0,'subject' => 0,'concepts' => $concepts]);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+
+      $inland = Inlandscharges::find($id);
+      $this->validate($request, $this->rules());
+
+      $inland->fill($request->all());
+      $inland->save();
+
+      $msg = [
+          'title' => 'Edited!',
+          'type' => 'success',
+          'text' => 'Inlands edited successfully.'
+      ];
+
+      return redirect('/remarks')->with(['message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>0,'inlands'=>$inland]);
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Subject $subject)
+    {
+      $subject->status = ($subject->status == 1) ? 0 : 1;
+      $subject->save();
+
+      $msg = [
+          'title' => 'Deleted!',
+          'type' => 'success',
+          'text' => 'Subject deleted successfully.'
+      ];
+
+      return response()->json($msg);
+
+    }
+
+    public function toDatatable()
+    {
+
+      $inlandscharges = DB::table('inlandscharges')
+        ->join('portsname as dischargeport', 'inlandscharges.dischargeport_id', '=', 'dischargeport.id')
+        ->join('portsname as delivery', 'inlandscharges.delivery_id', '=', 'delivery.id')
+        ->select('inlandscharges.id','inlandscharges.dischargeport_id','inlandscharges.delivery_id',
+        'inlandscharges.rangeup','inlandscharges.rangeto','inlandscharges.cost','inlandscharges.container',
+        'inlandscharges.currency','inlandscharges.status','dischargeport.name as nameone',
+        'delivery.name as nametwo','inlandscharges.type')
+            ->where('inlandscharges.status',1)->get();
+        return Datatables::of($inlandscharges)
+            ->addColumn('actions', function ($inlandscharges) {
+                return view('inlandscharges.partials.buttons', ['inlands' => $inlandscharges]);
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    private function rules()
+    {
+        return [
+            'type' => 'required|',
+            'cost' => 'required|not_in:0|numeric',
+            'dischargeport_id' => 'required|not_in:0',
+            'delivery_id' => 'required|not_in:0',
+            'currency' => 'required|not_in:0',
+            'rangeup' => 'required|not_in:0',
+            'rangeto' => 'required|not_in:0',
+            'cost' => 'required|not_in:0',
+        ];
+    }
+
+}

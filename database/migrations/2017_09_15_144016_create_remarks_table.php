@@ -30,6 +30,7 @@ class CreateRemarksTable extends Migration
       $table->float('rangeto');
       $table->float('cost');
       $table->string('currency');
+      $table->char('status',1)->default(1);
       $table->timestamps();
       });
 
@@ -38,6 +39,7 @@ class CreateRemarksTable extends Migration
       $table->integer('concept_id')->unsigned()->nullable();
       $table->foreign('concept_id')->references('id')->on('concepts');
       $table->float('cost');
+      $table->char('status',1)->default(1);
       $table->timestamps();
       });
 
@@ -53,6 +55,7 @@ class CreateRemarksTable extends Migration
       $table->float('cost');
       $table->string('container');
       $table->string('currency');
+      $table->char('status',1)->default(1);
       $table->timestamps();
       });
 

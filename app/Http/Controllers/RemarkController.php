@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Remark;
+use App\Concepts;
+use App\PortName;
 
 class RemarkController extends Controller
 {
@@ -14,7 +16,9 @@ class RemarkController extends Controller
      */
     public function index()
     {
-        return view('remarks.index',['overweight' => 0]);
+        $concepts = Concepts::pluck('name', 'id')->toArray();
+        $ports = PortName::pluck('name','id')->toArray();
+        return view('remarks.index',['overweight' => 0,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports]);
     }
 
     /**

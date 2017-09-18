@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subjectto extends Model
+class Subject extends Model
 {
   protected $table = 'subjectto';
 
@@ -13,5 +13,10 @@ class Subjectto extends Model
       'concept_id',
       'cost'
   ];
+
+  public function concepts()
+  {
+    return $this->hasMany(Concepts::class,'concept_id','id');
+  }
 
 }

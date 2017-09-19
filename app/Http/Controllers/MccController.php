@@ -56,9 +56,8 @@ class MccController extends Controller
            'text' => 'Mcc created successfully.'
        ];
 
-       return redirect('/consolidators')->with('message', $msg);
+       return redirect('/mcc')->with('message', $msg);
 
-        dd($request);
     }
 
     /**
@@ -133,7 +132,7 @@ class MccController extends Controller
     private function rules()
     {
         return [
-            'cost' => 'required|numeric',
+            'cost' => 'required|numeric|digits_between:1,6',
             'currency'    => 'required',
         ];
     }

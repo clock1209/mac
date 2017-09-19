@@ -1,111 +1,93 @@
-@push('scripts')
-<script>
+@push('scripts') <script >
     var dTableBank = $("#overweight-table").DataTable({
         ajax: '/overweight',
-        columns: [
-            {data: 'container'},
-            {data: 'currency'},
-            {data: 'rangeup'},
-            {data: 'cost'},
-            {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
+        columns: [{
+                data: 'container'
+            },
+            {
+                data: 'currency'
+            },
+            {
+                data: 'rangeup'
+            },
+            {
+                data: 'cost'
+            },
+            {
+                data: 'actions',
+                name: 'actions',
+                orderable: false,
+                serchable: false,
+                bSearchable: false
+            }
         ],
         "columnDefs": [{
-        "targets": 2,
-        "data": "rangeup",
-        "render": function ( data, type, full, meta )
-        {
-          return full.rangeup+" - "+full.rangeto;
-        }
-      }]
-    });/*datatable*/
+            "targets": 2,
+            "data": "rangeup",
+            "render": function(data, type, full, meta) {
+                return full.rangeup + " - " + full.rangeto;
+            }
+        }]
+    }); /*datatable*/
 
-    $('#btn-bank-account').click( function() {
-        $('div.has-error').removeClass('has-error');
-        $('span.help-block').remove();
+$('body').delegate('.status-overweight', 'click', function() {
+    id_overweight = $(this).attr('id_overweight');
+
+    swal({
+        title: 'Are you sure?',
+        text: "you want to remove the overweight?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes, remove!'
+    }).then(function() {
         $.ajax({
-            url: '/bank-accounts',
-            type: 'POST',
+            url: '/overweight/' + id_overweight,
+            type: 'GET',
             dataType: 'json',
             data: {
-                pay_of:  $('[name="pay_of"]').val(),
-                account: $('[name="account"]').val(),
-                bank: $('[name="bank"]').val(),
-                clabe: $('[name="clabe"]').val(),
-                aba: $('[name="aba"]').val(),
-                swift: $('[name="swift"]').val(),
-                reference: $('[name="reference"]').val(),
-                currency: $('[name="currency"]').val(),
-                beneficiary: $('[name="beneficiary"]').val(),
-                supplier_id: $('[name="supplier_id"]').val()
+                id: id_overweight
             }
-        }).done(function (data) {
-            console.log(data);
-            resetBankAccountInputs();
+        }).done(function(data) {
             sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
-        }).fail(function (data) {
-            var errors = data.responseJSON;
-            $.each(errors, function(index, value){
-                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
-                    .parent().addClass('has-error');
-            });
-        });
-    });//BUTTON .active-bankAccount
-
-    $('body').delegate('.status-overweight','click',function(){
-        id_overweight = $(this).attr('id_overweight');
-
-        swal({
-            title: 'Are you sure?',
-            text: "you want to remove the overweight?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, remove!'
-        }).then(function () {
-            $.ajax({
-                url: '/overweight/' + id_overweight ,
-                type: 'GET', 
-                dataType: 'json',
-                data: {id: id_overweight}
-            }).done(function(data){
-                sAlert(data.title, data.type, data.text);
-                dTableBank.ajax.reload();
-            });
-        });
-    });//BUTTON .active-bankAccount
-
-    $(document).ready(function () {
-        var currency = {{ require('./js/currency.json') }};
-        $('#currency').empty();
-        $('#currency').select2();
-        $.each( currency, function (i, item)
-        {
-            selected = (i != 0) ? '' : ' selected';
-            $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
     });
+}); //BUTTON .active-bankAccount
 
-    @if (Session::has('message'))
-        sAlert(
-        "{{ Session::get('message.title') }}",
-        "{{ Session::get('message.type') }}",
-        "{{ Session::get('message.text') }}"
-    );
-    @endif
+$(document).ready(function() {
+    var currency = {
+        {
+            require('./js/currency.json')
+        }
+    };
+    $('#currency').empty();
+    $('#currency').select2();
+    $.each(currency, function(i, item) {
+        selected = (i != 0) ? '' : ' selected';
+        $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+    });
+});
 
-    function sAlert(title, type, text)
-    {
-        swal({
-            title: title,
-            type: type,
-            text: text,
-            confirmButtonText: "Continue",
-            timer: 3000
-        });
-    }
+@if(Session::has('message'))
+sAlert(
+    "{{ Session::get('message.title') }}",
+    "{{ Session::get('message.type') }}",
+    "{{ Session::get('message.text') }}"
+);
+@endif
+
+function sAlert(title, type, text) {
+    swal({
+        title: title,
+        type: type,
+        text: text,
+        confirmButtonText: "Continue",
+        timer: 3000
+    });
+}
 
 </script>
 @endpush

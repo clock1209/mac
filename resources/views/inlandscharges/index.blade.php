@@ -76,7 +76,7 @@
 <br>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
-    <table class="table table-bordered table-hover" id="rail-truck-table">
+    <table class="table table-bordered table-hover" id="all-truck-table">
         <thead>
           <tr>
               <th>Place</th>
@@ -93,7 +93,7 @@
 <br>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
-    <table class="table table-bordered table-hover" id="rail-truck-table">
+    <table class="table table-bordered table-hover" id="rail-ramp-table">
         <thead>
           <tr>
               <th>Place</th>

@@ -49,7 +49,8 @@ class OverweightController extends Controller
           'text' => 'Overweight created successfully.'
       ];
 
-      return redirect('/remarks')->with('message', $msg);
+      return redirect('/remarks')->with(['message'=> $msg,'overweight' => 1]);
+
     }
 
     /**
@@ -82,7 +83,7 @@ class OverweightController extends Controller
     public function edit(Overweight $overweight)
     {
         $ports = PortName::pluck('name','id')->toArray();
-        return view('remarks.index',['overweight' => $overweight,'concepts' => 0,'inlands' => 0,'subject' => 0,'port' => $ports]);
+        return view('remarks.index',['tab' => 1,'overweight' => $overweight,'concepts' => 0,'inlands' => 0,'subject' => 0,'port' => $ports]);
     }
 
     /**
@@ -107,7 +108,7 @@ class OverweightController extends Controller
       ];
 
 
-      return redirect('/remarks')->with(['message'=> $msg,'overweight' => $overweight,'concepts'=>0,'subject'=>0,'inlands'=>0]);
+      return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => $overweight,'concepts'=>0,'subject'=>0,'inlands'=>0]);
 
     }
 

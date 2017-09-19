@@ -14,11 +14,12 @@ class RemarkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+      
         $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = PortName::pluck('name','id')->toArray();
-        return view('remarks.index',['overweight' => 0,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports]);
+        return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports]);
     }
 
     /**

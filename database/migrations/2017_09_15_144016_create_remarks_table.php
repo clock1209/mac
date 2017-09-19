@@ -45,16 +45,16 @@ class CreateRemarksTable extends Migration
 
       Schema::create('inlandscharges', function (Blueprint $table) {
       $table->increments('id');
-      $table->string('type');
+      $table->string('type')->nullable();
       $table->integer('dischargeport_id')->unsigned()->nullable();
       $table->foreign('dischargeport_id')->references('id')->on('portsname');
       $table->integer('delivery_id')->unsigned()->nullable();
       $table->foreign('delivery_id')->references('id')->on('portsname');
-      $table->float('rangeup');
-      $table->float('rangeto');
-      $table->float('cost');
-      $table->string('container');
-      $table->string('currency');
+      $table->float('rangeup')->nullable();
+      $table->float('rangeto')->nullable();
+      $table->float('cost')->nullable();
+      $table->string('container')->nullable();
+      $table->string('currency')->nullable();
       $table->char('status',1)->default(1);
       $table->timestamps();
       });

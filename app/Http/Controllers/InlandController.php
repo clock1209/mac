@@ -58,7 +58,7 @@ class InlandController extends Controller
           'text' => 'Inlands created successfully.'
       ];
 
-      return redirect('/remarks')->with('message', $msg);
+      return redirect('/remarks')->with(['tab'=> 3,'message'=> $msg]);
 
     }
 
@@ -85,7 +85,7 @@ class InlandController extends Controller
         $inland = Inlandscharges::find($inlands);
         $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = PortName::pluck('name','id')->toArray();
-        return view('remarks.index',['port' => $ports,'inlands' => $inland,'overweight' => 0,'subject' => 0,'concepts' => $concepts]);
+        return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,'overweight' => 0,'subject' => 0,'concepts' => $concepts]);
 
     }
 
@@ -111,7 +111,7 @@ class InlandController extends Controller
           'text' => 'Inlands edited successfully.'
       ];
 
-      return redirect('/remarks')->with(['message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>0,'inlands'=>$inland]);
+      return redirect('/remarks')->with(['tab'=> 3,'message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>0,'inlands'=>$inland]);
 
     }
 
@@ -121,10 +121,11 @@ class InlandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy($inlands)
     {
-      $subject->status = ($subject->status == 1) ? 0 : 1;
-      $subject->save();
+      $inland = Inlandscharges::find($inlands);
+      $inland->status = ($inland->status == 1) ? 0 : 1;
+      $inland->save();
 
       $msg = [
           'title' => 'Deleted!',

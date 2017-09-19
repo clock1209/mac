@@ -29,23 +29,36 @@
     }
   ],
   initComplete: function () {
-            this.api().columns().every(function () {
-                var column = this;
-                console.log(column[0][0])
-                if(column[0][0] == 'All truck'){
-                  console("fltrar")
-                }
-            });
-        }
-    });/*datatable Rail*/
+    var table2 = $('#all-truck-table').DataTable();
+    var table3 = $('#rail-ramp-table').DataTable();
+      this.api().rows().every(function () {
+          var rows = this.data();
+          var row = this;
+          var rowNode = row.node();
 
+            if(rows.type=="Rail + truck")
+            {
+
+            }
+            else if(rows.type=="All truck"){
+
+              table2.row.add( rowNode ).draw();
+            }
+            else {
+
+              table3.row.add( rowNode ).draw();
+            }
+      });
+
+      }
+    });/*datatable Rail*/
 
     $('body').delegate('.status-inlands','click',function(){
         id_inlands = $(this).attr('id_inlands');
 
         swal({
             title: 'Are you sure?',
-            text: "you want to remove the overweight?",
+            text: "you want to remove the Inlands?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -55,12 +68,12 @@
         }).then(function () {
             $.ajax({
                 url: '/inlandscharges/' + id_inlands ,
-                type: 'GET',
+                type: 'DELETE',
                 dataType: 'json',
-                data: {id: id_overweight}
+                data: {id: id_inlands}
             }).done(function(data){
                 sAlert(data.title, data.type, data.text);
-                rail_truck_table.ajax.reload();
+                location.reload();
             });
         });
     });//BUTTON .active-bankAccount

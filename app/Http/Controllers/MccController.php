@@ -58,7 +58,6 @@ class MccController extends Controller
 
        return redirect('/consolidators')->with('message', $msg);
 
-        dd($request);
     }
 
     /**

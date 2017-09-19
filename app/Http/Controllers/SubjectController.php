@@ -52,7 +52,7 @@ class SubjectController extends Controller
           'text' => 'Subject created successfully.'
       ];
 
-      return redirect('/remarks')->with('message', $msg);
+      return redirect('/remarks')->with(['tab'=> 2,'message'=> $msg]);
 
     }
 
@@ -86,7 +86,7 @@ class SubjectController extends Controller
     {
         $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = PortName::pluck('name','id')->toArray();
-        return view('remarks.index',['overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
+        return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
     }
 
     /**
@@ -110,7 +110,7 @@ class SubjectController extends Controller
       ];
 
 
-      return redirect('/remarks')->with(['message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>$subject,'inlands'=>0]);
+      return redirect('/remarks')->with(['tab'=> 2,'message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>$subject,'inlands'=>0]);
 
     }
 

@@ -74,11 +74,7 @@ $('body').delegate('.delete-carrier', 'click', function() {
 }); //BUTTON .delete-shipper
 
 $(document).ready(function() {
-    var currency = {
-        {
-            require('./js/currency.json')
-        }
-    };
+    var currency = {{ require('./js/currency.json') }};
     $('#currency').empty();
     $('#currency').select2();
     $.each(currency, function(i, item) {

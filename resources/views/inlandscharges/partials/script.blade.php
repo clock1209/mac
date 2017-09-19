@@ -92,11 +92,7 @@ $('body').delegate('.status-inlands', 'click', function() {
 }); //BUTTON
 
 $(document).ready(function() {
-    var currency = {
-        {
-            require('./js/currency.json')
-        }
-    };
+    var currency = {{ require('./js/currency.json') }};
     $('#currency_id').empty();
     $('#currency_id').select2();
     $.each(currency, function(i, item) {

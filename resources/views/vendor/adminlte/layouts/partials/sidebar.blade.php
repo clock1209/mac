@@ -32,7 +32,7 @@
             {{--<li><a href="#"><i class='fa fa-money'></i> <span>Concepts</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>--}}
             <li><a href="{{ url('concepts') }}"><i class='fa fa-money'></i> <span>Concepts</span></a></li>
-            <li><a href="{{ url('shippers') }}"><i class='fa fa-truck'></i> <span>Shippers</span></a></li>
+            
             {{--<li><a href="#"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-ship'></i> <span>Carriers</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-signal'></i> <span>Rates</span></a></li>--}}

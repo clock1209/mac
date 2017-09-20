@@ -8,7 +8,8 @@
 @endsection
 
 @section('main-content')
-    <a class="btn btn-default" href="{{ route('customers.create') }}"><b>New Customer</b></a><br><br>
+    <a class="btn btn-default" href="{{ route('customers.create') }}"><b>New Customer</b></a>
+  
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="customers-table">

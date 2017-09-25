@@ -5,7 +5,7 @@
 @endsection
 
 @section('contentheader_title')
-    reate Carrier Port
+    Create Carrier Port
 @endsection
 
 @section('main-content')

@@ -46,7 +46,7 @@ console.log(id)
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, delete this carrier!'
+            confirmButtonText: 'Yes, delete this carrier port!'
         }).then(function () {
             $.ajax({
                 url: '/carrierport/' + carrier_id,

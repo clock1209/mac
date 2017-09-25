@@ -3,7 +3,7 @@
   <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
     <label for="demurrage_lbl" class="control-label">Type*</label>
     {!! Form::select('type',
-    [0 => 'Selecciona una opción','Rail + truck' => 'Rail + truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],
+    [0 => 'Selecciona una opción','Rail & truck' => 'Rail & truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],
     $inlands ? $inlands->type : null,
     ['class'=>'form-control', 'required']) !!}
   </div>
@@ -18,11 +18,11 @@
 <div class="row">
   <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
       <label for="type_lbl" class="control-label">Discharge Port*:</label>
-          {{ Form::select('dischargeport_id', [0=>'Seleccionar una opción',$port], null, ['class'=>'form-control']) }}
+          {{ Form::select('dischargeport_id', $port, null, ['class'=>'form-control']) }}
   </div>
   <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
       <label for="type_lbl" class="control-label">Delivery*:</label>
-          {{ Form::select('delivery_id', ['0'=>'Seleccionar una opción',$port], null, ['class'=>'form-control']) }}
+          {{ Form::select('delivery_id', $port, null, ['class'=>'form-control']) }}
   </div>
 </div>
 <br>
@@ -56,6 +56,7 @@
   </div>
 </div>
 <br>
+<h4 class="n-caption">Rail & Truck</h4>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
     <table class="table table-bordered table-hover" id="rail-truck-table">
@@ -74,6 +75,7 @@
   </div>
 </div>
 <br>
+<h4 class="n-caption">All Truck</h4>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
     <table class="table table-bordered table-hover" id="all-truck-table">
@@ -91,6 +93,7 @@
   </div>
 </div>
 <br>
+<h4 class="n-caption">Rail ramp</h4>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
     <table class="table table-bordered table-hover" id="rail-ramp-table">

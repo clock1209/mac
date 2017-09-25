@@ -52,8 +52,7 @@ class SubjectController extends Controller
           'text' => 'Subject created successfully.'
       ];
 
-      return redirect('/remarks')->with(['tab'=> 2,'message'=> $msg]);
-
+      return redirect('/remarks')->with(['tab' => 2,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
     }
 
     /**
@@ -85,7 +84,8 @@ class SubjectController extends Controller
     public function edit(Subject $subject)
     {
         $concepts = Concepts::pluck('name', 'id')->toArray();
-        $ports = PortName::pluck('name','id')->toArray();
+        $ports = [0 => 'Select Port'];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
     }
 

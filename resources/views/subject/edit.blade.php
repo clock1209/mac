@@ -1,4 +1,5 @@
 {!! Form::model($subject,['route' => ['subject.update',$subject->id], 'method' => 'PUT','class' =>'form-horizontal' ]) !!}
+
 <div class="row">
   <div class="col-md-3 col-sm-12{{ $errors->has('concept') ? ' has-error' : '' }}">
       <label for="concept_lbl" class="control-label">Concept*:</label>

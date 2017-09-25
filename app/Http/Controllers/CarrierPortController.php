@@ -37,7 +37,8 @@ class CarrierPortController extends Controller
     {
 
         $price = Price::select('id','name') ->where('status', '=', 1)->get();
-        $ports = PortName::pluck('name','id')->toArray();
+        $ports = [0 => 'Select Port'];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
 
         return view('carrierport.create', ['port' => $ports, 'prices' => $price,'id' => $request->id]);
     }
@@ -85,7 +86,8 @@ class CarrierPortController extends Controller
     {
 
       $price = Price::select('id','name') ->where('status', '=', 1)->get();
-      $ports = PortName::pluck('name','id')->toArray();
+      $ports = [0 => 'Select Port'];
+      $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
       return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 
@@ -100,6 +102,14 @@ class CarrierPortController extends Controller
     {
 
       $request->flash();
+
+      if($request->include_subagent==1){
+        $carrierport->include_subagent = $request->include_subagent;
+
+      }
+      else {
+          $carrierport->include_subagent =0;
+      }
       $this->validate($request, $this->rules());
 
       $carrierport->fill($request->all());
@@ -120,9 +130,31 @@ class CarrierPortController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Carrierport $carrierport)
     {
-        //
+      if ($carrierport) {
+          $status = $carrierport->status ? 0 : 1;
+
+          if($status) {
+              $msg = [
+                  'title' => 'Activated!',
+                  'type' => 'success',
+                  'text' => 'Carrier activaded successfully.'
+              ];
+          } else {
+              $msg = [
+                  'title' => 'Deleted!',
+                  'type' => 'success',
+                  'text' => 'Carrier Port deleted successfully.'
+              ];
+          }
+
+          $carrierport->status = $status;
+          $carrierport->save();
+
+          return response()->json($msg);
+      }
+      return abort(404);
     }
 
     public function toDatatable($id)
@@ -146,6 +178,7 @@ class CarrierPortController extends Controller
     {
         return [
             'rate' => 'required|not_in:0',
+            'tt' => 'numeric',
             'departures' => 'required|not_in:0',
             'arbitraryone' => 'required|numeric',
             'arbitrarytwo' => 'required|numeric',

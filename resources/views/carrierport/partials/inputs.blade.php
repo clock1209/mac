@@ -41,11 +41,16 @@
             $carrierport ? $carrierport->rate : null,
             ['class'=>'form-control', 'required']) !!}
         </div>
+
         <br><br><br>
         <div class="col-md-7 col-sm-10{{ $errors->has('remarks') ? ' has-error' : '' }}">
-            <label for="departure_lbl" class="control-label">Remarks*:</label>
+            <label for="departure_lbl" class="control-label">Remarks:</label>
             {!! Form::textarea('remarks',$carrierport ? $carrierport->remarks : old('remarks'),['class'=>'field']) !!}
         </div>
+      </div>
+      <div class="col-md-3 col-sm-3{{ $errors->has('rate') ? ' has-error' : '' }}">
+            <h6 class="n-caption">Include Subagent:</h6>
+          {!! Form::checkbox('include_subagent',1,$carrierport ? $carrierport->include_subagent : old('include_subagent'), ['class' => 'field']) !!}
       </div>
       <div class="col-md-6">
         <div class="col-md-6 col-sm-10{{ $errors->has('price') ? ' has-error' : '' }}">

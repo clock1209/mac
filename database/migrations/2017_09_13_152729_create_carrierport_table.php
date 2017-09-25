@@ -23,6 +23,7 @@ class CreateCarrierportTable extends Migration
         $table->string('departures');
         $table->string('tt');
         $table->string('rate');
+        $table->integer('include_subagent')->default(0);
         $table->text('remarks')->nullable();
         $table->integer('pricecal_id')->unsigned()->nullable();
         $table->foreign('pricecal_id')->references('id')->on('pricecal');

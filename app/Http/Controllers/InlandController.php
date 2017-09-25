@@ -84,7 +84,8 @@ class InlandController extends Controller
 
         $inland = Inlandscharges::find($inlands);
         $concepts = Concepts::pluck('name', 'id')->toArray();
-        $ports = PortName::pluck('name','id')->toArray();
+        $ports = [0 => 'Select Port'];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,'overweight' => 0,'subject' => 0,'concepts' => $concepts]);
 
     }
@@ -166,7 +167,7 @@ class InlandController extends Controller
             'currency' => 'required|not_in:0',
             'rangeup' => 'required|not_in:0',
             'rangeto' => 'required|not_in:0',
-            'cost' => 'required|not_in:0',
+            'cost' => 'required|not_in:0|numeric',
         ];
     }
 

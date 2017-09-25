@@ -16,9 +16,14 @@ class RemarkController extends Controller
      */
     public function index(Request $request)
     {
+
+
+        $ports = [0 => 'Select Port'];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+
+        $concepts = [0 => 'Select Concept'];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
       
-        $concepts = Concepts::pluck('name', 'id')->toArray();
-        $ports = PortName::pluck('name','id')->toArray();
         return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports]);
     }
 

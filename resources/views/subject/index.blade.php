@@ -1,11 +1,9 @@
 {!! Form::open(['route'=>'subject.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
+
 <div class="row">
   <div class="col-md-3 col-sm-12{{ $errors->has('concept') ? ' has-error' : '' }}">
       <label for="concept_lbl" class="control-label">Concept*:</label>
-      {!! Form::select('concept_id',
-      [0=>'Seleccionar una opción',$concepts],
-      $subject ? $subject->concept_id : null,
-      ['class'=>'form-control', 'required']) !!}
+      {!! Form::select('concept_id',$concepts,$subject ? $subject->concept_id : null,['class'=>'form-control', 'required']) !!}
   </div>
   <div class="col-md-3 col-sm-12{{ $errors->has('cost') ? ' has-error' : '' }}">
       <label for="cost_lbl" class="control-label">Cost*:</label>

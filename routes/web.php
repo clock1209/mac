@@ -87,9 +87,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     /*------------------ CUSTOMER'S ROUTES ------------------*/
-    Route::resource('customers','customerController');
-    Route::get('/customers/{customer}/status','customerController@CustomerStatus');
-    Route::get('CustomersBrokersDelete', 'customerController@deleteCustomerBroker');
+    Route::resource('customers','CustomerController');
+    Route::get('/customers/{customer}/status','CustomerController@CustomerStatus');
+    Route::get('CustomersBrokersDelete', 'CustomerController@deleteCustomerBroker');
 
     /*------------------ CUSTOMER BROKER ROUTES ------------------*/
     Route::resource('broker','BrokerController');

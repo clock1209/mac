@@ -26,13 +26,13 @@
 {{--            <li class="active"><a href="{{ url('shipments') }}"><i class='fa fa-list-alt'></i> <span>Shipments</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-list-alt'></i> <span>Shipping history</span></a></li>--}}
             <li><a href="{{url('users')}}"><i class='fa fa-user'></i> <span>Users</span></a></li>
-            <li><a href="{{url('consolidators')}}"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>
             <li><a href="{{url('customers')}}"><i class='fa fa-users'></i> <span>Customers</span></a></li>
             <li><a href="{{ url('suppliers') }}"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>
             {{--<li><a href="#"><i class='fa fa-money'></i> <span>Concepts</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-car'></i> <span>Suppliers</span></a></li>--}}
             <li><a href="{{ url('concepts') }}"><i class='fa fa-money'></i> <span>Concepts</span></a></li>
-            
+            <li><a href="{{url('consolidators')}}"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>
+            <li><a href="{{url('carriers')}}"><i class='fa fa-ship'></i> <span>Carriers</span></a></li>
             {{--<li><a href="#"><i class='fa fa-bus'></i> <span>Consolidators</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-ship'></i> <span>Carriers</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-signal'></i> <span>Rates</span></a></li>--}}

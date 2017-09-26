@@ -84,6 +84,17 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     /*------------------ CUSTOMER'S ROUTES ------------------*/
     Route::resource('customers','customerController');
     Route::get('/customers/{customer}/status','customerController@CustomerStatus');

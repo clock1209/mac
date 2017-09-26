@@ -49,12 +49,13 @@
         </div>
       </div>
       <div class="col-md-3 col-sm-3{{ $errors->has('rate') ? ' has-error' : '' }}">
-            <h6 class="n-caption">Include Subagent:</h6>
+            Include Subagent:
           {!! Form::checkbox('include_subagent',1,$carrierport ? $carrierport->include_subagent : old('include_subagent'), ['class' => 'field']) !!}
       </div>
+      <br>
       <div class="col-md-6">
         <div class="col-md-6 col-sm-10{{ $errors->has('price') ? ' has-error' : '' }}">
-            <h4 class="n-caption">Price calculation*</h4>
+            <h5 class="n-caption">Price calculation*</h5>
             @if (count($carrierport) === 0)
             @foreach ($prices as $price)
             <p>

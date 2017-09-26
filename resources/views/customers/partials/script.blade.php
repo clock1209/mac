@@ -8,7 +8,6 @@
             {data: 'name'},
             {data: 'business_name'},
             {data: 'rfc'},
-            {data: 'countrycode'},
             {data: 'phone'},
             {data: 'contact_name'},
             {data: 'contact_job'},

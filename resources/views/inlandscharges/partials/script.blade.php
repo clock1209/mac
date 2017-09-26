@@ -49,10 +49,10 @@
                 var rows = this.data();
                 var row = this;
                 var rowNode = row.node();
+                console.log(rows.type);
+                if (rows.type == 'Rail &amp; truck') {
 
-                if (rows.type == "Rail + truck") {
-
-                } else if (rows.type == "All truck") {
+                } else if (rows.type == 'All truck') {
 
                     table2.row.add(rowNode).draw();
                 } else {

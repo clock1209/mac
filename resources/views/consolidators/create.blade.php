@@ -17,12 +17,12 @@
 
     <br>
     <button type="submit" class="btn btn-success"><span class="fa fa-plus"></span> Add</button>
-    <a href="{{ url()->previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+    <a href="{{ url('/consolidators') }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
-    <br />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="consolidators-table">

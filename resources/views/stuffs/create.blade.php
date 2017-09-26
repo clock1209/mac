@@ -19,5 +19,5 @@
     <a href="{{ url()->previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
-    @include('shippers.partials.script')
+    @include('stuffs.partials.script')
 @endsection

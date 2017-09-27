@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*------------------ CONTACT'S ROUTES ------------------*/
     Route::resource('contacts', 'SupplierContactController');
+    Route::get('/contacts/{supplierContact}/edit-contact', 'SupplierContactController@edit')->name('contacts.edit');
+    Route::put('/contacts/{supplierContact}/update-contact', 'SupplierContactController@update')->name('contacts.update');
     Route::get('/contacts/{supplierContact}/status','SupplierContactController@supplierContactStatus');
 
     /*------------------ CONSOLIDATOR'S ROUTES ------------------*/
@@ -83,13 +85,53 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permisos/desasignar','PermissionController@desasignar');
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     /*------------------ CUSTOMER'S ROUTES ------------------*/
-    Route::resource('customers','customerController');
-    Route::get('/customers/{customer}/status','customerController@CustomerStatus');
+    Route::resource('customers','CustomerController');
+    Route::get('/customers/{customer}/status','CustomerController@CustomerStatus');
+    Route::get('CustomersBrokersDelete', 'CustomerController@deleteCustomerBroker');
 
     /*------------------ CUSTOMER BROKER ROUTES ------------------*/
     Route::resource('broker','BrokerController');
     Route::get('/broker/{broker}/status','BrokerController@BrokerStatus');
+
+    /*------------------ DOC'S ROUTES ------------------*/
+    Route::resource('docs','DocController');
+
+    /*------------------ DOC'S ROUTES ------------------*/
+    Route::resource('mcc','MccController');
+
+    /*------------------ CARRIER'S ROUTES ------------------*/
+    Route::resource('carriers','CarrierController');
+
+    /*------------------ CARRIER PORT'S ROUTES ------------------*/
+    Route::resource('carrierport','CarrierPortController');
+
+    /*------------------ CARRIER PORT'S ROUTES ------------------*/
+    Route::resource('prices','PriceController');
+
+    /*------------------ REMARK'S ROUTES ------------------*/
+    Route::resource('remarks','RemarkController');
+
+    /*------------------ OVERWEIGHT'S ROUTES ------------------*/
+    Route::resource('overweight','OverweightController');
+
+    /*------------------ SUBJECT'S ROUTES ------------------*/
+    Route::resource('subject','SubjectController');
+
+    /*------------------ INLANDS'S ROUTES ------------------*/
+    Route::resource('inlandscharges','InlandController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

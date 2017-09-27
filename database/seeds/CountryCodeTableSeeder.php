@@ -250,7 +250,7 @@ class CountryCodeTableSeeder extends Seeder
             array('code' => '58', 'name' => '+58 Venezuela'),
             array('code' => '84', 'name' => '+84 Vietnam'),
             array('code' => '1', 'name' => '+1 Virgin Islands (British)'),
-            array('code' => '1 340', 'name' => '+1 340 Virgin Islands (U.S.)'),
+            array('code' => '1340', 'name' => '+1 340 Virgin Islands (U.S.)'),
             array('code' => '681', 'name' => '+681 Wallis and Futuna Islands'),
             array('code' => '212', 'name' => '+212 Western Sahara'),
             array('code' => '967', 'name' => '+967 Yemen'),

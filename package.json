@@ -37,8 +37,12 @@
   "dependencies": {
     "datatables.net": "^1.10.15",
     "datatables.net-bs": "^1.10.15",
+    "inputmask": "^3.3.8",
+    "jquery-inputmask": "^1.0.1",
+    "jquery-mask-plugin": "^1.14.11",
+    "jquery.inputmask": "^3.3.4",
     "multiselect": "^0.9.12",
     "select2": "^4.0.3",
-    "sweetalert2": "^6.6.8"
+    "sweetalert2": "^6.6.9"
   }
 }

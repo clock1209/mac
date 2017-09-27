@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Database\Query\Builder;
+use Validator;
 
 class BrokerController extends Controller
 {
@@ -42,14 +43,24 @@ class BrokerController extends Controller
      */
     public function store(Request $request)
     {
-//        $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules1());
+
+
         if($request['customer_id']==0){
             $broker = new Broker($request->all());
+            $broker['name']= $request->nameBroker;
+            $broker['email']= $request->emailBroker;
+            $broker['phone']= $request->phoneBroker;
+            $broker['countrycode']= $request->countrycodebroker;
             $broker['customer_id']= null;
             $broker->save();
         }
         if($request['customer_id']!=0){
             $broker = new Broker($request->all());
+            $broker['name']= $request->nameBroker;
+            $broker['email']= $request->emailBroker;
+            $broker['phone']= $request->phoneBroker;
+            $broker['countrycode']= $request->countrycodebroker;
             $broker['customer_id']= $request['customer_id'];
             $broker->customer_id =$request['customer_id'];
             $broker->save();
@@ -137,13 +148,13 @@ class BrokerController extends Controller
             ->rawColumns(['actions'])
             ->make(true);
     }
-    private function rules()
+    private function rules1()
     {
         return [
             'nameBroker' => 'required',
-            'patentBroker' => 'required',
+            'patent' => 'required',
             'emailBroker' => 'required|email',
-            'phoneBroker' => 'required|numeric'
+            'phoneBroker' => 'required|numeric|digits:8'
         ];
     }
 }

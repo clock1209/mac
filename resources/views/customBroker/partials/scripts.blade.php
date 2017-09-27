@@ -6,29 +6,39 @@
             {data: 'name'},
             {data: 'patent'},
             {data: 'email'},
+            {data: 'countrycode'},
             {data: 'phone'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
         ]
     });
 
     $('#btn-customBroker').click( function() {
+        $('div.has-error').removeClass('has-error');
+        $('span.help-block').remove();
         $.ajax({
             url: '/broker',
             type: 'POST',
             dataType: 'json',
             data: {
-                name: $('[name="nameBroker"]').val(),
+                nameBroker: $('[name="nameBroker"]').val(),
                 patent: $('[name="patent"]').val(),
-                email: $('[name="emailBroker"]').val(),
+                emailBroker: $('[name="emailBroker"]').val(),
                 customer_id:$('[name="customer_id"]').val(),
-                phone:$('[name="countrycodebroker"]').val()+' '+$('[name="phoneBroker"]').val(),
+                countrycodebroker:$('[name="countrycodebroker"]').val(),
+                phoneBroker:$('[name="phoneBroker"]').val(),
             }
         }).done(function (data) {
             console.log(data);
             resetBrokerInputs();
             sAlert(data.title, data.type, data.text);
             dTableBroker.ajax.reload();
-        })
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
+        });
     });//BUTTON btn-contact
 
     $('body').delegate('.status-broke','click',function(){

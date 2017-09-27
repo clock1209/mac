@@ -15,6 +15,7 @@ class PortController extends Controller
      */
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
             return $this->toDatatable($request->shipper);
         }
@@ -133,21 +134,12 @@ class PortController extends Controller
     public function toDatatable($shipper = null)
     {
         $ports = Port::where('shipper_id',$shipper)->get();
-        return Datatables::of($ports)
-            ->addColumn('actions', function ($port) {
+
+        return Datatables::of($ports)->addColumn('actions', function ($port) {
                 return view('ports.partials.buttons', ['port' => $port]);
-            })
-            ->editColumn('shipper_id', function ($port) {
+            })->editColumn('shipper_id', function ($port) {
                 return $port->shipper->tradename;
-            })
-            ->editColumn('status', function ($port) {
-                if($port->status)
-                    return 'Activo';
-                else
-                    return 'Inactivo';
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+            })->rawColumns(['actions'])->make(true);
     }
 
     /**

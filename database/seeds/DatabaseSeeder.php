@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CountriesTableSeeder::class);
         $this->call(CountryCodeTableSeeder::class);
         $this->call(SuppliersTableSeeder::class); //don't remove PIVOT
+        $this->call(PriceTableSeeder::class);
+        $this->call(PortsNameTableSeeder::class);
     }
 }

@@ -66,4 +66,5 @@
     </div>
 </div>
 
+@include('bankAccounts.partials.editModal')
 @include('bankAccounts.partials.script')

@@ -40,7 +40,8 @@ class UserController extends Controller
     {
         $data = Role::pluck('display_name','id');
         $msgError = 'Confirm password';
-        return view('users.create',compact('data','msgError'));
+        $msgErrorName = 'Username';
+        return view('users.create',compact('data','msgError','msgErrorName'));
     }
 
     /**
@@ -53,34 +54,46 @@ class UserController extends Controller
     {
         $this->validate($request, $this->rules());
 
-        $user = new User($request->all());
+        $usern = User::where('username',$request['username'])
+            ->where('status',1)
+            ->get();
+        if($usern->isEmpty()){
+            $user = new User($request->all());
 
-        if( $request->password === $request->confirmPass) {
+            if( $request->password === $request->confirmPass) {
 
 
-            $user->password = bcrypt($request['password']);
+                $user->password = bcrypt($request['password']);
 
-            /*------------------ save img ------------------*/
-            $file = $request->file('signature');
-            $filename = $request['username'] . '-' . '.jpg';
-            if ($file) {
-                Storage::disk('local')->put($filename, File::get($file));
+                /*------------------ save img ------------------*/
+                $file = $request->file('signature');
+                $filename = $request['username'] . '-' . '.jpg';
+                if ($file) {
+                    Storage::disk('local')->put($filename, File::get($file));
+                }
+
+                $user->signature = $filename;
+                $user->save();
+                $user->attachRole($request['role']);
+                $msg = [
+                    'title' => 'Created!',
+                    'type' => 'success',
+                    'text' => 'User created successfully.'
+                ];
+
+                return redirect('users')->with('message', $msg);
+            }else{
+                $msgErrorName = 'Username';
+                $msgError = 'The password doesn\'t match Confirm password';
+                $data = Role::pluck('display_name','id');
+                return view('users.create',compact('data','msgError','msgErrorName'));
             }
-
-            $user->signature = $filename;
-            $user->save();
-            $user->attachRole($request['role']);
-            $msg = [
-                'title' => 'Created!',
-                'type' => 'success',
-                'text' => 'User created successfully.'
-            ];
-
-            return redirect('users')->with('message', $msg);
-        }else{
-            $msgError = 'The password doesn\'t match Confirm password';
+        }else {
+            $msgErrorName = 'The username already in use';
+            $msgError = 'Confirm passwor';
             $data = Role::pluck('display_name','id');
-            return view('users.create',compact('data','msgError'));
+            return view('users.create',compact('data','msgError','msgErrorName'));
+
         }
     }
 
@@ -106,7 +119,8 @@ class UserController extends Controller
         $user= User::find($id);
         $data = Role::pluck('display_name','id');
         $msgError = 'Confirm password';
-        return view('users.edit',['user'=>$user],compact('data','msgError'));
+        $msgErrorName = 'Username';
+        return view('users.edit',['user'=>$user],compact('data','msgError','msgErrorName'));
     }
 
     /**
@@ -120,45 +134,60 @@ class UserController extends Controller
     {
         $this->validate($request, $this->rulesEdit());
 
-        $user= User::find($id);
-        $user->fill($request->all());
+        $usern = User::where('username',$request['username'])
+            ->where('status',1)
+            ->where('id','!=',$id)
+            ->get();
+        if($usern->isEmpty()) {
 
-        if ($request['password'] == '') {
-            $user->password = User::find($id)->password;
-        }elseif($request['password'] != ''){
-            $user->password = bcrypt($request['password']);
-        }
 
-        DB::table('role_user')->where('user_id',$id)->delete();
-        $user->attachRole($request['role']);
-        /*------------------ save img ------------------*/
-        $old_name = $user->username;
-        $file = $request->file('signature');
-        $filename = $request['username'] . '-' .  '.jpg';
-        $old_filename = $old_name . '-' . '.jpg';
-        $update = false;
-        if (Storage::disk('local')->has($old_filename)) {
-            $old_file = Storage::disk('local')->get($old_filename);
-            Storage::disk('local')->put($filename, $old_file);
-            $update = true;
-        }
-        if ($file) {
-            Storage::disk('local')->put($filename, File::get($file));
-        }
-        if ($update && $old_filename !== $filename) {
-            Storage::delete($old_filename);
-        }
+            $user = User::find($id);
+            $user->fill($request->all());
 
-        $user->signature = $filename;
-        $user->save();
+            if ($request['password'] == '') {
+                $user->password = User::find($id)->password;
+            } elseif ($request['password'] != '') {
+                $user->password = bcrypt($request['password']);
+            }
 
-        $msg = [
-            'title' => 'Edited!',
-            'type' => 'success',
-            'text' => 'User edited successfully.'
-        ];
+            DB::table('role_user')->where('user_id', $id)->delete();
+            $user->attachRole($request['role']);
+            /*------------------ save img ------------------*/
+            $old_name = $user->username;
+            $file = $request->file('signature');
+            $filename = $request['username'] . '-' . '.jpg';
+            $old_filename = $old_name . '-' . '.jpg';
+            $update = false;
+            if (Storage::disk('local')->has($old_filename)) {
+                $old_file = Storage::disk('local')->get($old_filename);
+                Storage::disk('local')->put($filename, $old_file);
+                $update = true;
+            }
+            if ($file) {
+                Storage::disk('local')->put($filename, File::get($file));
+            }
+            if ($update && $old_filename !== $filename) {
+                Storage::delete($old_filename);
+            }
 
-        return redirect('users')->with('message', $msg);
+            $user->signature = $filename;
+            $user->save();
+
+            $msg = [
+                'title' => 'Edited!',
+                'type' => 'success',
+                'text' => 'User edited successfully.'
+            ];
+
+            return redirect('users')->with('message', $msg);
+        }else {
+            $user= User::find($id);
+            $data = Role::pluck('display_name','id');
+            $msgError = 'Confirm password';
+            $msgErrorName = 'The username already in use';
+            return view('users.edit',['user'=>$user],compact('data','msgError','msgErrorName'));
+
+            }
     }
 
     public function userStatus(User $user)

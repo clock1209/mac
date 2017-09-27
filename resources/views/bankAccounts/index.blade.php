@@ -22,7 +22,7 @@
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('aba') ? ' has-error' : '' }}">
             <label for="aba_lbl" class="control-label">ABA*:</label>
-            {!! Form::number('aba', null, ['class'=>'form-control']) !!}
+            {!! Form::text('aba', null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('swift') ? ' has-error' : '' }}">
             <label for="swift_lbl" class="control-label">Swift*:</label>

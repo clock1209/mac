@@ -12,8 +12,7 @@
                     <div class="form-group">
                         <div class="col-md-12 col-sm-12{{ $errors->has('pay_of') ? ' has-error' : '' }}">
                             <label for="pay_of_lbl" class="control-label">Pay of*:</label>
-                            {!! Form::select('pay_of', ['Ocean freight' => 'Ocean freight', 'BL fee' => 'BL fee',
-                                    'ISPS' =>  'ISPS', 'AMS' => 'AMS'], null, ['class'=>'form-control', 'id' => 'mdlPayof']) !!}
+                            {!! Form::select('pay_of', $concepts, null, ['class'=>'form-control', 'id' => 'mdlPayof']) !!}
                         </div>
                         <div class="col-md-12 col-sm-12 {{ $errors->has('account') ? ' has-error' : '' }}">
                             <label for="account_lbl" class="control-label">Account*:</label>

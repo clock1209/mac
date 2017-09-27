@@ -12,4 +12,9 @@ class Concepts extends Model
         'name',
         'status',
     ];
+
+    public static function getConceptsToSelect()
+    {
+        return Concepts::pluck('name', 'id');
+    }
 }

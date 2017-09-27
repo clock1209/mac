@@ -3,7 +3,8 @@
 
     <div class="col-md-4 col-sm-12{{ $errors->has('name') ? ' has-error' : '' }}">
         <label for="name:_lbl" class="input-control">Name*:</label>
-        {!! Form::text('concepts',$stuff ? $stuff->concepts : null,['class'=>'form-control', 'required']) !!}
+        {{--{!! Form::text('concepts',$stuff ? $stuff->concepts : null,['class'=>'form-control', 'required']) !!}--}}
+        {!! Form::select('concepts', $concepts, $stuff ? $stuff->concepts : null, ['class'=>'form-control', 'required']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('cost') ? ' has-error' : '' }}">
         <label for="cost_lbl" class="input-control">Cost*:</label>

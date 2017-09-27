@@ -24,18 +24,23 @@ class ConceptsController extends Controller
         ->rawColumns(['actions'])
         ->make(true);
     }
-
     public function store(Request $request)
     {
 
           $this->validate($request, $this->rules());
 
           $concepts = new Concepts;
-          $concepts->name = $request->name_concept;
+          $concepts->name = $request->name;
           $concepts->status = 1;
           $concepts->save();
 
-           return view('concepts.index');
+          $msg = [
+              'title' => 'Created!',
+              'type' => 'success',
+              'text' => 'Concepts created successfully.'
+          ];
+
+           return redirect('concepts')->with('message', $msg);
 
     }
     public function edit(Request $request)
@@ -53,7 +58,6 @@ class ConceptsController extends Controller
        ];
 
        return redirect('concepts')->with('message', $msg);
-
 
    }
 
@@ -78,7 +82,7 @@ class ConceptsController extends Controller
     private function rules()
     {
         return [
-            'name_concept' => 'required|regex:/^[\pL\s\-]+$/u'
+            'name' => 'required|unique:concepts|regex:/^[\pL\s\-]+$/u'
         ];
     }
 

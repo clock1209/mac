@@ -17,8 +17,7 @@
 
     <br>
     <button type="submit" class="btn btn-success"><span class="fa fa-plus"></span> Add</button>
-    <button type="reset" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancel</button>
-    {{-- <a href="{{ url()->previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a> --}}
+    <a href="{{ url()->previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
     <br />

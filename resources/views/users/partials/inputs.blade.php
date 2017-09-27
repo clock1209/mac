@@ -1,6 +1,6 @@
 <div class="form-group">
     <div class="col-md-4 col-sm-12">
-        <label for="username_lbl" class="input-control">Username*:</label>
+        <label for="username_lbl" class="input-control">{{$msgErrorName}}*:</label>
         {!! Form::text('username',null,['class'=>'form-control']) !!}
     </div>
     <div class="col-md-4 col-md-offset-1 col-sm-12" style="border-color: transparent">

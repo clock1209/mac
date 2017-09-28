@@ -7,9 +7,11 @@
             {
                 data: 'name'
             },
+            @permission('create_carrierports')
             {
                 data: 'ports'
             },
+            @endpermission
             {
                 data: 'actions',
                 name: 'actions',
@@ -18,6 +20,7 @@
                 bSearchable: false
             },
         ],
+        @permission('create_carrierports')
         "columnDefs": [{
             "targets": 2,
             "data": "doc",
@@ -25,6 +28,7 @@
                 return '<a carrierport_id="' + full.id + '" href="/carrierport?id=' + full.id + '" class="btn btn-success btn-sm activate-carrier"><span class="fa fa-anchor"></span> Related port</a>';
             }
         }]
+        @endpermission
     });
 
 @if(Session::has('message'))

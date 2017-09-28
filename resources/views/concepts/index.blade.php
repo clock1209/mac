@@ -9,6 +9,7 @@
 @section('main-content')
 @include('alerts.messages')
 {!! Form::open(['route'=>'concepts.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
+@permission('create_concepts')
 <div class="row">
   <div class="col-md-9">
     Name*
@@ -19,6 +20,7 @@
   <div class="col-md-4">  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button>
     </div>
 </div>
+@endpermission
 <br>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">

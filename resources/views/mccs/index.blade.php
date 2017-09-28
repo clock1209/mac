@@ -11,6 +11,7 @@
 @include('alerts.messages')
 
 {!! Form::open(['route'=>'mcc.store', 'method'=>'POST']) !!}
+@permission('create_mcc')
 <div class="row">
 
     <div class="col-md-4">
@@ -36,6 +37,7 @@
     </div>
 
 </div>
+@endpermission
 <br>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">

@@ -120,9 +120,11 @@ class StuffController extends Controller
 
     public function edit(Stuff $stuff)
     {
+
         $concepts = [null => 'Select'];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
         return view('stuffs.edit', ['stuff' => $stuff], compact('concepts'));
+
     }
 
     /**

@@ -25,6 +25,6 @@
 <div class="form-group">
     <div class="col-md-3 col-sm-12{{ $errors->has('currency') ? ' has-error' : '' }}">
         <label for="currency_lbl" class="input-control">Currency*:</label>
-        {!! Form::text('currency',$stuff ? $stuff->currency : null,['class'=>'form-control', 'required']) !!}
+        {!! Form::select('currency',[''],$stuff ? $stuff->currency : null,['class'=>'form-control', 'required','id' => 'currency']) !!}
     </div>
 </div>

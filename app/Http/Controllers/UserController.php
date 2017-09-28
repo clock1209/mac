@@ -238,7 +238,7 @@ class UserController extends Controller
     {
         return [
             'username' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'confirmPass' => 'required'
         ];

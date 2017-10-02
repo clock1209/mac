@@ -55,6 +55,7 @@ class DocSupplierController extends Controller
       $path = Storage::putFile($request->name, $request->file('doc'));
       Storage::move($path, $request->name."/".$request->name.".".$extension);
 
+
       $doc =DocSuppliers::create($request->all());
       $doc->name = $request->name;
       $doc->supplier_id = $request->supplier_id;
@@ -67,7 +68,7 @@ class DocSupplierController extends Controller
            'text' => 'Doc Supplier created successfully.'
        ];
 
-       return redirect('/docssupplier?id='.$request->custom_id)->with('message', $msg);
+       return redirect('/docssupplier?id='.$request->supplier_id)->with('message', $msg);
 
     }
 

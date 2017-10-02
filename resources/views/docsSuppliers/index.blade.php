@@ -37,7 +37,7 @@
               {!! Form::text('bank_account',$docssupplier ? $docssupplier->bank_account : old('bank_account'),['class'=>'form-control', 'required']) !!}
           </div>
       </div>
-        {{ Form::hidden('custom_id', 'null', array('id' => 'supplier_id')) }}
+        {{ Form::hidden('supplier_id', 'null', array('id' => 'supplier_id')) }}
     </div>
   <div class="col-md-10">
     <div class="form-group">

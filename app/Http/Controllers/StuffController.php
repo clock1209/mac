@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 use App\Stuff;
+use App\Concepts;
 
 
 class StuffController extends Controller
@@ -36,8 +37,9 @@ class StuffController extends Controller
     public function create()
     {
         //
-
-        return view('stuffs/create');
+        $concepts = [null => 'Select'];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+        return view('stuffs/create', ['concepts' => $concepts]);
     }
 
     /**
@@ -118,8 +120,11 @@ class StuffController extends Controller
 
     public function edit(Stuff $stuff)
     {
- 
-        return view('stuffs.edit', ['stuff' => $stuff]);
+
+        $concepts = [null => 'Select'];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+        return view('stuffs.edit', ['stuff' => $stuff], compact('concepts'));
+
     }
 
     /**

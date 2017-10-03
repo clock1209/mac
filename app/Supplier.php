@@ -60,4 +60,9 @@ class Supplier extends Model
         BankAccount::where('supplier_id', 1)->delete();
         SupplierContact::where('supplier_id', 1)->delete();
     }
+
+    public function customDocs()
+    {
+        return $this->hasMany(DocSuppliers::class,'supplier_id','id');
+    }
 }

@@ -47,12 +47,29 @@
 <div class="form-group">
     <div class="col-md-3 col-sm-12 {{ $errors->has('country') ? ' has-error' : '' }}">
         <label for="country_lbl" class="control-label">Country*:</label>
-        {!! Form::select('country', $countries, $shipper ? $shipper->country : null, ['class'=>'form-control']) !!}
+        {{--{!! Form::select('country', $countries, $shipper ? $shipper->country : null, ['class'=>'form-control']) !!}--}}
+        <div class="input-group">
+            {!! Form::select('country', $countries, $shipper ? $shipper->country : null, ['class'=>'form-control']) !!}
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="addCountry()" data-toggle="tooltip" title="Add new">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </div><!-- /input-group -->
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('city') ? ' has-error' : '' }}">
         <label for="city_lbl" class="control-label">City*:</label><br>
-        {!! Form::select('city', $shipper ? [$shipper->city] : [null => 'Select country'], $shipper ? [$shipper->city] : null,
+{{--        {!! Form::select('city', $shipper ? [$shipper->city] : [null => 'Select country'], $shipper ? [$shipper->city] : null,--}}
+{{--            ['class'=>'form-control', 'id' => 'selectCity']) !!}--}}
+        <div class="input-group">
+            {!! Form::select('city', $shipper ? [$shipper->city] : [null => 'Select country'], $shipper ? [$shipper->city] : null,
             ['class'=>'form-control', 'id' => 'selectCity']) !!}
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="addCity()" data-toggle="tooltip" title="Add new">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </div><!-- /input-group -->
     </div>
     <div class="col-md-3 col-sm-12 {{ $errors->has('zip_code') ? ' has-error' : '' }}">
         <label for="zip_code_lbl" class="control-label">Zip code*:</label>

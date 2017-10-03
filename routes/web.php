@@ -136,6 +136,12 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ DOC'S SUPPLIER ROUTES ------------------*/
     Route::resource('docssupplier','DocSupplierController');
 
+    /*------------------ COUNTRIES'S ROUTES ------------------*/
+    Route::resource('countries','CountryController');
+
+    /*------------------ COUNTRIES'S ROUTES ------------------*/
+    Route::resource('cities','CityController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

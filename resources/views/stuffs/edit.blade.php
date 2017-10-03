@@ -19,4 +19,5 @@
     <a href="{{ route('stuffs.index') }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
+    @include('stuffs.partials.script')
 @endsection

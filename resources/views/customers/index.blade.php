@@ -8,8 +8,9 @@
 @endsection
 
 @section('main-content')
+    @permission('create_customer')
     <a class="btn btn-default" href="{{ route('customers.create') }}"><b>New Customer</b></a><br><br>
-  
+    @endpermission
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="customers-table">
@@ -18,7 +19,6 @@
                     <th>Name</th>
                     <th>Business name</th>
                     <th>RFC/TAX ID</th>
-                    <th>Country Code</th>
                     <th>Phone</th>
                     <th>Contact name</th>
                     <th>Contact job</th>

@@ -118,7 +118,7 @@ class StuffController extends Controller
 
     public function edit(Stuff $stuff)
     {
-
+ 
         return view('stuffs.edit', ['stuff' => $stuff]);
     }
 

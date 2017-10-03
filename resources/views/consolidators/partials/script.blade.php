@@ -75,6 +75,9 @@
             confirmButtonText: "Continue",
             timer: 3000
         });
+        $('#name').val('');
+        $('#abbreviation').val('');
+
     }
 </script>
 @endpush

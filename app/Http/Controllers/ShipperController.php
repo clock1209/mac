@@ -20,7 +20,7 @@ class ShipperController extends Controller
         if ($request->ajax()) {
             return $this->toDatatable();
         }
-        return view('shippers.index', ['cities'=>null, 'countries'=>null]);
+        return view('shippers.index', ['countries'=>null]);
     }
 
     /**
@@ -30,7 +30,6 @@ class ShipperController extends Controller
      */
     public function create()
     {
-        $cities = City::getAllCities();
         $countries = [null => 'Select country'];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
         $area_codes = Country::pluck('area_code', 'code')->toArray();
@@ -38,7 +37,7 @@ class ShipperController extends Controller
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
-        return view('shippers.create', ['countries' => $countries, 'area_codes' => $array, 'cities' => $cities]);
+        return view('shippers.create', ['countries' => $countries, 'area_codes' => $array]);
     }
 
     /**
@@ -87,7 +86,6 @@ class ShipperController extends Controller
      */
     public function edit(Shipper $shipper)
     {
-        $cities = City::getAllCities();
         $countries = Country::pluck('name', 'name');
         $area_codes = Country::pluck('area_code', 'code')->toArray();
         $areacode = null; $phone = null;
@@ -100,7 +98,7 @@ class ShipperController extends Controller
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
         return view('shippers.edit', ['shipper' => $shipper, 'countries' => $countries, 'area_codes' => $array,
-            'areacode' => $areacode, 'phone' => $phone, 'cities'=>$cities]);
+            'areacode' => $areacode, 'phone' => $phone]);
     }
 
     /**

@@ -1,9 +1,5 @@
 @push('scripts')
 <script>
-    {{--var cities = {{ include('./js/countryCities.json') }};--}}
-    @if($cities)
-        var cities = JSON.parse('{!! $cities !!}');
-    @endif
     Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone');
 
     var dTable = $("#shippers-table").DataTable({
@@ -50,10 +46,16 @@
         var country = $(this).val();
         var city = $('#selectCity').val();
         $('#selectCity').empty().select2();
-        $.each( cities[country], function (i, item) {
-            selected = (i != 0) ? '' : ' selected';
-            $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
-        });
+        $.ajax({
+            url: '/cities-by-country',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each( JSON.parse(resp), function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+            });
+        })
     });//select COUNTRY
 
     $('select[name="country"]').hover(function () {
@@ -66,10 +68,16 @@
         var country = $('select[name="country"]').val();
         if (country != '') {
             $('#selectCity').empty().select2();
-            $.each( cities[country], function (i, item) {
-                selected = (item.name != selectedCity) ? '' : ' selected';
-                $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
-            });
+            $.ajax({
+                url: '/cities-by-country',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each( JSON.parse(resp), function (i, item) {
+                    selected = (item.name != selectedCity) ? '' : ' selected';
+                    $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+                });
+            })
         }
     });//select CITY
 

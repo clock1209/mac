@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('countries','CountryController');
 
     /*------------------ COUNTRIES'S ROUTES ------------------*/
+    Route::get('cities-by-country', 'CityController@getCitiesByCountry');
     Route::resource('cities','CityController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.

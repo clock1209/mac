@@ -1,19 +1,11 @@
 @push('scripts') <script>
     var TableSubject = $("#subject-table").DataTable({
         ajax: '/subject',
-        columns: [{
-                data: 'name'
-            },
-            {
-                data: 'cost'
-            },
-            {
-                data: 'actions',
-                name: 'actions',
-                orderable: false,
-                serchable: false,
-                bSearchable: false
-            }
+        columns: [
+            { data: 'name' },
+            { data: 'cost' },
+            { data: 'currency' },
+            { data: 'actions', name: 'actions', orderable: false, serchable: false, bSearchable: false }
         ]
     }); /*datatable*/
 
@@ -44,6 +36,14 @@ $('body').delegate('.status-subject', 'click', function() {
     });
 }); //BUTTON .active-bankAccount
 
+    $(document).ready(function () {
+        var currency = {{ require('./js/currency.json') }};
+        $('#currency-st').empty().select2();
+        $.each( currency, function (i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            $('#currency-st').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+    });
 
 </script>
 @endpush

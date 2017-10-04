@@ -23,7 +23,6 @@ class DocController extends Controller
     public function index(Request $request)
     {
 
-      //dd($request->all());
           if(!auth()->user())
             return abort(404);
             if ($request->ajax()) {
@@ -118,17 +117,7 @@ class DocController extends Controller
 
       if ($ext == 'pdf') {
         $content_types = 'application/pdf';
-      }/*elseif($ext == 'doc') {
-        $content_types = 'application/msword';
-      }elseif($ext == 'docx') {
-        $content_types = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      }elseif($ext == 'xls') {
-        $content_types = 'application/vnd.ms-excel';
-      }elseif($ext == 'xlsx') {
-        $content_types = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      }elseif($ext == 'txt') {
-        $content_types = 'application/octet-stream';
-      }*/elseif($ext == 'jpg') {
+      }elseif($ext == 'jpg') {
         $content_types = 'image/jpg';
       }elseif($ext == 'jpeg') {
         $content_types = 'image/jpeg';
@@ -145,9 +134,6 @@ class DocController extends Controller
          return Redirect::to('/docs?id='.$doc->customer_id)->with('message',$msg);
 
       }
-
-
-      //return Redirect::to('/docs?id='.$doc->customer_id);
 
       return response()->file($doc->doc, [
         'Content-Type' => $content_types,
@@ -180,7 +166,7 @@ class DocController extends Controller
 
     public function toDatatable($id)
     {
-        //$docs = Doc::where('status', 1)->get();
+
         $docs = Customer::find($id)->customDocs()->where('status', 1)->get();
 
         return Datatables::of($docs)

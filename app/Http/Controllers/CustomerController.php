@@ -35,7 +35,11 @@ class CustomerController extends Controller
     {
         $countries = [null => 'Select country'];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $countriesCode=CoutryCode::pluck('name','code');
+        $area_codes=Country::pluck('area_code', 'code')->toArray();
+        $countriesCode = [];
+        foreach ($area_codes as $code => $area_code) {
+            $countriesCode = array_merge($countriesCode, ['_'.$area_code => $code . ' +' . $area_code]);
+        }
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 

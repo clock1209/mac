@@ -142,6 +142,9 @@ class BrokerController extends Controller
                 ->where('status',1);
         }
         return Datatables::of($customBrokers)
+            ->editColumn('phone', function ($customBrokers) {
+                return $customBrokers->countrycode.' '.$customBrokers->phone;
+            })
             ->addColumn('actions', function ($customBroker) {
                 return view('customBroker.partials.buttons', ['customBroker' => $customBroker]);
             })
@@ -154,7 +157,7 @@ class BrokerController extends Controller
             'nameBroker' => 'required',
             'patent' => 'required',
             'emailBroker' => 'required|email',
-            'phoneBroker' => 'required|numeric|digits:8'
+            'phoneBroker' => 'required|numeric|digits:10'
         ];
     }
 }

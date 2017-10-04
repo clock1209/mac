@@ -137,6 +137,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ INLANDS'S ROUTES ------------------*/
     Route::resource('inlandscharges','InlandController');
 
+    /*------------------ DOC'S SUPPLIER ROUTES ------------------*/
+    Route::resource('docssupplier','DocSupplierController');
+
     /*------------------ COUNTRIES'S ROUTES ------------------*/
     Route::resource('countries','CountryController');
 

@@ -6,7 +6,6 @@
             {data: 'name'},
             {data: 'patent'},
             {data: 'email'},
-            {data: 'countrycode'},
             {data: 'phone'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
         ]

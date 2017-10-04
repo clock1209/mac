@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Port;
+use App\Country;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -19,6 +20,7 @@ class PortController extends Controller
         if ($request->ajax()) {
             return $this->toDatatable($request->shipper);
         }
+
         return view('ports.index');
     }
 
@@ -29,7 +31,10 @@ class PortController extends Controller
      */
     public function create(Request $request)
     {
-        return view('ports.create',['shipper' => $request->id]);
+      $countries = [null => 'Select country'];
+      $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+    
+      return view('ports.create',['shipper' => $request->id,'countries'=>$countries]);
     }
 
     /**

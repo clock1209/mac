@@ -8,13 +8,19 @@
             {data: 'name'},
             {data: 'business_name'},
             {data: 'rfc'},
-            {data: 'countrycode'},
             {data: 'phone'},
             {data: 'contact_name'},
             {data: 'contact_job'},
             {data: 'email'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
-        ]
+        ],"columnDefs": [{
+                "targets": 3,
+                "data": "phone",
+                "render": function(data, type, full, meta) {
+                    return full.countrycode + "  " + full.phone;
+                }
+            }
+        ],
     });/*datatable*/
 
     $('body').delegate('.status-supplier','click',function(){

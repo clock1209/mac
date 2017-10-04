@@ -48,6 +48,7 @@ class RolesController extends Controller
 
     function botones($role)
     {
+
         $aUser = auth()->user();
         $see_role = "";
         $edit_role = "";
@@ -63,13 +64,13 @@ class RolesController extends Controller
         if($aUser->can('see_role')){
             $see_role =
                 '<a data-toggle="modal" id_rol="'. $role->id .'" data-target="#mostrar_rol" class="btn btn-info get-rol-datos">
-                     <i class="glyphicon glyphicon-info-sign"></i> 
+                     <i class="glyphicon glyphicon-info-sign"></i>
                      <t class="hidden-xs">Show</t>
                  </a>';
         }if ($aUser->can('edit_role')) {
         $edit_role =
             '<a href="roles/'.$role->id.'/edit" class="btn btn-primary" id="btnAction">
-                <i class="glyphicon glyphicon-edit"></i> 
+                <i class="glyphicon glyphicon-edit"></i>
                 <t class="hidden-xs">Edit</t>
              </a>';
     }if ($aUser->can('delete_role')) {

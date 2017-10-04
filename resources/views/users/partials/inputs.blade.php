@@ -15,7 +15,7 @@
         {!! Form::text('email',null,['class'=>'form-control']) !!}
     </div>
     <div class="col-md-4 col-md-offset-1 col-sm-12 ">
-        <label for="Role_lbl" class="input-control">Type*:</label>
+        <label for="Role_lbl" class="input-control">Role*:</label>
         {!!Form::select('role',$data, null,['class'=>'form-control'])!!}
     </div>
 </div>

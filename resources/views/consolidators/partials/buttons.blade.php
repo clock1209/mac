@@ -8,10 +8,14 @@
     <a consolidator_id="{{ $consolidator->id }}" class="btn btn-success btn-sm activate-consolidator"><span class="fa fa-check"></span> Activate</a>
 @endif
 @endpermission
-
+@permission('create_stuff')
     <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->stuff_url}}" class="btn btn-default btn-sm">
-        <span class="fa fa-check"></span> Stuff
+        <span class="fa fa-plus"></span> Stuff
     </a>
+@endpermission
+@permission('create_mcc')
     <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->mcc_url}}" class="btn btn-default btn-sm">
-        <span class="fa fa-check"></span> Mcc
+        <span class="fa fa-plus"></span> Mcc
     </a>
+@endpermission
+

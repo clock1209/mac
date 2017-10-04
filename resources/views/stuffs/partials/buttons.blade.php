@@ -1,5 +1,5 @@
 
-<a href="stuffs/{{$stuffs->id}}/edit" class='btn btn-success btn-sm' id='edit'>
+<a href="{{$stuffs->edit_url}}" class='btn btn-success btn-sm' id='edit'>
     <i class='glyphicon glyphicon-edit'></i> Edit
 <t class='hidden-xs'></t></a>
 

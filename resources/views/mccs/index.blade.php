@@ -27,7 +27,7 @@
           {!! Form::select('currency', [''], null,['class'=>'form-control', 'id' => 'currency']) !!}
       </div>
     </div>
-
+    {!! Form::hidden('consolidator_id', $con_id) !!}
 </div>
 <div class="row">
 

@@ -14,6 +14,12 @@ class CityController extends Controller
         return response()->json('ok');
     }
 
+    public function getCitiesByCountry(Request $request)
+    {
+        $cities = City::getCitiesByCountry($request->country);
+        return response()->json($cities);
+    }
+
     private function rules()
     {
         return [

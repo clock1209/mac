@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consolidator;
 use Illuminate\Http\Request;
 use App\Mcc;
 use Yajra\Datatables\Facades\Datatables;
@@ -15,15 +16,13 @@ class MccController extends Controller
      */
     public function index(Request $request)
     {
-      if(!auth()->user())
-        return abort(404);
+        if(!auth()->user())
+            return abort(404);
+        if ($request->ajax()) {
+            return $this->toDatatable($request->id);
+        }
 
-      if ($request->ajax()) {
-         return $this->toDatatable();
-       }
-      //$this->toDatatable($request->id);
-
-      return view('mccs.index');
+        return view('mccs.index');
     }
 
     /**
@@ -44,19 +43,16 @@ class MccController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request, $this->rules());
-      $mcc = new Mcc;
-      $mcc->cost = $request->cost;
-      $mcc->currency = $request->currency;
-      $mcc->save();
-      //dd($id);
-       $msg = [
-           'title' => 'Created!',
-           'type' => 'success',
-           'text' => 'Mcc created successfully.'
-       ];
+        $this->validate($request, $this->rules());
 
-       return redirect('/mcc')->with('message', $msg);
+        Mcc::create($request->all());
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Mcc created successfully.'
+        ];
+
+        return redirect()->route('mcc.consolidator', $request->consolidator_id)->with('message', $msg);
 
     }
 
@@ -137,9 +133,11 @@ class MccController extends Controller
         ];
     }
 
-    public function toDatatable()
+    public function toDatatable($id)
     {
-        $mcc = Mcc::where('status', 1)->get();
+        $mcc = Mcc::where('status', 1)
+            ->where('consolidator_id', $id)
+            ->get();
         return Datatables::of($mcc)
             ->addColumn('actions', function ($mcc) {
                 return view('mccs.partials.buttons', ['mcc' => $mcc]);
@@ -152,5 +150,10 @@ class MccController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+
+    public function mccRelated(Consolidator $consolidator)
+    {
+        return view('mccs.index', ['con_id'=>$consolidator->id]);
     }
 }

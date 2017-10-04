@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('concepts', 'ConceptsController');
 
     /*------------------ STUFF'S ROUTES ------------------*/
+    Route::get('stuffs/{consolidator}/consolidator', 'StuffController@stuffsRelated')
+        ->name('stuffs.consolidator');
     Route::resource('stuffs', 'StuffController');
 
     /*------------------ GET IMG ------------------*/
@@ -110,6 +112,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('docs','DocController');
 
     /*------------------ DOC'S ROUTES ------------------*/
+    Route::get('mcc/{consolidator}/consolidator', 'MccController@mccRelated')
+        ->name('mcc.consolidator');
     Route::resource('mcc','MccController');
 
     /*------------------ CARRIER'S ROUTES ------------------*/
@@ -140,6 +144,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('countries','CountryController');
 
     /*------------------ COUNTRIES'S ROUTES ------------------*/
+    Route::get('cities-by-country', 'CityController@getCitiesByCountry');
     Route::resource('cities','CityController');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.

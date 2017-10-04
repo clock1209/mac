@@ -22,9 +22,12 @@ class City extends Model
         $this->attributes['country'] = ucfirst($value);
     }
 
-    public static function getAllCities()
+    public static function getCitiesByCountry($country)
     {
-        $cities = City::get()->groupBy('country');
+        $cities = City::select('name')
+                    ->where('country', $country)
+                    ->get();
+
         return $cities->toJson();
     }
 }

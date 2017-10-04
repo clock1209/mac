@@ -28,3 +28,4 @@
         {!! Form::select('currency',[''],$stuff ? $stuff->currency : null,['class'=>'form-control', 'required','id' => 'currency']) !!}
     </div>
 </div>
+{!! Form::hidden('consolidator_id', $consolidator) !!}

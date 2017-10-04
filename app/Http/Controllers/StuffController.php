@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consolidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
@@ -21,9 +22,8 @@ class StuffController extends Controller
 
       if(!auth()->user())
           return abort(404);
-
       if ($request->ajax()) {
-          return $this->getdata();
+          return $this->getdata($request->id);
       }
 
         return view('stuffs/index');
@@ -34,12 +34,11 @@ class StuffController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
         $concepts = [null => 'Select'];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
-        return view('stuffs/create', ['concepts' => $concepts]);
+        return view('stuffs.create', ['consolidator'=>$request->consolidator, 'concepts' => $concepts]);
     }
 
     /**
@@ -50,7 +49,8 @@ class StuffController extends Controller
      */
      public function store(Request $request)
      {
-        $this->validate($request, $this->rules());
+         $request->flash();
+         $this->validate($request, $this->rules());
 
          Stuff::create($request->all());
 
@@ -60,7 +60,7 @@ class StuffController extends Controller
              'text' => 'Stuff created successfully.'
          ];
 
-         return redirect('stuffs')->with('message', $msg);
+         return redirect()->route('stuffs.consolidator', $request->consolidator_id)->with('message', $msg);
      }
 
      private function rules()
@@ -74,20 +74,12 @@ class StuffController extends Controller
          ];
      }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-
-
-
-     public function getdata()
+     public function getdata($id)
     {
 
-       $concepts = Stuff::where('status', 1)->get();
+       $concepts = Stuff::where('status', 1)
+           ->where('consolidator_id', $id)
+           ->get();
 
        return Datatables::of($concepts)
         ->addColumn('actions', function ($concept)
@@ -118,13 +110,11 @@ class StuffController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit(Stuff $stuff)
+    public function edit(Stuff $stuff, Request $request)
     {
-
         $concepts = [null => 'Select'];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
-        return view('stuffs.edit', ['stuff' => $stuff], compact('concepts'));
-
+        return view('stuffs.edit', ['stuff' => $stuff, 'consolidator'=>$request->consolidator], compact('concepts'));
     }
 
     /**
@@ -149,7 +139,7 @@ class StuffController extends Controller
             'text' => 'Stuff edited successfully.'
         ];
 
-        return redirect('stuffs')->with('message', $msg);
+        return redirect()->route('stuffs.consolidator', $request->consolidator_id)->with('message', $msg);
     }
 
     /**
@@ -184,5 +174,10 @@ class StuffController extends Controller
              return response()->json($msg);
          }
          return abort(404);
+     }
+
+     public function stuffsRelated(Consolidator $consolidator)
+     {
+         return view('stuffs.index', ['con_id'=>$consolidator->id]);
      }
 }

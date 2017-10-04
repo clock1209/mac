@@ -226,7 +226,7 @@ class PermissionsTableSeeder extends Seeder
               'created_at'    => date('Y-m-d H:i:s'),
           ],[
               'name'			=> 'see_mcc',
-              'display_name' 	=> 'See mcc',
+              'display_name' 	=> 'See Mcc',
               'description' 	=> 'View the list of registered Mcc',
               'created_at'    => date('Y-m-d H:i:s'),
           ],

@@ -128,7 +128,7 @@ class MccController extends Controller
     private function rules()
     {
         return [
-            'cost' => 'required|numeric|digits_between:1,6',
+            'cost' => 'required|min:1|max:13',
             'currency'    => 'required',
         ];
     }

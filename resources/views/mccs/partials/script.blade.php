@@ -1,5 +1,6 @@
 @push('scripts')
 <script>
+    Inputmask("9{1,10}[\.9{2}]").mask($('#mcc_cost'));
     var con_id = '{!! (isset($con_id)) ? $con_id : null!!}';
     var dTable = $("#mcc-table").DataTable({
         ajax: {

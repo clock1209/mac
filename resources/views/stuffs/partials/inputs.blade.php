@@ -27,3 +27,4 @@
         {!! Form::text('currency',$stuff ? $stuff->currency : null,['class'=>'form-control', 'required']) !!}
     </div>
 </div>
+{!! Form::hidden('consolidator_id', $consolidator) !!}

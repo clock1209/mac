@@ -1,7 +1,13 @@
 @push('scripts')
 <script>
+    var con_id = '{!! (isset($con_id)) ? $con_id : null!!}';
     var dTable = $("#stuff-table").DataTable({
-        ajax: '/stuffs',
+        ajax: {
+            url: '/stuffs',
+            data: {
+                id: con_id
+            }
+        },
         columns: [
             {data: 'id'},
             {data: 'concepts'},

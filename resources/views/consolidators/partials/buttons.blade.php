@@ -6,3 +6,9 @@
 @else
     <a consolidator_id="{{ $consolidator->id }}" class="btn btn-success btn-sm activate-consolidator"><span class="fa fa-check"></span> Activate</a>
 @endif
+    <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->stuff_url}}" class="btn btn-default btn-sm">
+        <span class="fa fa-check"></span> Stuff
+    </a>
+    <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->mcc_url}}" class="btn btn-default btn-sm">
+        <span class="fa fa-check"></span> Mcc
+    </a>

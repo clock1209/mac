@@ -1,6 +1,5 @@
 @push('scripts')
 <script>
-    var cities = {{ include('./js/countryCities.json') }};
     Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone');
 
     var dTable = $("#shippers-table").DataTable({
@@ -45,11 +44,18 @@
 
     $('select[name="country"]').change(function () {
         var country = $(this).val();
+        var city = $('#selectCity').val();
         $('#selectCity').empty().select2();
-        $.each( cities[country], function (i, item) {
-            selected = (i != 0) ? '' : ' selected';
-            $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
-        });
+        $.ajax({
+            url: '/cities-by-country',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each( JSON.parse(resp), function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+            });
+        })
     });//select COUNTRY
 
     $('select[name="country"]').hover(function () {
@@ -62,12 +68,105 @@
         var country = $('select[name="country"]').val();
         if (country != '') {
             $('#selectCity').empty().select2();
-            $.each( cities[country], function (i, item) {
-                selected = (item != selectedCity) ? '' : ' selected';
-                $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
-            });
+            $.ajax({
+                url: '/cities-by-country',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each( JSON.parse(resp), function (i, item) {
+                    selected = (item.name != selectedCity) ? '' : ' selected';
+                    $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+                });
+            })
         }
     });//select CITY
+
+    function addCountry()
+    {
+        swal({
+            title: 'Add country',
+            html:
+            '<input id="swal_name" class="form-control" placeholder="Name"><br>' +
+            '<input id="swal_code" class="form-control" placeholder="Abbreviation"><br>' +
+            '<input id="swal_area_code" class="form-control" placeholder="Area code"><br>',
+            preConfirm: function () {
+                return new Promise(function (resolve, reject) {
+                    var name = $('#swal_name').val();
+                    var code = $('#swal_code').val();
+                    var area_code = $('#swal_area_code').val();
+                    $.ajax({
+                        url: '{{ route('countries.store') }}',
+                        type: 'POST',
+                        data: {
+                            name: name,
+                            code: code,
+                            area_code: area_code
+                        }
+                    }).done(function () {
+                        resolve([name, code, area_code]);
+                    }).fail(function (response){
+                        console.log(response.responseJSON);
+                        var errors = response.responseJSON;
+                        var html = '';
+                        $.each(errors, function(index, value){
+                            html += '<span>'+ value +'</span><br>';
+                        });
+                        reject('<div>'+ html +'</div>');
+                    });
+                })
+            }
+        }).then(function () {
+            swal({
+                title: 'Added',
+                text: 'Country added successfully',
+                type: 'success'
+            }).then(function () {
+                location.reload();
+            });
+        }).catch(swal.noop)
+    }
+
+    function addCity()
+    {
+        swal({
+            title: 'Add city',
+            html:
+            '{!! Form::select('swal_select_country', $countries ? $countries : [''], null, ['class'=>'form-control']) !!}<br>' +
+            '<input id="swal_city_name" class="form-control" placeholder="City name"><br>',
+            preConfirm: function () {
+                return new Promise(function (resolve, reject) {
+                    var city_name = $('#swal_city_name').val();
+                    var selected_country = $('select[name="swal_select_country"]').val();
+                    $.ajax({
+                        url: '{{ route('cities.store') }}',
+                        type: 'POST',
+                        data: {
+                            name: city_name,
+                            country: selected_country
+                        }
+                    }).done(function () {
+                        resolve([city_name, selected_country]);
+                    }).fail(function (response){
+                        console.log(response.responseJSON);
+                        var errors = response.responseJSON;
+                        var html = '';
+                        $.each(errors, function(index, value){
+                            html += '<span>'+ value +'</span><br>';
+                        });
+                        reject('<div>'+ html +'</div>');
+                    });
+                })
+            }
+        }).then(function () {
+            swal({
+                title: 'Added',
+                text: 'City added successfully',
+                type: 'success'
+            }).then(function () {
+                location.reload();
+            });
+        }).catch(swal.noop)
+    }
 
     @if (Session::has('message'))
         sAlert(

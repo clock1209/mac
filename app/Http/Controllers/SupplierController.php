@@ -46,13 +46,17 @@ class SupplierController extends Controller
     {
         $supplier = new Supplier();
         $supplier->clearOptionalDatatables();
-        $concepts = Concepts::pluck('name', 'name')->toArray();
         $area_codes = Country::pluck('area_code', 'code')->toArray();
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
-        return view('suppliers.create', ['types' => $this->ba_type, 'concepts' => $concepts, 'area_codes' => $array]);
+        return view('suppliers.create',
+            [
+                'types'         => $this->ba_type,
+                'concepts'      => Concepts::getConceptsToSelect(),
+                'area_codes'    => $array
+            ]);
     }
 
     /**

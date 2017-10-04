@@ -141,7 +141,7 @@ class BankAccountController extends Controller
             'account' => 'required|numeric',
             'bank' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
             'clabe' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'aba' => 'required|numeric',
+            'aba' => 'required',
             'swift' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
             'reference' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',
             'currency' => 'required|min:2|regex:/^[\pL\s\-0-9]+$/u',

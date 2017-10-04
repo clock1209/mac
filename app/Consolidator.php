@@ -17,4 +17,24 @@ class Consolidator extends Model
     {
         return route('consolidators.edit', ['id' => $this->id,]);
     }
+
+    public function getStuffUrlAttribute()
+    {
+        return route('stuffs.consolidator', ['id' => $this->id,]);
+    }
+
+    public function getMccUrlAttribute()
+    {
+        return route('mcc.consolidator', ['id' => $this->id,]);
+    }
+
+    public function stuffs()
+    {
+        return $this->hasMany('App\Stuff');
+    }
+
+    public function mccs()
+    {
+        return $this->hasMany('App\Mcc');
+    }
 }

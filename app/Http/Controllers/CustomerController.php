@@ -155,6 +155,9 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('status', 1)->get();
         return Datatables::of($customers)
+            ->editColumn('phone', function ($customers) {
+                return $customers->countrycode.' '.$customers->phone;
+            })
             ->addColumn('actions', function ($customers) {
                 return view('customers.partials.buttons', ['customer' => $customers]);
             })
@@ -168,7 +171,7 @@ class CustomerController extends Controller
             'business_name' => 'required',
             'rfc' => 'required',
             'countrycode' => 'required',
-            'phone' => 'required|numeric|digits:8',
+            'phone' => 'required|numeric|digits:10',
             'street' => 'required',
             'outside_number' => 'required',
             'city' => 'required',

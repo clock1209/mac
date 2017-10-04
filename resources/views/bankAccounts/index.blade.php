@@ -3,8 +3,7 @@
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('pay_of') ? ' has-error' : '' }}">
             <label for="pay_of_lbl" class="control-label">Pay of*:</label>
-            {!! Form::select('pay_of', ['Ocean freight' => 'Ocean freight', 'BL fee' => 'BL fee',
-                    'ISPS' =>  'ISPS', 'AMS' => 'AMS'], null, ['class'=>'form-control']) !!}
+            {!! Form::select('pay_of', $concepts, null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('account') ? ' has-error' : '' }}">
             <label for="account_lbl" class="control-label">Account*:</label>
@@ -22,7 +21,7 @@
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('aba') ? ' has-error' : '' }}">
             <label for="aba_lbl" class="control-label">ABA*:</label>
-            {!! Form::number('aba', null, ['class'=>'form-control']) !!}
+            {!! Form::text('aba', null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('swift') ? ' has-error' : '' }}">
             <label for="swift_lbl" class="control-label">Swift*:</label>

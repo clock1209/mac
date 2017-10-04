@@ -1,7 +1,13 @@
 @push('scripts')
 <script>
+    var con_id = '{!! (isset($con_id)) ? $con_id : null!!}';
     var dTable = $("#mcc-table").DataTable({
-        ajax: '/mcc',
+        ajax: {
+            url: '/mcc',
+            data: {
+                id: con_id
+            }
+        },
         columns: [
             {data: 'cost'},
             {data: 'currency'},

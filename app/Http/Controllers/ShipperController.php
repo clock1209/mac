@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use App\Shipper;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
@@ -19,7 +20,7 @@ class ShipperController extends Controller
         if ($request->ajax()) {
             return $this->toDatatable();
         }
-        return view('shippers.index');
+        return view('shippers.index', ['countries'=>null]);
     }
 
     /**

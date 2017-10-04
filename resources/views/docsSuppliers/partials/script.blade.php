@@ -2,8 +2,9 @@
 <script>
 var searchParams = new URLSearchParams(window.location.search);
 var id=searchParams.get("id")
+console.log(id)
+$( "#supplier_id" ).val(id);
 
-$( "#customer_id" ).val( id );
 
     var dTable = $("#docsSuppliers-table").DataTable({
         ajax: '/docssupplier?id='+id,

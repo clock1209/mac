@@ -9,7 +9,8 @@
 
 @section('main-content')
   
-    <a class="btn btn-success" href="{{ route('stuffs.create') }}"><b>+ New concept cost </b></a>
+    <a class="btn btn-success" href="{{ route('stuffs.create', ['consolidator'=>$con_id]) }}"><b>+ New concept cost </b></a>
+    <a class="btn btn-default" href="{{ route('consolidators.index') }}"><b>Return</b></a>
     <br><br>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">

@@ -32,7 +32,7 @@
                 <th>Name</th>
                 <th>Patent</th>
                 <th>Email</th>
-                <th>Country code</th>
+                <th width="100px;">Country code</th>
                 <th>Phone</th>
                 <th width="210px;">Actions</th>
             </tr>

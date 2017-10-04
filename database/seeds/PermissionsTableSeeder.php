@@ -105,6 +105,11 @@ class PermissionsTableSeeder extends Seeder
               'description' 	=> 'View the list of registered Docs',
               'created_at'    => date('Y-m-d H:i:s'),
           ],[
+              'name'			=> 'see_docs_suppliers',
+              'display_name' 	=> 'See Docs Suppliers',
+              'description' 	=> 'View the list of registered Docs Suppliers',
+              'created_at'    => date('Y-m-d H:i:s'),
+          ],[
               'name'			=> 'create_shipper',
               'display_name' 	=> 'Create Shipper',
               'description' 	=> 'Create new Shipper',
@@ -221,7 +226,7 @@ class PermissionsTableSeeder extends Seeder
               'created_at'    => date('Y-m-d H:i:s'),
           ],[
               'name'			=> 'see_mcc',
-              'display_name' 	=> 'See Stuff',
+              'display_name' 	=> 'See mcc',
               'description' 	=> 'View the list of registered Mcc',
               'created_at'    => date('Y-m-d H:i:s'),
           ],

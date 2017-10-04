@@ -6,4 +6,6 @@
     <span class="fa fa-trash"></span> Delete
 </a>
 @endpermission
+@permission('see_docs_suppliers')
 <a href="/docssupplier?id={{ $supplier->id }}" class="btn btn-info btn-sm"><span class="fa fa-file"></span> Docs</a>
+@endpermission

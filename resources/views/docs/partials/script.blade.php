@@ -23,23 +23,43 @@ $( "#customer_id" ).val( id );
     });
 
     @if (Session::has('message'))
+
         sAlert(
         "{{ Session::get('message.title') }}",
         "{{ Session::get('message.type') }}",
         "{{ Session::get('message.text') }}"
     );
+
+    {{Session::forget('message')}}
     @endif
 
     function sAlert(title, type, text)
     {
+
+
         swal({
             title: title,
             type: type,
             text: text,
             confirmButtonText: "Continue",
-            timer: 3000
-        });
+            closeOnConfirm: true,
+            timer: 2000
+        }).then(
+        function () {if(text=='No se puede mostrar vista previa.')
+        {
+          window.close();
+        }},
+        // handling the promise rejection
+
+        function (dismiss) {
+          if(text=='No se puede mostrar vista previa.')
+          {
+            window.close();
+          }
+      }
+    )
     }
+
 
 </script>
 @endpush

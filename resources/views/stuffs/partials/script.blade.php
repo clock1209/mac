@@ -50,8 +50,7 @@
             confirmButtonText: 'Yes, remove!'
         }).then(function () {
             $.ajax({
-
-                url: 'stuffs/'+id_stuffs,
+                url: '/stuffs/'+id_stuffs,
                 type: 'DELETE',
                 data: {id: id_stuffs}
             }).done(function(data)

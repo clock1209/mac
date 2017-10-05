@@ -129,7 +129,7 @@ class SubjectController extends Controller
     {
 
       $subject = DB::table('subjectto')
-            ->select('subjectto.id','subjectto.cost','subjectto.status', 'concepts.name')
+            ->select('subjectto.id','subjectto.cost','subjectto.status', 'subjectto.currency', 'concepts.name')
             ->join('concepts', 'concepts.id', '=', 'subjectto.concept_id')
             ->where('subjectto.status',1)->get();
         return Datatables::of($subject)

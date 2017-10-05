@@ -11,7 +11,8 @@ class Subject extends Model
   protected $fillable = [
       'name',
       'concept_id',
-      'cost'
+      'cost',
+      'currency',
   ];
 
   public function concepts()

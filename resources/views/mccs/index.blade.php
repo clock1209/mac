@@ -18,7 +18,7 @@
 
         <div class="form-group">
             {!! Form::label('name_cost', 'Cost*') !!}
-            {!! Form::number('cost', null, ['class' => 'form-control','step' => '0.01']) !!}
+            {!! Form::text('cost', null,['class' => 'form-control', 'id'=>'mcc_cost']) !!}
         </div>
     </div>
     <div class="col-md-4">

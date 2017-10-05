@@ -97,7 +97,8 @@ $(document).ready(function() {
     $('#currency_id').select2();
     $.each(currency, function(i, item) {
         selected = (i != 0) ? '' : ' selected';
-        $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        if (i != 'USD')
+            $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
     });
 
 });

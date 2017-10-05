@@ -45,25 +45,23 @@ class RemarkController extends Controller
      */
     public function store(Request $request)
     {
+        $remark = new Remark($request->all());
+        if($request->nameconditions=="Free demurrage at destinations")
+        {
+            $remark->valuecondition=$request->valueconditionsone;
+        }
+        else if($request->nameconditions=="Price per day")
+        {
+            $remark->valuecondition=$request->valueconditionstwo;
+        }
+        $remark->save();
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Remark created successfully.'
+        ];
 
-      $remark = new Remark($request->all());
-
-      if($request->nameconditions=="Free demurrage at destinations")
-      {
-        $remark->valuecondition=$request->valueconditionsone;
-      }
-      else if($request->nameconditions=="Price per day")
-      {
-        $remark->valuecondition=$request->valueconditionstwo;
-      }
-      $remark->save();
-      $msg = [
-          'title' => 'Created!',
-          'type' => 'success',
-          'text' => 'Remark created successfully.'
-      ];
-
-      return redirect('/remarks')->with('message', $msg);
+        return redirect('/remarks')->with('message', $msg);
     }
 
     /**

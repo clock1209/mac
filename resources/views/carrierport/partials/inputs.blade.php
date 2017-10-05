@@ -37,7 +37,7 @@
         <div class="col-md-7 col-sm-10{{ $errors->has('rate') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Rate Type*:</label>
             {!! Form::select('rate',
-            [0 => 'Selecciona una opción','FAK' => 'FAK', 'NAC' => 'NAC'],
+            [0 => 'Selecciona una opción','FAK' => 'FAK', 'NAC' => 'NAC', 'SPOT'=>'SPOT'],
             $carrierport ? $carrierport->rate : null,
             ['class'=>'form-control', 'required']) !!}
         </div>

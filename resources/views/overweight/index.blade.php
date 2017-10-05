@@ -18,7 +18,7 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-        <label for="demurrage_lbl" class="control-label">Cost USD*</label>
+        <label for="demurrage_lbl" class="control-label">Cost*</label>
         {!! Form::text('cost',$overweight ? $overweight->cost : old('cost'),['class'=>'form-control', 'required']) !!}
     </div>
 </div><br>

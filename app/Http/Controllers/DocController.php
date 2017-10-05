@@ -108,37 +108,35 @@ class DocController extends Controller
         return redirect('/docs?id='.$doc->customer_id)->with('message', $msg);
     }
 
-    public function DocView($id,Request $request)
-    {
+    public function DocView($id, Request $request) {
+        $doc = Doc::find($id);
+        $ext = File::extension($doc - > doc);
 
-      $doc = Doc::find($id);
+        if ($ext == 'pdf') {
+            $content_types = 'application/pdf';
+        }
+        elseif($ext == 'jpg') {
+            $content_types = 'image/jpg';
+        }
+        elseif($ext == 'jpeg') {
+            $content_types = 'image/jpeg';
+        }
+        elseif($ext == 'png') {
+            $content_types = 'image/png';
+        } else {
 
-      $ext =File::extension($doc->doc);
-
-      if ($ext == 'pdf') {
-        $content_types = 'application/pdf';
-      }elseif($ext == 'jpg') {
-        $content_types = 'image/jpg';
-      }elseif($ext == 'jpeg') {
-        $content_types = 'image/jpeg';
-      }elseif($ext == 'png') {
-        $content_types = 'image/png';
-      }else {
-
-        $msg = [
+          $msg = [
             'title' => 'Error!',
             'type' => 'error',
             'text' => 'No se puede mostrar vista previa.'
-        ];
+          ];
+          return Redirect::to('/docs?id='.$doc - > customer_id) - > with('message', $msg);
+        }
 
-         return Redirect::to('/docs?id='.$doc->customer_id)->with('message',$msg);
-
-      }
-
-      return response()->file($doc->doc, [
-        'Content-Type' => $content_types,
-        'target' => '_blank'
-      ]);
+        return response() - > file($doc - > doc, [
+          'Content-Type' => $content_types,
+          'target' => '_blank'
+        ]);
 
     }
 

@@ -1,5 +1,7 @@
 @push('scripts')
 <script>
+    Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone_customer_broker');
+
     var dTableBroker = $("#broker-table").DataTable({
         ajax: '/broker?customer_id=' + $('[name="customer_id"]').val(),
         columns: [
@@ -14,6 +16,7 @@
     $('#btn-customBroker').click( function() {
         $('div.has-error').removeClass('has-error');
         $('span.help-block').remove();
+        Inputmask("9999999999", {"nullable": true, "greedy": false}).mask('#phone_customer_broker');
         $.ajax({
             url: '/broker',
             type: 'POST',
@@ -31,12 +34,14 @@
             resetBrokerInputs();
             sAlert(data.title, data.type, data.text);
             dTableBroker.ajax.reload();
+            Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone_customer_broker');
         }).fail(function (data) {
             var errors = data.responseJSON;
             $.each(errors, function(index, value){
                 $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
                     .parent().addClass('has-error');
             });
+            Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone_customer_broker');
         });
     });//BUTTON btn-contact
 

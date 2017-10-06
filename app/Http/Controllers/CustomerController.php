@@ -33,13 +33,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $countries = [null => 'Select country'];
-        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $area_codes=Country::pluck('area_code', 'code')->toArray();
-        $countriesCode = [];
-        foreach ($area_codes as $code => $area_code) {
-            $countriesCode = array_merge($countriesCode, ['_'.$area_code => $code . ' +' . $area_code]);
-        }
+        $countries = Country::getCountriesPluck();
+        $countriesCode = Country::getCountryCodesPluck();
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 
@@ -52,7 +47,6 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, $this->rules());
-
         $customer = new Customer($request->all());
         $customer->save();
         $customerLast = Customer::all()->last();
@@ -94,9 +88,8 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer= Customer::find($id);
-        $countries = [null => 'Select country'];
-        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $countriesCode=CoutryCode::pluck('name','code');
+        $countries = Country::getCountriesPluck();
+        $countriesCode = Country::getCountryCodesPluck();
         return view('customers.edit', ['customer'=>$customer],compact('countriesCode','countries'));
     }
 
@@ -159,9 +152,6 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('status', 1)->get();
         return Datatables::of($customers)
-            ->editColumn('phone', function ($customers) {
-                return $customers->countrycode.' '.$customers->phone;
-            })
             ->addColumn('actions', function ($customers) {
                 return view('customers.partials.buttons', ['customer' => $customers]);
             })

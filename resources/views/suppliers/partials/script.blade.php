@@ -1,21 +1,18 @@
 @push('scripts')
 <script>
 var dTable = $("#suppliers-table").DataTable({
-  ajax: '/suppliers?dt=index',
-  columns: [{
-      data: 'abbreviation'
-    },
-    {
-      data: 'name'
-    },
-    {
-      data: 'actions',
-      name: 'actions',
-      orderable: false,
-      serchable: false,
-      bSearchable: false
-    },
-  ]
+    ajax: '/suppliers?dt=index',
+    columns: [{
+        data: 'abbreviation'
+    }, {
+        data: 'name'
+    }, {
+        data: 'actions',
+        name: 'actions',
+        orderable: false,
+        serchable: false,
+        bSearchable: false
+    }, ]
 }); /*datatable*/
 
 $('body').delegate('.status-supplier', 'click', function() {

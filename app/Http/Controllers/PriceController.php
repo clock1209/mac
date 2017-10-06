@@ -39,15 +39,16 @@ class PriceController extends Controller
      */
     public function store(Request $request)
     {
-      Price::create($request->all());
+        $this->validate($request, $this->rules());
+        Price::create($request->all());
 
-      $msg = [
-          'title' => 'Created!',
-          'type' => 'success',
-          'text' => 'Price created successfully.'
-      ];
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Price created successfully.'
+        ];
 
-      return redirect('prices')->with('message', $msg);
+        return redirect('prices')->with('message', $msg);
     }
 
     /**
@@ -90,10 +91,20 @@ class PriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Price $price)
     {
-        //
+        $price->status = ($price->status == 1) ? 0 : 1;
+        $price->save();
+
+        $msg = [
+            'title' => 'Change!',
+            'type' => 'success',
+            'text' => ($price->status == 1) ? 'Price activated.' : 'Price deactivated.'
+        ];
+
+        return response()->json($msg);
     }
+
     public function toDatatable()
     {
         $prices = Price::all();
@@ -103,5 +114,12 @@ class PriceController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+
+    private function rules()
+    {
+        return [
+            'name' => 'required|alpha_spaces',
+        ];
     }
 }

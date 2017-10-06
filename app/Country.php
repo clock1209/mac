@@ -30,7 +30,7 @@ class Country extends Model
         foreach ($codes as $key => $code) {
             $countryCodes = array_merge($countryCodes, ['_'.$code => $key . ' +' . $code]);
         }
-        return $countryCodes;
+        return collect($countryCodes)->sort()->toArray();
     }
 
     public static function getCountriesPluck()

@@ -12,13 +12,13 @@
         port_id = $(this).attr('port_id');
         swal({
             title: 'Are you sure?',
-            text: "it won't be possible to reverse this action.",
+            text: "You'll deactivate this price.",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, delete this port!'
+            confirmButtonText: 'Yes, Deactivate!'
         }).then(function () {
             $.ajax({
                 url: '/prices/' + port_id,
@@ -36,13 +36,13 @@
         port_id = $(this).attr('port_id');
         swal({
             title: 'Are you sure?',
-            text: "it won't be possible to reverse this action.",
+            text: "You'll activate this price.",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, activate this port!'
+            confirmButtonText: 'Yes, activate!'
         }).then(function () {
             $.ajax({
                 url: '/prices/' + port_id,

@@ -12,8 +12,9 @@
 <div class="form-group">
   <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
       {!! Form::text('name', null, ['class' => 'form-control','required','placeholder'=>'Name*' ]) !!}
+      <span class="help-block">{{ $errors->first('name') }}</span>
   </div>
-  <div class="col-md-2 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
+  <div class="col-md-2 col-sm-8">
     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
   </div>
 </div>

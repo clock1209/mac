@@ -49,10 +49,8 @@ class SupplierController extends Controller
         $supplier->clearOptionalDatatables();
         $area_codes = [null => ' '];
         $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
-
-        $concepts = [null => ' '];
-        $concepts = array_merge($concepts, Concepts::getConceptsToSelect()->toArray());
-
+        $concepts = [null=> ''];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
@@ -108,7 +106,8 @@ class SupplierController extends Controller
      */
     public function edit(Request $request, Supplier $supplier)
     {
-        $concepts = Concepts::pluck('name', 'name')->toArray();
+        $concepts = [null=> ''];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
         $area_codes = Country::pluck('area_code', 'code')->toArray();
         $array = [];
         foreach ($area_codes as $code => $area_code) {

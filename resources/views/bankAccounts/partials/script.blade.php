@@ -1,5 +1,8 @@
 @push('scripts')
 <script>
+
+
+
     var dTableBank = $("#bank-accounts-table").DataTable({
         ajax: '/bank-accounts?supplier_id=' + $('[name="supplier_id"]').val(),
         columns: [
@@ -121,8 +124,16 @@
             $('#bankAccount_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
         });
     });//MODAL .get-bankAccount
+
+
 
     function resetBankAccountInputs() {
         $('[name="account"]').val('');

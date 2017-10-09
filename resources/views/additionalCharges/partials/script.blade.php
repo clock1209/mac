@@ -121,6 +121,12 @@
             $('#additionalCharge_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableCharge.ajax.reload();
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
         });
     });//MODAL .get-additionalCharge
 

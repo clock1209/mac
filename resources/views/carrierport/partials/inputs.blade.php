@@ -25,7 +25,7 @@
         <div class="col-md-7 col-sm-10{{ $errors->has('departures') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Departures*:</label>
             {!! Form::select('departures',
-            [0 => 'Selecciona una opción','MONDAY' => 'MONDAY', 'TUESDAY' => 'TUESDAY','WENDNESDAY' => 'WENDNESDAY', 'THURSDAY' => 'THURSDAY','FRIDAY' => 'FRIDAY', 'SATURDAY' => 'SATURDAY', 'SUNDAY' => 'SUNDAY'],
+            [0 => ' ','MONDAY' => 'MONDAY', 'TUESDAY' => 'TUESDAY','WENDNESDAY' => 'WENDNESDAY', 'THURSDAY' => 'THURSDAY','FRIDAY' => 'FRIDAY', 'SATURDAY' => 'SATURDAY', 'SUNDAY' => 'SUNDAY'],
             $carrierport ? $carrierport->departures : null,
             ['class'=>'form-control', 'required']) !!}
         </div><br><br><br>
@@ -37,7 +37,7 @@
         <div class="col-md-7 col-sm-10{{ $errors->has('rate') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Rate Type*:</label>
             {!! Form::select('rate',
-            [0 => 'Selecciona una opción','FAK' => 'FAK', 'NAC' => 'NAC', 'SPOT'=>'SPOT'],
+            [0 => ' ','FAK' => 'FAK', 'NAC' => 'NAC'],
             $carrierport ? $carrierport->rate : null,
             ['class'=>'form-control', 'required']) !!}
         </div>

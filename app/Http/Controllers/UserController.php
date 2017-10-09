@@ -38,7 +38,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data = Role::pluck('display_name','id');
+        $data = [0 => ' '];
+        $data = array_merge($data, Role::pluck('display_name','id')->toArray());
+
         $msgError = 'Confirm password';
         $msgErrorName = 'Username';
         return view('users.create',compact('data','msgError','msgErrorName'));
@@ -240,7 +242,8 @@ class UserController extends Controller
             'username' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'confirmPass' => 'required'
+            'confirmPass' => 'required',
+            'role' => 'required|not_in:0'
         ];
     }
     private function rulesEdit()

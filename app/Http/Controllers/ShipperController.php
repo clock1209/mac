@@ -30,9 +30,10 @@ class ShipperController extends Controller
      */
     public function create()
     {
-        $countries = [null => 'Select country'];
+        $countries = [null => ' '];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $area_codes = [null => ' '];
+        $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
@@ -93,6 +94,8 @@ class ShipperController extends Controller
             list($areacode, $phone) = explode(' ', $shipper->phone);
             $areacode = '_' . $areacode;
         }
+        $area_codes = [null => ' '];
+        $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);

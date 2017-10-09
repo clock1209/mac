@@ -47,6 +47,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, $this->rules());
+
         $customer = new Customer($request->all());
         $customer->save();
         $customerLast = Customer::all()->last();
@@ -152,6 +153,9 @@ class CustomerController extends Controller
     {
         $customers = Customer::where('status', 1)->get();
         return Datatables::of($customers)
+            ->editColumn('phone', function ($customers) {
+                return $customers->countrycode.' '.$customers->phone;
+            })
             ->addColumn('actions', function ($customers) {
                 return view('customers.partials.buttons', ['customer' => $customers]);
             })

@@ -136,6 +136,10 @@
         $('#mdl_currency-ac').empty();
         $('#currency-ac').select2();
         $('#mdl_currency-ac').select2();
+
+        $('#currency-ac').append('<option value=" " selected ></option>');
+        $('#mdl_currency-ac').append('<option value=" " selected ></option>');
+
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');

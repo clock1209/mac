@@ -140,6 +140,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ DOC'S SUPPLIER ROUTES ------------------*/
     Route::resource('docssupplier','DocSupplierController');
 
+    /*------------------VIEW PREVIEW ROUTES ------------------*/
+    Route::get('/docs/{docid}/view','DocController@DocView');
+
     /*------------------ COUNTRIES'S ROUTES ------------------*/
     Route::resource('countries','CountryController');
 

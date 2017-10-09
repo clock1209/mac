@@ -1,12 +1,12 @@
 {!! Form::open(['route'=>'overweight.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
 <div class="row">
-    <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-        <label for="demurrage_lbl" class="control-label">Container*</label>
-        {!! Form::select('container',
-        [0 => 'Selecciona una opción','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],
-        $overweight ? $overweight->container : null,
-        ['class'=>'form-control', 'required']) !!}
-    </div>
+  <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
+    <label for="demurrage_lbl" class="control-label">Container*</label>
+    {!! Form::select('container',
+    [0 => ' ','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],
+    $overweight ? $overweight->container : null,
+    ['class'=>'form-control', 'required']) !!}
+  </div>
 </div>
 <br>
 <div class="row">

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Storage;
+use Redirect;
+use Session;
+use View;
 use App\Doc;
 use App\Customer;
 use File;
@@ -20,13 +23,11 @@ class DocController extends Controller
     public function index(Request $request)
     {
 
-
           if(!auth()->user())
             return abort(404);
             if ($request->ajax()) {
                 return $this->toDatatable($request->id);
             }
-          //$this->toDatatable($request->id);
 
           return view('docs.index');
     }
@@ -107,6 +108,40 @@ class DocController extends Controller
         return redirect('/docs?id='.$doc->customer_id)->with('message', $msg);
     }
 
+    public function DocView($id, Request $request) {
+        $doc = Doc::find($id);
+        $ext = File::extension($doc->doc);
+
+        if ($ext == 'pdf') {
+            $content_types = 'application/pdf';
+        }
+        elseif($ext == 'jpg') {
+            $content_types = 'image/jpg';
+        }
+        elseif($ext == 'jpeg') {
+            $content_types = 'image/jpeg';
+        }
+        elseif($ext == 'png') {
+            $content_types = 'image/png';
+        }else {
+
+        $msg = [
+        'title' => 'Error!',
+        'type' => 'error',
+        'text' => 'No se puede mostrar vista previa.'
+        ];
+
+        return Redirect::to('/docs?id='.$doc->customer_id)->with('message', $msg);
+
+        }
+
+        return response()->file($doc->doc, [
+            'Content-Type' => $content_types,
+            'target' => '_blank'
+        ]);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -131,7 +166,6 @@ class DocController extends Controller
 
     public function toDatatable($id)
     {
-        //$docs = Doc::where('status', 1)->get();
 
         $docs = Customer::find($id)->customDocs()->where('status', 1)->get();
 
@@ -147,7 +181,7 @@ class DocController extends Controller
     {
         return [
             'name' => 'required|unique:docs,name',
-            'doc'    => 'required|mimes:pdf,doc,docx|max:5000',
+            'doc'    => 'required|max:5000',
         ];
     }
 

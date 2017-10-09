@@ -31,9 +31,9 @@ class PortController extends Controller
      */
     public function create(Request $request)
     {
-      $countries = [null => 'Select country'];
+      $countries = [null => ' '];
       $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-    
+
       return view('ports.create',['shipper' => $request->id,'countries'=>$countries]);
     }
 

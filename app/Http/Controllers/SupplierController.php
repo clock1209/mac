@@ -14,6 +14,7 @@ use Yajra\Datatables\Facades\Datatables;
 class SupplierController extends Controller
 {
     protected $ba_type = [
+        null         => '',
         'Co Loader'         => 'Co Loader',
         'Carrier'           => 'Carrier',
         'Custom Broker'     => 'Custom Broker',
@@ -46,7 +47,12 @@ class SupplierController extends Controller
     {
         $supplier = new Supplier();
         $supplier->clearOptionalDatatables();
-        $area_codes = Country::pluck('area_code', 'code')->toArray();
+        $area_codes = [null => ' '];
+        $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
+
+        $concepts = [null => ' '];
+        $concepts = array_merge($concepts, Concepts::getConceptsToSelect()->toArray());
+
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
@@ -54,7 +60,7 @@ class SupplierController extends Controller
         return view('suppliers.create',
             [
                 'types'         => $this->ba_type,
-                'concepts'      => Concepts::getConceptsToSelect(),
+                'concepts'      => $concepts,
                 'area_codes'    => $array
             ]);
     }
@@ -187,7 +193,8 @@ class SupplierController extends Controller
     {
         return [
             'abbreviation' => 'nullable|min:2|regex:/^[\pL\s\-0-9]+$/u',
-            'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u'
+            'name' => 'required|min:2|regex:/^[\pL\s\-]+$/u',
+            'type' =>'required|nullable'
         ];
     }
 }

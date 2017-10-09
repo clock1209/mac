@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-4 col-md-offset-1 col-sm-12">
         <label for="city_lbl" class="control-label">City*:</label><br>
-        {!! Form::select('city', $customer ? [$customer->city] : [null => 'Select country'], $customer ? [$customer->city] : null,
+        {!! Form::select('city', $customer ? [$customer->city] : [null => ' '], $customer ? [$customer->city] : null,
             ['class'=>'form-control', 'id' => 'selectCity']) !!}
     </div>
 </div>
@@ -78,4 +78,3 @@
 </div>
 {!! Form::hidden('customer_id',$customer ? $customer->id : 0,['class'=>'form-control']) !!}
 @include('customBroker.index')
-

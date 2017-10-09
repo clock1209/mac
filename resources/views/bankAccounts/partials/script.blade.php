@@ -142,6 +142,10 @@
         $('#mdlCurrency').empty();
         $('#currency').select2();
         $('#mdlCurrency').select2();
+
+        $('#currency').append('<option value=" " selected ></option>');
+        $('#mdlCurrency').append('<option value=" " selected ></option>');
+
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');

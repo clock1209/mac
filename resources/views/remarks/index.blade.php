@@ -30,29 +30,29 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane @if ($tab==0) active @else  @endif" id="tab1">
-          @include('remarks.note')
+            @include('remarks.note')
         </div>
         <br>
         <div role="tabpanel" class="tab-pane @if ($tab==1) active @else @endif"  id="tab2">
-          @if($overweight)
-              @include('overweight.edit')
-          @else
-              @include('overweight.index')
-          @endif
+            @if($overweight)
+                @include('overweight.edit')
+            @else
+                @include('overweight.index')
+            @endif
         </div>
         <div role="tabpanel" class="tab-pane @if ($tab==2) active @else @endif" id="tab3">
-          @if($subject)
-              @include('subject.edit')
-          @else
-              @include('subject.index')
-          @endif
+            @if($subject)
+                @include('subject.edit')
+            @else
+                @include('subject.index')
+            @endif
         </div>
         <div role="tabpanel" class="tab-pane @if ($tab==3) active @else @endif" id="tab4">
-          @if($inlands)
-              @include('inlandscharges.edit')
-          @else
-              @include('inlandscharges.index')
-          @endif
+            @if($inlands)
+                @include('inlandscharges.edit')
+            @else
+                @include('inlandscharges.index')
+            @endif
         </div>
     </div>
 </div>

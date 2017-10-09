@@ -9,7 +9,8 @@
 @endif
 @endpermission
 @permission('create_stuff')
-    <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->stuff_url}}" class="btn btn-default btn-sm">
+    <a consolidator_id="{{ $consolidator->id }}" href="{{$consolidator->stuff_url}}" class="btn btn-default btn-sm"
+        style="background-color: #8333da; color: #fff; border-color: #8333da;">
         <span class="fa fa-plus"></span> Stuff
     </a>
 @endpermission

@@ -27,7 +27,7 @@
             <thead>
             <tr>
                 <th>Port</th>
-                <th>Frecuency</th>
+                <th>Departures</th>
                 <th width="210px;">Actions</th>
             </tr>
             </thead>

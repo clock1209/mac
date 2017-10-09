@@ -42,7 +42,7 @@ class CustomerController extends Controller
         foreach ($area_codes as $code => $area_code) {
             $countriesCode = array_merge($countriesCode, ['_'.$area_code => $code . ' +' . $area_code]);
         }
-
+ 
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 

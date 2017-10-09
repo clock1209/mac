@@ -59,10 +59,10 @@
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('city') ? ' has-error' : '' }}">
         <label for="city_lbl" class="control-label">City*:</label><br>
-{{--        {!! Form::select('city', $shipper ? [$shipper->city] : [null => 'Select country'], $shipper ? [$shipper->city] : null,--}}
+{{--        {!! Form::select('city', $shipper ? [$shipper->city] : [null => ' '], $shipper ? [$shipper->city] : null,--}}
 {{--            ['class'=>'form-control', 'id' => 'selectCity']) !!}--}}
         <div class="input-group">
-            {!! Form::select('city', $shipper ? [$shipper->city] : [null => 'Select country'], $shipper ? [$shipper->city] : null,
+            {!! Form::select('city', $shipper ? [$shipper->city] : [null => ' '], $shipper ? [$shipper->city] : null,
             ['class'=>'form-control', 'id' => 'selectCity']) !!}
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" onclick="addCity()" data-toggle="tooltip" title="Add new">

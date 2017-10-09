@@ -7,12 +7,12 @@
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('collect_prepaid') ? ' has-error' : '' }}">
             <label for="collect_prepaid_lbl" class="control-label">Collect/prepaid*:</label>
-            {!! Form::select('collect_prepaid', ['Collect' => 'Collect', 'Prepaid' => 'Prepaid'], null,
+            {!! Form::select('collect_prepaid', [' ' => ' ','Collect' => 'Collect', 'Prepaid' => 'Prepaid'], null,
                 ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('import_export') ? ' has-error' : '' }}">
             <label for="import_export_lbl" class="control-label">Import/Export*:</label>
-            {!! Form::select('import_export', ['Import' => 'Import', 'Export' => 'Export'], null,
+            {!! Form::select('import_export', [' ' => ' ','Import' => 'Import', 'Export' => 'Export'], null,
                 ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('amount') ? ' has-error' : '' }}">
@@ -31,12 +31,12 @@
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge_type') ? ' has-error' : '' }}">
             <label for="charge_type_lbl" class="control-label">Charge type*:</label>
-            {!! Form::select('charge_type', ['BL' => 'BL', 'Container' => 'Container', 'Others' => 'Others'],
+            {!! Form::select('charge_type', [' ' => ' ','BL' => 'BL', 'Container' => 'Container', 'Others' => 'Others'],
                 null, ['class'=>'form-control']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge') ? ' has-error' : '' }}">
             <label for="charge_lbl" class="control-label">Charge*:</label>
-            {!! Form::select('charge', ['ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board',
+            {!! Form::select('charge', [' ' => ' ','ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board',
                 'ETB' => 'ETB'], null,
                 ['class'=>'form-control']) !!}
         </div>

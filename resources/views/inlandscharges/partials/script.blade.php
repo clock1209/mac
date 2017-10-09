@@ -95,6 +95,7 @@ $(document).ready(function() {
     var currency = {{ require('./js/currency.json') }};
     $('#currency_id').empty();
     $('#currency_id').select2();
+    $('#currency_id').append('<option value=" " ></option>');
     $.each(currency, function(i, item) {
         selected = (i != 0) ? '' : ' selected';
         $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');

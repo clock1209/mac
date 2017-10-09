@@ -33,9 +33,11 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $countries = [null => 'Select country'];
+        $countries = [null => ' '];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $countriesCode=CoutryCode::pluck('name','code');
+        $countriesCode = [null => ' '];
+        $countriesCode = array_merge($countriesCode, CoutryCode::pluck('name', 'code')->toArray());
+
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 
@@ -90,7 +92,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer= Customer::find($id);
-        $countries = [null => 'Select country'];
+        $countries = [null => ' '];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
         $countriesCode=CoutryCode::pluck('name','code');
         return view('customers.edit', ['customer'=>$customer],compact('countriesCode','countries'));
@@ -170,13 +172,13 @@ class CustomerController extends Controller
             'name' => 'required',
             'business_name' => 'required',
             'rfc' => 'required',
-            'countrycode' => 'required',
+            'countrycode' => 'required|not_in:0',
             'phone' => 'required|numeric|digits:10',
             'street' => 'required',
             'outside_number' => 'required',
-            'city' => 'required',
+            'city' => 'required|not_in:0',
             'state' => 'required',
-            'country' => 'required',
+            'country' => 'required|not_in:0',
             'zipcode' => 'required|numeric',
             'email' => 'required|email',
             'contact_name' => 'required',

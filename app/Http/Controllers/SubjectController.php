@@ -83,8 +83,9 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        $concepts = Concepts::pluck('name', 'id')->toArray();
-        $ports = [0 => 'Select Port'];
+        $concepts = [0 => ' '];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+        $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
     }

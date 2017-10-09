@@ -45,13 +45,13 @@ class BrokerController extends Controller
     {
         $this->validate($request, $this->rules1());
 
-
         if($request['customer_id']==0){
             $broker = new Broker($request->all());
             $broker['name']= $request->nameBroker;
             $broker['email']= $request->emailBroker;
             $broker['phone']= $request->phoneBroker;
             $broker['countrycode']= $request->countrycodebroker;
+            $broker['contact']= $request->contact;
             $broker['customer_id']= null;
             $broker->save();
         }
@@ -63,6 +63,7 @@ class BrokerController extends Controller
             $broker['countrycode']= $request->countrycodebroker;
             $broker['customer_id']= $request['customer_id'];
             $broker->customer_id =$request['customer_id'];
+            $broker['contact']= $request->contact;
             $broker->save();
         }
         $msg = [
@@ -157,7 +158,8 @@ class BrokerController extends Controller
             'nameBroker' => 'required',
             'patent' => 'required',
             'emailBroker' => 'required|email',
-            'phoneBroker' => 'required|numeric|digits:10'
+            'phoneBroker' => 'required|numeric|digits:10',
+
         ];
     }
 }

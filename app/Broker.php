@@ -14,5 +14,6 @@ class Broker extends Model
         'countrycode',
         'phone',
         'status',
+        'contact',
     ];
 }

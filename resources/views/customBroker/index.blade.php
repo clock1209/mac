@@ -1,7 +1,7 @@
 <div id="sb-form">
     <h4 class="n-caption">Custom Broker</h4>
     <div class="form-group">
-        <div class="col-md-2 col-sm-12 col-md-offset-1{{ $errors->has('nameBroker') ? ' has-error' : '' }}">
+        <div class="col-md-2 col-sm-12 {{ $errors->has('nameBroker') ? ' has-error' : '' }}">
             <label for="select_name_lbl" class="control-label">Name*:</label>
             {!! Form::text('nameBroker', null, ['class'=>'form-control']) !!}
         </div>
@@ -21,6 +21,10 @@
             <label for="phone_lbl" class="control-label">Phone*:</label>
             {!! Form::text('phoneBroker', null,['class'=>'form-control']) !!}
         </div>
+        <div class="col-md-2 col-sm-12 {{ $errors->has('contact_text') ? ' has-error' : '' }}">
+            <label for="contact_namelbl" class="control-label">Contact*:</label>
+            {!! Form::text('contact', null,['class'=>'form-control']) !!}
+        </div>
     </div>{{--form-group--}}
 </div>
 <span class="btn btn-success" id="btn-customBroker"><span class="glyphicon glyphicon-plus"></span> Add</span><br><br>
@@ -32,8 +36,8 @@
                 <th>Name</th>
                 <th>Patent</th>
                 <th>Email</th>
-                <th width="100px;">Country code</th>
-                <th>Phone</th>
+                <th width="100px;">Phone</th>
+                <th>Contact</th>
                 <th width="210px;">Actions</th>
             </tr>
             </thead>

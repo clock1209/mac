@@ -7,6 +7,7 @@
             {data: 'patent'},
             {data: 'email'},
             {data: 'phone'},
+            {data: 'contact'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
         ]
     });
@@ -25,6 +26,7 @@
                 customer_id:$('[name="customer_id"]').val(),
                 countrycodebroker:$('[name="countrycodebroker"]').val(),
                 phoneBroker:$('[name="phoneBroker"]').val(),
+                contact:$('[name="contact"]').val(),
             }
         }).done(function (data) {
             console.log(data);
@@ -70,6 +72,8 @@
         $('[name="patent"]').val('');
         $('[name="emailBroker"]').val('');
         $('[name="phoneBroker"]').val('');
+        $('[name="contact"]').val('');
+
     }
 
     @if (Session::has('message'))

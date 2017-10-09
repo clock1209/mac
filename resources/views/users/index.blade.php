@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    {{--@include('shipments.partials.script')--}}
+
 
     @include('users.partials.script')
 

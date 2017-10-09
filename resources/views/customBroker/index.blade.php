@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-2 col-sm-12{{ $errors->has('phoneBroker') ? ' has-error' : '' }}">
             <label for="phone_lbl" class="control-label">Phone*:</label>
-            {!! Form::text('phoneBroker', null,['class'=>'form-control']) !!}
+            {!! Form::text('phoneBroker', null,['class'=>'form-control', 'id'=>'phone_customer_broker']) !!}
         </div>
     </div>{{--form-group--}}
 </div>

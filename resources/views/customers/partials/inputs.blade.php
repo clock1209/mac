@@ -16,11 +16,12 @@
     </div>
     <div class="col-md-2 col-md-offset-1 col-sm-12 ">
         <label for="Role_lbl" class="input-control">Country code*:</label>
-        {!!Form::select('countrycode',$countriesCode,null,['class'=>'form-control'])!!}
+        {!!Form::select('countrycode',$countriesCode,$customer ? '_'.$customer->countrycode : null,
+            ['class'=>'form-control'])!!}
     </div>
     <div class="col-md-2 col-sm-12">
         <label for="email_lbl" class="input-control">Phone*:</label>
-        {!! Form::text('phone',null,['class'=>'form-control']) !!}
+        {!! Form::text('phone',null,['class'=>'form-control', 'id'=>'phone_customer']) !!}
     </div>
 </div>
 

@@ -25,6 +25,12 @@ class Customer extends Model
         'contact_job',
         'status',
     ];
+
+    public function setCountrycodeAttribute($value)
+    {
+        $this->attributes['countrycode'] = str_replace('_', '', $value);
+    }
+
     public function customBrokers()
     {
         return $this->hasMany(Broker::class,'customer_id','id');

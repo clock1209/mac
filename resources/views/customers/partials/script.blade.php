@@ -1,6 +1,7 @@
 @push('scripts')
 <script>
     var cities = {{ include('./js/countryCities.json') }};
+    Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone_customer');
 
     var dTable = $("#customers-table").DataTable({
         ajax: '/customers?dt=index',

@@ -145,7 +145,7 @@ class SubjectController extends Controller
     {
         return [
             'concept_id' => 'required|not_in:0',
-            'cost' => 'required|not_in:0|numeric',
+            'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
         ];
     }
 

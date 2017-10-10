@@ -41,14 +41,21 @@ class OverweightController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request, $this->rules());
-      Overweight::create($request->all());
+       $this->validate($request, $this->rules());
 
-      $msg = [
-          'title' => 'Created!',
-          'type' => 'success',
-          'text' => 'Overweight created successfully.'
-      ];
+       Overweight::create([
+           'container'=> $request->container,
+           'rangeup'=> $request->rangeup,
+           'rangeto'=> $request->rangeto,
+           'cost'=> $request->cost_overweight,
+           'currency'=> $request->currency]
+       );
+
+       $msg = [
+           'title' => 'Created!',
+           'type' => 'success',
+           'text' => 'Overweight created successfully.'
+       ];
 
       return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
       //return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => 1]);
@@ -104,7 +111,14 @@ class OverweightController extends Controller
 
       $this->validate($request, $this->rules());
 
-      $overweight->fill($request->all());
+      $overweight->fill([
+          'container'=> $request->container,
+          'rangeup'=> $request->rangeup,
+          'rangeto'=> $request->rangeto,
+          'cost'=> $request->cost_overweight,
+          'currency'=> $request->currency]
+      );
+
       $overweight->save();
 
       $msg = [
@@ -134,7 +148,9 @@ class OverweightController extends Controller
         return [
             'rangeup' => 'required|numeric',
             'rangeto' => 'required|numeric',
-            'cost' => 'required|numeric',
+            'cost_overweight' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
+            'currency' => 'required',
+            'container' =>'required'
         ];
     }
 

@@ -19,6 +19,7 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+      //dd($request->all());
       if($request->ajax()){
           return $this->toDatatable();
       }
@@ -83,6 +84,7 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
+
         $concepts = [0 => ' '];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
         $ports = [0 => ' '];

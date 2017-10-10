@@ -11,7 +11,10 @@
     </div>
     <div class="col-md-3 col-sm-12">
         <label for="currency_lbl" class="control-label">Currency*:</label><br>
-        {!! Form::select('currency', ['currency'], null,['class'=>'form-control', 'id' => 'currency-st']) !!}
+        {!! Form::select('currency',
+        [''],
+        $subject ? $subject->currency : null,
+        ['class'=>'form-control', 'required','id' => 'currency-st']) !!}
     </div>
 </div>
 <br>

@@ -16,7 +16,7 @@
         {!! Form::email('email',$shipper ? $shipper->email : null,['class'=>'form-control']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('phone') ? ' has-error' : '' }}">
-        <label for="phone_lbl" class="control-label">(area code) Phone*:</label>
+        <label for="phone_lbl" class="control-label">(country code) Phone*:</label>
         <div class="input-group">
             <div class="input-group-btn">
                 {!! Form::select('area_code', $area_codes, $areacode, ['class'=>'btn btn-secundary']) !!}

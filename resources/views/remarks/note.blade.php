@@ -1,4 +1,5 @@
 {!! Form::open(['route'=>'remarks.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
+{{ Form::hidden('carrier_id', $idCarrier) }}
 <h3>NOTE:</h3>
 <br>
 <div class="form-group">

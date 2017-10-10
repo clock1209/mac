@@ -17,14 +17,15 @@ class RemarkController extends Controller
     public function index(Request $request)
     {
 
-
+        session(['carrier_id' => $request->id]);
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
 
         $concepts = [0 => ' '];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
 
-        return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports]);
+        return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,
+        'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports,'idCarrier'=> $request->id]);
     }
 
     /**
@@ -61,7 +62,7 @@ class RemarkController extends Controller
             'text' => 'Remark created successfully.'
         ];
 
-        return redirect('/remarks')->with('message', $msg);
+        return redirect('/remarks?id='.$request->carrier_id)->with('message', $msg);
     }
 
     /**

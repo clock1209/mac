@@ -1,11 +1,11 @@
 @push('scripts')
 <script>
-var searchParams = new URLSearchParams(window.location.search);
-var id=searchParams.get("id")
+    var searchParams = new URLSearchParams(window.location.search);
+    var id=searchParams.get("id")
 
- $("#ruta").attr("href", "carrierport/create?id="+id);
+    $("#ruta").attr("href", "carrierport/create?id="+id);
+    $("#ruta_remark").attr("href", "remarks?id="+id);
 
-console.log(id)
     var dTable = $("#carrierport-table").DataTable({
         ajax: '/carrierport?id='+id,
         columns: [

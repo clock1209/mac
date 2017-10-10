@@ -3,7 +3,7 @@
   <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
     <label for="demurrage_lbl" class="control-label">Type*</label>
     {!! Form::select('type',
-    [0 => 'Selecciona una opción','Rail + truck' => 'Rail + truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],
+    [0 => ' ','Rail & truck' => 'Rail & truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],
     $inlands ? $inlands->type : null,
     ['class'=>'form-control', 'required']) !!}
   </div>

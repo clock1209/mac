@@ -19,10 +19,10 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-      //dd($request->all());
-      if($request->ajax()){
-          return $this->toDatatable();
-      }
+        $value = $request->session()->get('carrier_id');
+        if($request->ajax()){
+            return $this->toDatatable($value);
+        }
     }
 
     /**
@@ -43,17 +43,19 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, $this->rules());
+        $value = $request->session()->get('carrier_id');
+        $subject =Subject::create($request->all());
+        $subject->carrier_id = $value;
+        $subject->save();
 
-      $this->validate($request, $this->rules());
-      Subject::create($request->all());
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Subject created successfully.'
+        ];
 
-      $msg = [
-          'title' => 'Created!',
-          'type' => 'success',
-          'text' => 'Subject created successfully.'
-      ];
-
-      return redirect('/remarks')->with(['tab' => 2,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
+        return redirect('/remarks?id='.$value)->with(['tab' => 2,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
     }
 
     /**
@@ -64,16 +66,16 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-      $subject->status = ($subject->status == 1) ? 0 : 1;
-      $subject->save();
+        $subject->status = ($subject->status == 1) ? 0 : 1;
+        $subject->save();
 
-      $msg = [
-          'title' => 'Deleted!',
-          'type' => 'success',
-          'text' => 'Subject deleted successfully.'
-      ];
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Subject deleted successfully.'
+        ];
 
-      return response()->json($msg);
+        return response()->json($msg);
     }
 
     /**
@@ -84,12 +86,12 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-
         $concepts = [0 => ' '];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,'concepts' => $concepts,'inlands' => 0,'port' => $ports]);
+        return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,
+        'concepts' => $concepts,'inlands' => 0,'port' => $ports,'idCarrier'=> $subject->carrier_id]);
     }
 
     /**
@@ -101,20 +103,17 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-      $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules());
+        $subject->fill($request->all());
+        $subject->save();
 
-      $subject->fill($request->all());
-      $subject->save();
-
-      $msg = [
-          'title' => 'Edited!',
-          'type' => 'success',
-          'text' => 'Subject edited successfully.'
-      ];
-
-
-      return redirect('/remarks')->with(['tab'=> 2,'message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>$subject,'inlands'=>0]);
-
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Subject edited successfully.'
+        ];
+        return redirect('/remarks?id='.$subject->carrier_id)->with(['tab'=> 2,'message'=> $msg,'overweight' => 0,
+            'concepts'=>0,'subject'=>$subject,'inlands'=>0]);
     }
 
     /**
@@ -128,13 +127,13 @@ class SubjectController extends Controller
 
     }
 
-    public function toDatatable()
+    public function toDatatable($id)
     {
 
-      $subject = DB::table('subjectto')
+        $subject = DB::table('subjectto')
             ->select('subjectto.id','subjectto.cost','subjectto.status', 'subjectto.currency', 'concepts.name')
             ->join('concepts', 'concepts.id', '=', 'subjectto.concept_id')
-            ->where('subjectto.status',1)->get();
+            ->where('subjectto.status',1)->where('subjectto.carrier_id',$id)->get();
         return Datatables::of($subject)
             ->addColumn('actions', function ($subject) {
                 return view('subject.partials.buttons', ['subject' => $subject]);

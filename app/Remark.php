@@ -10,7 +10,8 @@ class Remark extends Model
   protected $fillable = [
       'note',
       'nameconditions',
-      'valuecondition'
+      'valuecondition',
+      'carrier_id'
   ];
 
 }

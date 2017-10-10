@@ -20,8 +20,9 @@ class InlandController extends Controller
      */
     public function index(Request $request)
     {
+        $value = $request->session()->get('carrier_id');
         if ($request->ajax()) {
-            return $this->toDatatable();
+            return $this->toDatatable($value);
         }
         return view('remarks.index');
     }
@@ -45,20 +46,22 @@ class InlandController extends Controller
     public function store(Request $request)
     {
 
-      $request->flash();
-      $this->validate($request, $this->rules());
-      $Id = Inlandscharges::create($request->all());
-      $Id->dischargeport_id = $request->dischargeport_id;
-      $Id->delivery_id = $request->delivery_id;
-      $Id->save();
+        $request->flash();
+        $value = $request->session()->get('carrier_id');
+        $this->validate($request, $this->rules());
+        $inlandscharges = Inlandscharges::create($request->all());
+        $inlandscharges->dischargeport_id = $request->dischargeport_id;
+        $inlandscharges->delivery_id = $request->delivery_id;
+        $inlandscharges->carrier_id = $value;
+        $inlandscharges->save();
 
-      $msg = [
-          'title' => 'Created!',
-          'type' => 'success',
-          'text' => 'Inlands created successfully.'
-      ];
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Inlands created successfully.'
+        ];
 
-      return redirect('/remarks')->with(['tab'=> 3,'message'=> $msg]);
+        return redirect('/remarks?id='.$value)->with(['tab'=> 3,'message'=> $msg]);
 
     }
 
@@ -79,14 +82,15 @@ class InlandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( $inlands)
+    public function edit($inlands)
     {
 
         $inland = Inlandscharges::find($inlands);
         $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,'overweight' => 0,'subject' => 0,'concepts' => $concepts]);
+        return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,
+            'overweight' => 0,'subject' => 0,'concepts' => $concepts,'idCarrier'=> $inland->carrier_id]);
 
     }
 
@@ -100,19 +104,18 @@ class InlandController extends Controller
     public function update(Request $request, $id)
     {
 
-      $inland = Inlandscharges::find($id);
-      $this->validate($request, $this->rules());
+        $inland = Inlandscharges::find($id);
+        $this->validate($request, $this->rules());
+        $inland->fill($request->all());
+        $inland->save();
 
-      $inland->fill($request->all());
-      $inland->save();
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Inlands edited successfully.'
+        ];
 
-      $msg = [
-          'title' => 'Edited!',
-          'type' => 'success',
-          'text' => 'Inlands edited successfully.'
-      ];
-
-      return redirect('/remarks')->with(['tab'=> 3,'message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>0,'inlands'=>$inland]);
+        return redirect('/remarks?id='.$inland->carrier_id)->with(['tab'=> 3,'message'=> $msg,'overweight' => 0,'concepts'=>0,'subject'=>0,'inlands'=>$inland]);
 
     }
 
@@ -124,31 +127,31 @@ class InlandController extends Controller
      */
     public function destroy($inlands)
     {
-      $inland = Inlandscharges::find($inlands);
-      $inland->status = ($inland->status == 1) ? 0 : 1;
-      $inland->save();
+        $inland = Inlandscharges::find($inlands);
+        $inland->status = ($inland->status == 1) ? 0 : 1;
+        $inland->save();
 
-      $msg = [
-          'title' => 'Deleted!',
-          'type' => 'success',
-          'text' => 'Subject deleted successfully.'
-      ];
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Subject deleted successfully.'
+        ];
 
-      return response()->json($msg);
+        return response()->json($msg);
 
     }
 
-    public function toDatatable()
+    public function toDatatable($id)
     {
 
-      $inlandscharges = DB::table('inlandscharges')
+        $inlandscharges = DB::table('inlandscharges')
         ->join('portsname as dischargeport', 'inlandscharges.dischargeport_id', '=', 'dischargeport.id')
         ->join('portsname as delivery', 'inlandscharges.delivery_id', '=', 'delivery.id')
         ->select('inlandscharges.id','inlandscharges.dischargeport_id','inlandscharges.delivery_id',
         'inlandscharges.rangeup','inlandscharges.rangeto','inlandscharges.cost','inlandscharges.container',
         'inlandscharges.currency','inlandscharges.status','dischargeport.name as nameone',
-        'delivery.name as nametwo','inlandscharges.type')
-            ->where('inlandscharges.status',1)->get();
+        'delivery.name as nametwo','inlandscharges.type')->where('inlandscharges.carrier_id',$id)
+        ->where('inlandscharges.status',1)->get();
         return Datatables::of($inlandscharges)
             ->addColumn('actions', function ($inlandscharges) {
                 return view('inlandscharges.partials.buttons', ['inlands' => $inlandscharges]);
@@ -167,7 +170,7 @@ class InlandController extends Controller
             'currency' => 'required|not_in:0',
             'rangeup' => 'required|not_in:0',
             'rangeto' => 'required|not_in:0',
-            'cost' => 'required|not_in:0|numeric',
+            'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
         ];
     }
 

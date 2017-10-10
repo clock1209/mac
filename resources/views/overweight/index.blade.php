@@ -1,4 +1,5 @@
 {!! Form::open(['route'=>'overweight.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
+{{ Form::hidden('carrier_id', $idCarrier) }}
 <div class="row">
   <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
     <label for="demurrage_lbl" class="control-label">Container*</label>

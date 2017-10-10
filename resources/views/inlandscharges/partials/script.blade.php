@@ -101,7 +101,7 @@ $(document).ready(function() {
         if (i != 'USD')
             $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
     });
-
+ 
 });
 
 </script>

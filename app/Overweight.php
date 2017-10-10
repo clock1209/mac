@@ -15,5 +15,6 @@ class Overweight extends Model
       'rangeup',
       'cost',
       'currency',
+      'carrier_id',
   ];
 }

@@ -18,8 +18,9 @@ class OverweightController extends Controller
      */
     public function index(Request $request)
     {
+      $value = $request->session()->get('carrier_id');
       if($request->ajax()){
-          return $this->toDatatable();
+          return $this->toDatatable($value);
       }
     }
 
@@ -41,24 +42,25 @@ class OverweightController extends Controller
      */
     public function store(Request $request)
     {
-       $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules());
+        $value = $request->session()->get('carrier_id');
 
-       Overweight::create([
+        Overweight::create([
            'container'=> $request->container,
            'rangeup'=> $request->rangeup,
            'rangeto'=> $request->rangeto,
            'cost'=> $request->cost_overweight,
-           'currency'=> $request->currency]
-       );
+           'currency'=> $request->currency,
+           'carrier_id'=> $value]
+        );
 
-       $msg = [
+        $msg = [
            'title' => 'Created!',
            'type' => 'success',
            'text' => 'Overweight created successfully.'
        ];
 
-      return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
-      //return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => 1]);
+       return redirect('/remarks?id='.$request->carrier_id)->with(['tab' => 1,'message'=> $msg,'overweight' => 1,'concepts'=>0,'subject'=>0,'inlands'=>0]);
 
     }
 
@@ -91,12 +93,14 @@ class OverweightController extends Controller
      */
     public function edit(Overweight $overweight)
     {
-      $ports = [0 => 'Select Port'];
-      $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-      $concepts = [0 => 'Select Concept'];
-      $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
 
-      return view('remarks.index',['tab' => 1,'overweight' => $overweight,'concepts' => $concepts,'inlands' => 0,'subject' => 0,'port' => $ports]);
+        $ports = [0 => 'Select Port'];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        $concepts = [0 => 'Select Concept'];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+
+        return view('remarks.index',['tab' => 1,'overweight' => $overweight,'concepts' => $concepts,
+        'inlands' => 0,'subject' => 0,'port' => $ports,'idCarrier'=> $overweight->carrier_id]);
     }
 
     /**
@@ -109,26 +113,28 @@ class OverweightController extends Controller
     public function update(Request $request,Overweight $overweight)
     {
 
-      $this->validate($request, $this->rules());
+        $this->validate($request, $this->rules());
 
-      $overweight->fill([
-          'container'=> $request->container,
-          'rangeup'=> $request->rangeup,
-          'rangeto'=> $request->rangeto,
-          'cost'=> $request->cost_overweight,
-          'currency'=> $request->currency]
-      );
+        $overweight->fill([
+            'container'=> $request->container,
+            'rangeup'=> $request->rangeup,
+            'rangeto'=> $request->rangeto,
+            'cost'=> $request->cost_overweight,
+            'currency'=> $request->currency]
+        );
 
-      $overweight->save();
+        $overweight->save();
 
-      $msg = [
-          'title' => 'Edited!',
-          'type' => 'success',
-          'text' => 'Overweight edited successfully.'
-      ];
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Overweight edited successfully.'
+        ];
 
 
-      return redirect('/remarks')->with(['tab' => 1,'message'=> $msg,'overweight' => $overweight,'concepts'=>0,'subject'=>0,'inlands'=>0]);
+        return redirect('/remarks?id='.$overweight->carrier_id)
+           ->with(['tab' => 1,'message'=> $msg,'overweight' => $overweight,'concepts'=>0,
+           'subject'=>0,'inlands'=>0]);
 
     }
 
@@ -154,8 +160,8 @@ class OverweightController extends Controller
         ];
     }
 
-    public function toDatatable() {
-        $overweight = Overweight::where('status', 1)->get();
+    public function toDatatable($id) {
+        $overweight = Overweight::where('carrier_id', $id)->where('status', 1)->get();
         return Datatables::of($overweight)
             ->addColumn('actions', function ($overweight) {
                 return view('overweight.partials.buttons', ['overweight' => $overweight]);

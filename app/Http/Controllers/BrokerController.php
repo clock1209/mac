@@ -92,9 +92,9 @@ class BrokerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Broker $broker)
     {
-        //
+        return response()->json($broker);
     }
 
     /**
@@ -104,9 +104,20 @@ class BrokerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Broker $broker)
     {
-        //
+        $this->validate($request, $this->rules1());
+
+        $broker->fill($request->all());
+        $broker->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Custom Broker edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -152,6 +163,7 @@ class BrokerController extends Controller
             ->rawColumns(['actions'])
             ->make(true);
     }
+
     private function rules1()
     {
         return [

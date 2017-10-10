@@ -45,4 +45,5 @@
     </div>
 </div>
 
+@include('customBroker.partials.editModal')
 @include('customBroker.partials.scripts')

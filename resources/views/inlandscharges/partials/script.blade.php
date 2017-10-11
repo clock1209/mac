@@ -2,19 +2,19 @@
     var rail_truck_table = $("#rail-truck-table").DataTable({
         ajax: '/inlandscharges',
         columns: [
-          {data: 'type'},
-          {data: 'dischargeport'},
-          {data: 'currency'},
-          {data: 'container'},
-          {data: 'rangeup'},
-          {data: 'cost'},
-          {
-              data: 'actions',
-              name: 'actions',
-              orderable: false,
-              serchable: false,
-              bSearchable: false
-          }
+            {data: 'type'},
+            {data: 'dischargeport'},
+            {data: 'currency'},
+            {data: 'container'},
+            {data: 'rangeup'},
+            {data: 'cost'},
+            {
+                data: 'actions',
+                name: 'actions',
+                orderable: false,
+                serchable: false,
+                bSearchable: false
+            }
         ],
         "columnDefs": [{
             "targets": 1,

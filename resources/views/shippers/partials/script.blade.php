@@ -1,9 +1,10 @@
 @push('scripts')
 <script>
     Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone');
-
+    var searchParams = new URLSearchParams(window.location.search);
+    var id=searchParams.get("id")
     var dTable = $("#shippers-table").DataTable({
-        ajax: '/shippers',
+        ajax: '/shippers?id='+id,
         columns: [
             {data: 'tradename'},
             {data: 'name'},

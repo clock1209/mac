@@ -9,7 +9,7 @@
 
 @section('main-content')
 @include('alerts.messages')
-    <a class="btn btn-default" href="{{ route('shippers.create') }}"><b>New Shipper</b></a><br><br>
+    <a class="btn btn-default" href="{{ route('shippers.create') }}?id={{$customers_id}}"><b>New Shipper</b></a><br><br>
     <div class="box box-solid">
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="shippers-table">

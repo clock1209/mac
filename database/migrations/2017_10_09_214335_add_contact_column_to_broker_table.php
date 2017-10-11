@@ -23,6 +23,6 @@ class AddContactColumnToBrokerTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('brokers');
     }
 }

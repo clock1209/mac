@@ -78,8 +78,8 @@ class DocController extends Controller
      */
     public function show($id)
     {
-      $doc  = Doc::find($id);
-      return response()->download($doc->doc);
+        $doc  = Doc::find($id);
+        return response()->download($doc->doc);
     }
 
     /**
@@ -111,8 +111,6 @@ class DocController extends Controller
     public function DocView($id, Request $request) {
         $doc = Doc::find($id);
         $ext = File::extension($doc->doc);
-
-
         if ($ext == 'pdf') {
             $content_types = 'application/pdf';
         }
@@ -126,16 +124,14 @@ class DocController extends Controller
             $content_types = 'image/png';
         }else {
 
-        $msg = [
-        'title' => 'Error!',
-        'type' => 'error',
-        'text' => 'No se puede mostrar vista previa.'
-        ];
+            $msg = [
+                'title' => 'Error!',
+                'type' => 'error',
+                'text' => 'No se puede mostrar vista previa.'
+            ];
 
-        $url='https://view.officeapps.live.com/op/view.aspx?'.
-        'src=http://maritimo.nuvem.mx'.$doc->doc;
-        dd($url);
-        //return Redirect::to('/docs?id='.$doc->customer_id)->with('message', $msg);
+            $url='https://view.officeapps.live.com/op/view.aspx?'.
+                'src=http://maritimo.nuvem.mx'.$doc->doc;
 
         }
 

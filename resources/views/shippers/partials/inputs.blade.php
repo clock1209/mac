@@ -1,3 +1,4 @@
+{{ Form::hidden('customers_id', $customers_id) }}
 <h4 class="n-caption">Shippers</h4>
 <div class="form-group">
     <div class="col-md-4 col-sm-12{{ $errors->has('tradename') ? ' has-error' : '' }}">

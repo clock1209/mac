@@ -43,7 +43,7 @@ class BrokerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, $this->rules1());
+        $this->validate($request, $this->rules1(), $this->ruleMessages());
 
         if($request['customer_id']==0){
             $broker = new Broker($request->all());
@@ -170,8 +170,14 @@ class BrokerController extends Controller
             'nameBroker' => 'required',
             'patent' => 'required',
             'emailBroker' => 'required|email',
-            'phoneBroker' => 'required|numeric|digits:10',
+            'phoneBroker' => 'required|numeric'
+        ];
+    }
 
+    private function ruleMessages()
+    {
+        return [
+            'numeric' => 'The phone must be 10 numbers long'
         ];
     }
 }

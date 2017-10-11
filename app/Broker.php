@@ -16,4 +16,9 @@ class Broker extends Model
         'status',
         'contact',
     ];
+
+    public function setCountrycodeAttribute ($value)
+    {
+        $this->attributes['countrycode'] = str_replace('_', '', $value);
+    }
 }

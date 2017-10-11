@@ -33,16 +33,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $countries = [null => ' '];
-        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-
-        $area_codes=Country::pluck('area_code', 'code')->toArray();
-        $countriesCode = [null => ' '];
-        $countriesCode = array_merge($countriesCode, CoutryCode::pluck('name', 'code')->toArray());
-        foreach ($area_codes as $code => $area_code) {
-            $countriesCode = array_merge($countriesCode, ['_'.$area_code => $code . ' +' . $area_code]);
-        }
- 
+        $countries = Country::getCountriesPluck();
+        $countriesCode = Country::getCountryCodesPluck();
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 
@@ -97,9 +89,8 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer= Customer::find($id);
-        $countries = [null => ' '];
-        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
-        $countriesCode=CoutryCode::pluck('name','code');
+        $countries = Country::getCountriesPluck();
+        $countriesCode = Country::getCountryCodesPluck();
         return view('customers.edit', ['customer'=>$customer],compact('countriesCode','countries'));
     }
 
@@ -177,13 +168,13 @@ class CustomerController extends Controller
             'name' => 'required',
             'business_name' => 'required',
             'rfc' => 'required',
-            'countrycode' => 'required|not_in:0',
+            'countrycode' => 'required',
             'phone' => 'required|numeric|digits:10',
             'street' => 'required',
             'outside_number' => 'required',
-            'city' => 'required|not_in:0',
+            'city' => 'required',
             'state' => 'required',
-            'country' => 'required|not_in:0',
+            'country' => 'required',
             'zipcode' => 'required|numeric',
             'email' => 'required|email',
             'contact_name' => 'required',

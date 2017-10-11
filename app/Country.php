@@ -35,7 +35,7 @@ class Country extends Model
 
     public static function getCountriesPluck()
     {
-        $countries = [null => 'Select country'];
+        $countries = [null => ' '];
         return array_merge($countries, Country::orderBy('name', 'asc')
             ->pluck('name', 'name')->toArray());
     }

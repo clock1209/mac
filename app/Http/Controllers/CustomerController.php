@@ -34,7 +34,8 @@ class CustomerController extends Controller
     public function create()
     {
         $countries = Country::getCountriesPluck();
-        $countriesCode = Country::getCountryCodesPluck();
+        $countriesCode = [0 => ' '];
+        $countriesCode = array_merge($countriesCode, Country::getCountryCodesPluck());
         return view('customers.create', ['countries' => $countries],compact('countriesCode'));
     }
 

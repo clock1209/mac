@@ -50,7 +50,8 @@ class SupplierController extends Controller
         $area_codes = [null => ' '];
         $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
         $concepts = [null=> ''];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->
+            pluck('name', 'name')->toArray());
         $array = [];
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);

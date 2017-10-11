@@ -36,8 +36,9 @@ class StuffController extends Controller
      */
     public function create(Request $request)
     {
-        $concepts = [null => 'Select'];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+        $concepts = [null=> ''];
+        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->
+            pluck('name', 'name')->toArray());
         return view('stuffs.create', ['consolidator'=>$request->consolidator, 'concepts' => $concepts]);
     }
 

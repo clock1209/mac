@@ -56,6 +56,7 @@
             selected = (i != 0) ? '' : ' selected';
             $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
         });
+        ordenarSelect('selectCity');
     });//select COUNTRY
 
     $('select[name="country"]').hover(function () {
@@ -73,6 +74,7 @@
                 $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
             });
         }
+
     });//select CITY
 
     @if (Session::has('message'))
@@ -92,6 +94,14 @@
             confirmButtonText: "Continue",
             timer: 3000
         });
+    }
+    function ordenarSelect(id_componente)
+    {
+        var selectToSort = jQuery('#' + id_componente);
+        var optionActual = selectToSort.val();
+        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+        })).val(optionActual);
     }
 </script>
 @endpush

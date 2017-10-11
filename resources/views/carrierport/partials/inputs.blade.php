@@ -2,7 +2,7 @@
 {{ Form::hidden('carrier_id', $id) }}
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Port*:</label>
-            {{ Form::select('portname_id', $port, null, ['class'=>'form-control']) }}
+            {{ Form::select('portname_id', $port, null, ['class'=>'form-control','id'=>'portname_id']) }}
     </div>
 </div>
   <h4 class="n-caption">Arbitrary*</h4>

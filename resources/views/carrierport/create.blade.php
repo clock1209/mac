@@ -19,5 +19,5 @@
         <a href="{{ route('carriers.index')}}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
     {!! Form::close() !!}
 
-
+    @include('carrierport.partials.script')
 @endsection

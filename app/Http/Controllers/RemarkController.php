@@ -22,7 +22,7 @@ class RemarkController extends Controller
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
 
         $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+        $concepts = array_merge($concepts, Concepts::orderby('name','ASC')->pluck('name', 'id')->toArray());
 
         return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,
         'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports,'idCarrier'=> $request->id]);

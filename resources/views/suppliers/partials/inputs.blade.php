@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Type*:</label>
-        {!! Form::select('type', $types, $supplier ? $supplier->type : old('type'), ['class'=>'form-control']) !!}
+        {!! Form::select('type', $types, $supplier ? $supplier->type : old('type'), ['class'=>'form-control','id'=> 'type']) !!}
     </div>
 </div>
 <div class="form-group">

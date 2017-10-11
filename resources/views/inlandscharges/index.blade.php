@@ -18,11 +18,11 @@
 <div class="row">
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Discharge Port*:</label>
-        {{ Form::select('dischargeport_id', $port, null, ['class'=>'form-control']) }}
+        {{ Form::select('dischargeport_id', $port, null, ['class'=>'form-control','id'=>'dischargeport_id']) }}
     </div>
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Delivery*:</label>
-        {{ Form::select('delivery_id', $port, null, ['class'=>'form-control']) }}
+        {{ Form::select('delivery_id', $port, null, ['class'=>'form-control','id'=>'delivery_id']) }}
     </div>
 </div>
 <br>

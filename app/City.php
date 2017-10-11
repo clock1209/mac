@@ -24,10 +24,7 @@ class City extends Model
 
     public static function getCitiesByCountry($country)
     {
-        $cities = City::select('name')
-                    ->where('country', $country)
-                    ->get();
-
+        $cities = City::select('name')->where('country', $country)->get();
         return $cities->toJson();
     }
 }

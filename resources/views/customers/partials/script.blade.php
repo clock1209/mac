@@ -1,6 +1,5 @@
 @push('scripts')
 <script>
-    var cities = {{ include('./js/countryCities.json') }};
     Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone_customer');
 
     var dTable = $("#customers-table").DataTable({
@@ -52,10 +51,16 @@
     $('select[name="country"]').change(function () {
         var country = $(this).val();
         $('#selectCity').empty().select2();
-        $.each( cities[country], function (i, item) {
-            selected = (i != 0) ? '' : ' selected';
-            $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
-        });
+        $.ajax({
+            url: '/cities-by-country',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each( JSON.parse(resp), function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+            });
+        })
     });//select COUNTRY
 
     $('select[name="country"]').hover(function () {
@@ -68,10 +73,16 @@
         var country = $('select[name="country"]').val();
         if (country != '') {
             $('#selectCity').empty().select2();
-            $.each( cities[country], function (i, item) {
-                selected = (item != selectedCity) ? '' : ' selected';
-                $('#selectCity').append('<option value="' + item + '" ' + selected + '>' + item + '</option>');
-            });
+            $.ajax({
+                url: '/cities-by-country',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each( JSON.parse(resp), function (i, item) {
+                    selected = (item.name != selectedCity) ? '' : ' selected';
+                    $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+                });
+            })
         }
     });//select CITY
 

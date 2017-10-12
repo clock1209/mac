@@ -25,6 +25,7 @@ class City extends Model
     public static function getCitiesByCountry($country)
     {
         $cities = City::select('name')
+                    ->orderBy('name', 'asc')
                     ->where('country', $country)
                     ->get();
 

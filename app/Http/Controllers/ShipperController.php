@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Shipper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Facades\Datatables;
 use App\Country;
 

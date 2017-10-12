@@ -14,31 +14,32 @@
         <label for="type_lbl" class="control-label">Discharge Port*:</label>
             {{ Form::select('dischargeport_id', $port, null, ['class'=>'form-control','id'=>'dischargeport_id']) }}
     </div>
-    <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
-        <label for="type_lbl" class="control-label">Delivery*:</label>
-            {{ Form::select('delivery_id', $port, null, ['class'=>'form-control','id'=>'delivery_id']) }}
-    </div>
-</div>
-<br>
-<br>
-<div class="row">
-    <div class="col-sm-1">Range*</div>
-    <div class="col-sm-2">{!! Form::text('rangeup',$inlands ? $inlands->rangeup : old('rangeup'),['class'=>'form-control', 'required']) !!}</div>
-    <div class="col-sm-1">to</div>
-    <div class="col-sm-2">{!! Form::text('rangeto',$inlands ? $inlands->rangeto : old('rangeto'),['class'=>'form-control', 'required']) !!}</div>
-    <div class="col-sm-1">Tons</div>
-</div>
-<div class="form-group">
-    <div class="col-md-3 col-sm-12">
-        <label for="demurrage_lbl" class="control-label">Cost*</label>
-        {!! Form::text('cost',$inlands ? $inlands->cost : old('cost'),['class'=>'form-control', 'required']) !!}
-    </div>
     <div class="col-md-3 col-sm-12">
         <label for="currency_lbl" class="control-label">Currency*:</label><br>
             {!! Form::select('currency', [''], $inlands ? $inlands->currency : null,['class'=>'form-control', 'required','id' => 'currency_id']) !!}
     </div>
 </div>
-<div class="form-group">
+<div class="row">
+  <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
+      <label for="type_lbl" class="control-label">Delivery*:</label>
+          {{ Form::select('delivery_id', $port, null, ['class'=>'form-control','id'=>'delivery_id']) }}
+  </div>
+</div>
+<br>
+<br>
+<div class="row">
+    <div class="col-xs-1 text-right">Range*</div>
+    <div class="col-sm-2">{!! Form::text('rangeup',$inlands ? $inlands->rangeup : old('rangeup'),['class'=>'form-control', 'required']) !!}</div>
+    <div class="col-sm-2">{!! Form::text('rangeto',$inlands ? $inlands->rangeto : old('rangeto'),['class'=>'form-control', 'required']) !!}</div>
+    <div class="col-sm-1">Tons</div>
+</div><br>
+<div class="row">
+    <div class="col-xs-1">
+        <label for="demurrage_lbl" class="control-label">Cost*</label>
+    </div>
+    <div class="col-md-3 col-sm-10">
+        {!! Form::text('cost',$inlands ? $inlands->cost : old('cost'),['class'=>'form-control', 'required']) !!}
+    </div>
     <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save
         </button>

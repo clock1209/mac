@@ -148,7 +148,20 @@ class DocSupplierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doc = DocSuppliers::find($id);
+        File::delete($doc->doc);
+        $doc->status = 0;
+        $doc->name = $doc->name."_del";
+        $doc->save();
+
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Doc deleted successfully.'
+        ];
+
+        return response()->json($msg);
+
     }
 
     public function toDatatable($id)

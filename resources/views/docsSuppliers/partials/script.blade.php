@@ -23,7 +23,7 @@ $( "#supplier_id" ).val(id);
             }
       }],
     });
-        var dTable = $("#supplierReference-table").DataTable({
+        var dTable_ = $("#supplierReference-table").DataTable({
             ajax: '/docssupplier/'+id+'/filter',
             columns: [
                 {data: 'name'},
@@ -39,6 +39,31 @@ $( "#supplier_id" ).val(id);
                 }
           }],
         });
+
+        $('body').delegate('.delete-doc','click',function(){
+            id = $(this).attr('doc_id');
+            swal({
+                title: 'Are you sure?',
+                text: "it won't be possible to reverse this action.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes, delete this doc!'
+            }).then(function () {
+                $.ajax({
+                    url: '/docssupplier/'+id,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {id: id}
+                }).done(function(data){
+                    sAlert(data.title, data.type, data.text);
+                    dTable.ajax.reload();
+                    dTable_.ajax.reload();
+                });
+            });
+        });//BUTTON .delete-docs
 
     @if (Session::has('message'))
         sAlert(

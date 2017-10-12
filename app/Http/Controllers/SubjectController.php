@@ -9,6 +9,7 @@ use App\Concepts;
 use App\PortName;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
+use Session;
 
 class SubjectController extends Controller
 {
@@ -19,6 +20,7 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+        Session::put('tab', 2);
         $value = $request->session()->get('carrier_id');
         if($request->ajax()){
             return $this->toDatatable($value);
@@ -147,6 +149,7 @@ class SubjectController extends Controller
         return [
             'concept_id' => 'required|not_in:0',
             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
+            'currency' => 'required',
         ];
     }
 

@@ -1,18 +1,12 @@
 {!! Form::model($inlands,['route' => ['inlandscharges.update',$inlands->id], 'method' => 'PUT','class' =>'form-horizontal' ]) !!}
 <div class="row">
   <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-    <label for="demurrage_lbl" class="control-label">Type*</label>
-    {!! Form::select('type',
-    [0 => ' ','Rail & truck' => 'Rail & truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],
-    $inlands ? $inlands->type : null,
-    ['class'=>'form-control', 'required']) !!}
+      <label for="demurrage_lbl" class="control-label">Type*</label>
+      {!! Form::select('type',[0 => ' ','Rail & truck' => 'Rail & truck', 'All truck' => 'All truck','Rail ramp' => 'Rail ramp'],$inlands ? $inlands->type : null,['class'=>'form-control', 'required']) !!}
   </div>
   <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-    <label for="demurrage_lbl" class="control-label">Container*</label>
-    {!! Form::select('container',
-    [0 => ' ','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],
-    $inlands ? $inlands->container : null,
-    ['class'=>'form-control', 'required']) !!}
+      <label for="demurrage_lbl" class="control-label">Container*</label>
+      {!! Form::select('container',[0 => ' ','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],$inlands ? $inlands->container : null,['class'=>'form-control', 'required']) !!}
   </div>
 </div>
 <div class="row">
@@ -29,10 +23,7 @@
 <div class="row">
   <div class="col-md-4 col-sm-12{{ $errors->has('currency') ? ' has-error' : '' }}">
       <label for="currency_lbl" class="control-label">Currency*:</label>
-      {!! Form::select('currency',
-      [''],
-      $inlands ? $inlands->currency : null,
-      ['class'=>'form-control', 'required','id' => 'currency_id']) !!}
+      {!! Form::select('currency',[''],$inlands ? $inlands->currency : null,['class'=>'form-control', 'required','id' => 'currency_id']) !!}
   </div>
 </div>
 <br>
@@ -44,67 +35,15 @@
   <div class="col-sm-1">Tons</div>
 </div>
 <div class="row">
-  <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-    <label for="demurrage_lbl" class="control-label">Cost USD*</label>
-    {!! Form::text('cost',$inlands ? $inlands->cost : old('cost'),['class'=>'form-control', 'required']) !!}
+    <div class="col-md-3 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
+        <label for="demurrage_lbl" class="control-label">Cost</label>
+        {!! Form::text('cost',$inlands ? $inlands->cost : old('cost'),['class'=>'form-control', 'required']) !!}
   </div>
 </div><br>
 <div class="row">
-
   <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-  </div>
-</div>
-<br>
-<div class="box box-solid">
-    <div class="panel-body" style="overflow-x: auto; height:100%;">
-    <table class="table table-bordered table-hover" id="rail-truck-table">
-        <thead>
-          <tr>
-              <th>Type</th>
-              <th>Place</th>
-              <th>Currency</th>
-              <th>Container</th>
-              <th>Range</th>
-              <th>Cost</th>
-              <th width="210px;">Actions</th>
-          </tr>
-        </thead>
-    </table>
-  </div>
-</div>
-<br>
-<div class="box box-solid">
-    <div class="panel-body" style="overflow-x: auto; height:100%;">
-    <table class="table table-bordered table-hover" id="rail-truck-table">
-        <thead>
-        <tr>
-            <th>Place</th>
-            <th>Currency</th>
-            <th>Container</th>
-            <th>Range</th>
-            <th>Cost</th>
-            <th width="210px;">Actions</th>
-        </tr>
-        </thead>
-    </table>
-  </div>
-</div>
-<br>
-<div class="box box-solid">
-    <div class="panel-body" style="overflow-x: auto; height:100%;">
-    <table class="table table-bordered table-hover" id="rail-truck-table">
-        <thead>
-          <tr>
-              <th>Place</th>
-              <th>Currency</th>
-              <th>Container</th>
-              <th>Range</th>
-              <th>Cost</th>
-              <th width="210px;">Actions</th>
-          </tr>
-        </thead>
-    </table>
+    <a type="button" href="{{ URL::previous() }}" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>
   </div>
 </div>
 {!! Form::close() !!}

@@ -179,6 +179,7 @@ class CarrierPortController extends Controller
         return [
             'rate' => 'required|not_in:0',
             'tt' => 'numeric',
+            'portname_id' => 'required|not_in:0',
             'departures' => 'required|not_in:0',
             'arbitraryone' => 'required|numeric',
             'arbitrarytwo' => 'required|numeric',

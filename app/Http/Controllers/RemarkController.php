@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Remark;
 use App\Concepts;
 use App\PortName;
+use Session;
 
 class RemarkController extends Controller
 {
@@ -46,6 +47,7 @@ class RemarkController extends Controller
      */
     public function store(Request $request)
     {
+        Session::put('tab', 0);
         $remark = new Remark($request->all());
         if($request->nameconditions=="Free demurrage at destinations")
         {

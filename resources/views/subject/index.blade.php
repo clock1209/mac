@@ -9,12 +9,9 @@
         <label for="cost_lbl" class="control-label">Cost*:</label>
         {!! Form::text('cost', $subject ? $subject->cost : null,['class'=>'form-control']) !!}
     </div>
-    <div class="col-md-3 col-sm-12">
+    <div class="col-md-3 col-sm-12 {{ $errors->has('currency') ? ' has-error' : '' }}">
         <label for="currency_lbl" class="control-label">Currency*:</label><br>
-        {!! Form::select('currency',
-        [''],
-        $subject ? $subject->currency : null,
-        ['class'=>'form-control', 'required','id' => 'currency-st']) !!}
+        {!! Form::select('currency',[''],$subject ? $subject->currency : null,['class'=>'form-control', 'required','id' => 'currency-st']) !!}
     </div>
 </div>
 <br>

@@ -1,8 +1,5 @@
 @push('scripts')
 <script>
-
-
-
     var dTableBank = $("#bank-accounts-table").DataTable({
         ajax: '/bank-accounts?supplier_id=' + $('[name="supplier_id"]').val(),
         columns: [
@@ -98,6 +95,7 @@
             $('#mdlCurrency').val(data.currency);
             $('#mdlBeneficiary').val(data.beneficiary);
             $('#mdlIdBankAccount').val(id_bankAccount);
+            $('#mdlPayof').val(data.pay_of);
         });
     });//MODAL .get-bankAccount
 

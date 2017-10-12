@@ -21,12 +21,12 @@
    </div>
    </div><br>
 <div class="row">
-    <div class="col-md-4 col-sm-12{{ $errors->has('currency') ? ' has-error' : '' }}">
+    <div class="col-md-2 col-sm-12{{ $errors->has('currency') ? ' has-error' : '' }}">
         <label for="currency_lbl" class="control-label">Currency*:</label>
             {!! Form::select('currency',[''],$overweight ? $overweight->currency : null,['class'=>'form-control', 'required','id' => 'currency']) !!}
     </div>
-    <div class="col-md-4 col-sm-8{{ $errors->has('name') ? ' has-error' : '' }}">
-        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+    <div class="col-md-4 col-sm-12">
+        <button type="submit" style="margin-top:25px;" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
     </div>
 </div>
 <br>

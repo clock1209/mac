@@ -10,6 +10,7 @@ use App\Inlandscharges;
 use App\PortName;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
+use Session;
 
 class InlandController extends Controller
 {
@@ -46,9 +47,12 @@ class InlandController extends Controller
     public function store(Request $request)
     {
 
+
+        Session::put('tab', 3);
         $request->flash();
         $value = $request->session()->get('carrier_id');
         $this->validate($request, $this->rules());
+
         $inlandscharges = Inlandscharges::create($request->all());
         $inlandscharges->dischargeport_id = $request->dischargeport_id;
         $inlandscharges->delivery_id = $request->delivery_id;
@@ -84,7 +88,7 @@ class InlandController extends Controller
      */
     public function edit($inlands)
     {
-
+        Session::put('tab', 3);
         $inland = Inlandscharges::find($inlands);
         $concepts = Concepts::pluck('name', 'id')->toArray();
         $ports = [0 => ' '];

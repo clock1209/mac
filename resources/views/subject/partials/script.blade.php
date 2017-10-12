@@ -40,6 +40,7 @@ $('body').delegate('.status-subject', 'click', function() {
         var currency = {{ require('./js/currency.json') }};
         $('#currency-st').empty();
         $('#currency-st').select2();
+        $('#currency-st').append('<option value=" "></option>');
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency-st').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');

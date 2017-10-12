@@ -95,6 +95,7 @@
             $('#mdl_charge option[value="' + data.charge + '"]').attr('selected', 'selected');
             $('#mdl_notes').val(data.notes);
             $('#mdlIdAdditionalCharge').val(id_additionalCharge);
+            $('#mdl_concept').val(data.concept);
         });
     });//MODAL .get-additionalCharge
 

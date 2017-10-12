@@ -98,7 +98,6 @@ class OverweightController extends Controller
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         $concepts = [0 => 'Select Concept'];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
-
         return view('remarks.index',['tab' => 1,'overweight' => $overweight,'concepts' => $concepts,
         'inlands' => 0,'subject' => 0,'port' => $ports,'idCarrier'=> $overweight->carrier_id]);
     }

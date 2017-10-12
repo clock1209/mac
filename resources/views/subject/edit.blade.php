@@ -3,18 +3,15 @@
 <div class="row">
   <div class="col-md-3 col-sm-12{{ $errors->has('concept') ? ' has-error' : '' }}">
       <label for="concept_lbl" class="control-label">Concept*:</label>
-      {!! Form::select('concept_id',
-      [0=>'Seleccionar',$concepts],
-      $subject ? $subject->concept_id : null,
-      ['class'=>'form-control', 'required']) !!}
+          {!! Form::select('concept_id',$concepts,$subject ? $subject->concept_id : null,['class'=>'form-control', 'required']) !!}
   </div>
   <div class="col-md-3 col-sm-12{{ $errors->has('cost') ? ' has-error' : '' }}">
       <label for="cost_lbl" class="control-label">Cost*:</label>
-        {!! Form::text('cost', $subject ? $subject->cost : null,['class'=>'form-control']) !!}
+          {!! Form::text('cost', $subject ? $subject->cost : null,['class'=>'form-control']) !!}
   </div>
   <div class="col-md-3 col-sm-12">
       <label for="currency_lbl" class="control-label">Currency*:</label><br>
-      {!! Form::select('currency', ['currency'], null,['class'=>'form-control', 'id' => 'currency-st']) !!}
+          {!! Form::select('currency', ['currency'], null,['class'=>'form-control', 'id' => 'currency-st']) !!}
   </div>
 </div>
 <br>

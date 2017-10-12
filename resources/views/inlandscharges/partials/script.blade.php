@@ -38,15 +38,12 @@
                 var rows = this.data();
                 var row = this;
                 var rowNode = row.node();
-                console.log(rows.type);
                 if (rows.type == 'Rail &amp; truck') {
 
                 } else if (rows.type == 'All truck') {
-
-                    table2.row.add(rowNode).draw();
+                      table2.row.add(rowNode).draw();
                 } else {
-
-                    table3.row.add(rowNode).draw();
+                      table3.row.add(rowNode).draw();
                 }
             });
 
@@ -93,6 +90,9 @@ $(document).ready(function() {
             $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
     });
 
+    @if($inlands)
+        $('#currency_id').val('{{$inlands->currency}}');
+    @endif
 });
 
 function ordenarSelect(id_componente)

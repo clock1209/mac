@@ -1,18 +1,11 @@
 @push('scripts') <script >
     var dTableBank = $("#overweight-table").DataTable({
         ajax: '/overweight',
-        columns: [{
-                data: 'container'
-            },
-            {
-                data: 'currency'
-            },
-            {
-                data: 'rangeup'
-            },
-            {
-                data: 'cost'
-            },
+        columns: [
+            {data: 'container'},
+            {data: 'currency'},
+            {data: 'rangeup'},
+            {data: 'cost'},
             {
                 data: 'actions',
                 name: 'actions',
@@ -66,6 +59,10 @@ $(document).ready(function() {
         selected = (i != 0) ? '' : ' selected';
         $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
     });
+
+    @if($overweight)
+        $('#currency').val('{{$overweight->currency}}');
+    @endif
 });
 
 @if(Session::has('message'))

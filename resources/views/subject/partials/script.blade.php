@@ -44,6 +44,10 @@ $('body').delegate('.status-subject', 'click', function() {
             selected = (i != 0) ? '' : ' selected';
             $('#currency-st').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
+
+        @if($subject)
+            $('#currency-st').val('{{$subject->currency}}');
+        @endif
     });
 
 </script>

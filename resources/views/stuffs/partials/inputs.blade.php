@@ -14,11 +14,11 @@
 <div class="form-group">
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="input-control">Type*:</label>
-        {!! Form::select('type', [0 => 'Selecciona una opción','bl' => 'BL', 't/m3' => 'T/M3'], $stuff ? $stuff->type : 0, ['class' => 'form-control', 'required' => 'required']) !!}
+        {!! Form::select('type', [0 => ' ','bl' => 'BL', 't/m3' => 'T/M3'], $stuff ? $stuff->type : 0, ['class' => 'form-control', 'required' => 'required']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('agreed_cost') ? ' has-error' : '' }}">
         <label for="agreed_cost_lbl" class="input-control">Agreed costs*:</label>
-        {!! Form::select('agreed_cost', [0 => 'Selecciona una opción', 'main container carrier' => 'Main Container Carrier','agent' => 'Agent'], $stuff ? $stuff->agreed_cost : 0, ['class' => 'form-control', 'required' => 'required']) !!}
+        {!! Form::select('agreed_cost', [0 => ' ', 'main container carrier' => 'Main Container Carrier','agent' => 'Agent'], $stuff ? $stuff->agreed_cost : 0, ['class' => 'form-control', 'required' => 'required']) !!}
     </div>
 
 </div>

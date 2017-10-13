@@ -26,7 +26,7 @@ class StuffController extends Controller
           return $this->getdata($request->id);
       }
 
-        return view('stuffs/index');
+        return view('stuffs/index',['stuff' => 0]);
     }
 
     /**
@@ -36,8 +36,10 @@ class StuffController extends Controller
      */
     public function create(Request $request)
     {
-        $concepts = [null => 'Select'];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+
+        $concepts = [null=> ''];
+        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->
+            pluck('name', 'name')->toArray());
         return view('stuffs.create', ['consolidator'=>$request->consolidator, 'concepts' => $concepts]);
     }
 
@@ -67,7 +69,7 @@ class StuffController extends Controller
      {
          return [
              'concepts' => 'required',
-             'cost' => 'required|numeric',
+             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
              'type' => 'required',
              'agreed_cost' => 'required|not_in:0',
              'currency' => 'required|not_in:0'

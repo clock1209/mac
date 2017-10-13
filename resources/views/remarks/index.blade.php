@@ -27,7 +27,7 @@
     </ul>
 
     <!-- Tab panes -->
-
+    {{ Form::hidden('carrier_id', $idCarrier) }}
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane @if ($tab==0) active @else  @endif" id="tab1">
             @include('remarks.note')

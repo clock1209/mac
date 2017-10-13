@@ -1,9 +1,10 @@
 @push('scripts')
 <script>
     Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('#phone');
-
+    var searchParams = new URLSearchParams(window.location.search);
+    var id=searchParams.get("id")
     var dTable = $("#shippers-table").DataTable({
-        ajax: '/shippers',
+        ajax: '/shippers?id='+id,
         columns: [
             {data: 'tradename'},
             {data: 'name'},
@@ -55,6 +56,7 @@
                 selected = (i != 0) ? '' : ' selected';
                 $('#selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
             });
+            ordenarSelect('selectCity');
         })
     });//select COUNTRY
 
@@ -185,6 +187,14 @@
             confirmButtonText: "Continue",
             timer: 3000
         });
+    }
+    function ordenarSelect(id_componente)
+    {
+        var selectToSort = jQuery('#' + id_componente);
+        var optionActual = selectToSort.val();
+        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+        })).val(optionActual);
     }
 </script>
 @endpush

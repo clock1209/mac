@@ -72,6 +72,10 @@
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
 
+        @if(!empty($stuff))
+            $('#currency').val('{{$stuff->currency}}');
+        @endif
+
     });
 
     function sAlert(title, type, text)

@@ -111,8 +111,12 @@
             sAlert(data.title, data.type, data.text);
             dTableContact.ajax.reload();
             addInputmask();
-        }).fail(function(data){
-            console.log(data);
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
             addInputmask();
         });
     });//MODAL .get-contact

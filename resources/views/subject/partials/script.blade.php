@@ -38,11 +38,17 @@ $('body').delegate('.status-subject', 'click', function() {
 
     $(document).ready(function () {
         var currency = {{ require('./js/currency.json') }};
-        $('#currency-st').empty().select2();
+        $('#currency-st').empty();
+        $('#currency-st').select2();
+        $('#currency-st').append('<option value=" "></option>');
         $.each( currency, function (i, item) {
             selected = (i != 0) ? '' : ' selected';
             $('#currency-st').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
+
+        @if($subject)
+            $('#currency-st').val('{{$subject->currency}}');
+        @endif
     });
 
 </script>

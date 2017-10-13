@@ -95,6 +95,7 @@
             $('#mdlCurrency').val(data.currency);
             $('#mdlBeneficiary').val(data.beneficiary);
             $('#mdlIdBankAccount').val(id_bankAccount);
+            $('#mdlPayof').val(data.pay_of);
         });
     });//MODAL .get-bankAccount
 
@@ -121,8 +122,16 @@
             $('#bankAccount_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
         });
     });//MODAL .get-bankAccount
+
+
 
     function resetBankAccountInputs() {
         $('[name="account"]').val('');

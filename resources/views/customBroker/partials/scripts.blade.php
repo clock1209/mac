@@ -9,6 +9,7 @@
             {data: 'patent'},
             {data: 'email'},
             {data: 'phone'},
+            {data: 'contact'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false}
         ]
     });
@@ -28,6 +29,7 @@
                 customer_id:$('[name="customer_id"]').val(),
                 countrycodebroker:$('[name="countrycodebroker"]').val(),
                 phoneBroker:$('[name="phoneBroker"]').val(),
+                contact:$('[name="contact"]').val(),
             }
         }).done(function (data) {
             console.log(data);
@@ -75,6 +77,8 @@
         $('[name="patent"]').val('');
         $('[name="emailBroker"]').val('');
         $('[name="phoneBroker"]').val('');
+        $('[name="contact"]').val('');
+
     }
 
     @if (Session::has('message'))
@@ -95,5 +99,55 @@
             timer: 3000
         });
     }
+
+    $('body').delegate('.get-customBroker','click',function(){
+        id_broke = $(this).attr('id_broke');
+        $.ajax({
+            url : '/broker/' + id_broke + '/edit',
+            type : 'GET',
+            dataType: 'json',
+            data : {id: id_broke}
+        }).done(function(data){
+            console.log(data);
+            $('#mdlCountryCodeBroker option[value="' + data.countrycode + '"]').attr('selected', 'selected');
+            $('#mdlNameBroker').val(data.name);
+            $('#mdlPatent').val(data.patent);
+            $('#mdlEmailBroker').val(data.email);
+            $('#mdlPhoneBroker').val(data.phone);
+            $('#mdlContact').val(data.contact);
+            $('#MdlIdCustomBroker').val(id_broke);
+          
+
+        });
+    });//MODAL .get-
+
+    //Update
+    $('body').delegate('#customBrokerUpdate','click',function(){
+        MdlIdCustomBroker = $('#MdlIdCustomBroker').val();
+        $.ajax({
+            url : '/broker/' + MdlIdCustomBroker,
+            type : 'PUT',
+            dataType: 'json',
+            data : {
+                nameBroker:  $('#mdlNameBroker').val(),
+                patent: $('#mdlPatent').val(),
+                emailBroker: $('#mdlEmailBroker').val(),
+                countrycode: $('#mdlCountryCodeBroker').val(),
+                phoneBroker: $('#mdlPhoneBroker').val(),
+                contact: $('#mdlContact').val(),
+            }
+        }).done(function(data){
+            console.log(data);
+            $('#customBroker_modal').modal('hide');
+            sAlert(data.title, data.type, data.text);
+            dTableBroker.ajax.reload();
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
+        });
+    });//MODAL .get-bankAccount
 </script>
 @endpush

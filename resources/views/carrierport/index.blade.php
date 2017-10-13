@@ -15,7 +15,7 @@
     <div class="col-md-6">
         <a class="btn btn-default" id="ruta" href="{{ route('carrierport.create') }}"><b>Add port</b></a>
         @permission('create_carrierportsremarks')
-        <a class="btn btn-default" href="{{ route('remarks.index') }}"><b>Remarks</b></a>
+        <a class="btn btn-default" id="ruta_remark" href="{{ route('remarks.index') }}"><b>Remarks</b></a>
         @endpermission
     </div>
 

@@ -1,24 +1,13 @@
 @push('scripts') <script>
     var rail_truck_table = $("#rail-truck-table").DataTable({
         ajax: '/inlandscharges',
-        columns: [{
-                data: 'type'
-            },
-            {
-                data: 'dischargeport'
-            },
-            {
-                data: 'currency'
-            },
-            {
-                data: 'container'
-            },
-            {
-                data: 'rangeup'
-            },
-            {
-                data: 'cost'
-            },
+        columns: [
+            {data: 'type'},
+            {data: 'dischargeport'},
+            {data: 'currency'},
+            {data: 'container'},
+            {data: 'rangeup'},
+            {data: 'cost'},
             {
                 data: 'actions',
                 name: 'actions',
@@ -28,19 +17,19 @@
             }
         ],
         "columnDefs": [{
-                "targets": 1,
-                "data": "dischargeport_id",
-                "render": function(data, type, full, meta) {
-                    return full.nameone + " - " + full.nametwo;
-                }
-            },
-            {
-                "targets": 3,
-                "data": "rangeup",
-                "render": function(data, type, full, meta) {
-                    return full.rangeup + " - " + full.rangeto;
-                }
+            "targets": 1,
+            "data": "dischargeport_id",
+            "render": function(data, type, full, meta) {
+                return full.nameone + " - " + full.nametwo;
             }
+        },
+        {
+            "targets": 4,
+            "data": "rangeup",
+            "render": function(data, type, full, meta) {
+                return full.rangeup + " - " + full.rangeto;
+            }
+        }
         ],
         initComplete: function() {
             var table2 = $('#all-truck-table').DataTable();
@@ -49,15 +38,12 @@
                 var rows = this.data();
                 var row = this;
                 var rowNode = row.node();
-                console.log(rows.type);
                 if (rows.type == 'Rail &amp; truck') {
 
                 } else if (rows.type == 'All truck') {
-
-                    table2.row.add(rowNode).draw();
+                      table2.row.add(rowNode).draw();
                 } else {
-
-                    table3.row.add(rowNode).draw();
+                      table3.row.add(rowNode).draw();
                 }
             });
 
@@ -92,6 +78,8 @@ $('body').delegate('.status-inlands', 'click', function() {
 }); //BUTTON
 
 $(document).ready(function() {
+    ordenarSelect('dischargeport_id');
+    ordenarSelect('delivery_id');
     var currency = {{ require('./js/currency.json') }};
     $('#currency_id').empty();
     $('#currency_id').select2();
@@ -102,7 +90,18 @@ $(document).ready(function() {
             $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
     });
 
+    @if($inlands)
+        $('#currency_id').val('{{$inlands->currency}}');
+    @endif
 });
 
+function ordenarSelect(id_componente)
+{
+    var selectToSort = jQuery('#' + id_componente);
+    var optionActual = selectToSort.val();
+    selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+    return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+    })).val(optionActual);
+}
 </script>
 @endpush

@@ -95,6 +95,7 @@
             $('#mdl_charge option[value="' + data.charge + '"]').attr('selected', 'selected');
             $('#mdl_notes').val(data.notes);
             $('#mdlIdAdditionalCharge').val(id_additionalCharge);
+            $('#mdl_concept').val(data.concept);
         });
     });//MODAL .get-additionalCharge
 
@@ -121,6 +122,12 @@
             $('#additionalCharge_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableCharge.ajax.reload();
+        }).fail(function (data) {
+            var errors = data.responseJSON;
+            $.each(errors, function(index, value){
+                $('[name="'+ index +'"]').after('<span class="help-block">'+value+'</span>')
+                    .parent().addClass('has-error');
+            });
         });
     });//MODAL .get-additionalCharge
 

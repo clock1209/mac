@@ -19,6 +19,7 @@ class Shipper extends Model
         'country',
         'zip_code',
         'rfc_taxid',
+        'customers_id',
     ];
 
     public function ports()

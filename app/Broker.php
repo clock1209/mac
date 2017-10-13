@@ -14,6 +14,7 @@ class Broker extends Model
         'countrycode',
         'phone',
         'status',
+        'contact',
     ];
 
     public function setCountrycodeAttribute ($value)

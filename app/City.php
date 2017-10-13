@@ -28,7 +28,7 @@ class City extends Model
                     ->orderBy('name', 'asc')
                     ->where('country', $country)
                     ->get();
-
+                    
         return $cities->toJson();
     }
 }

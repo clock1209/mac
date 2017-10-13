@@ -18,10 +18,11 @@ class ShipperController extends Controller
      */
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
-            return $this->toDatatable();
+            return $this->toDatatable($request->id);
         }
-        return view('shippers.index', ['countries'=>null]);
+        return view('shippers.index', ['countries'=>null,'customers_id'=>$request->id]);
     }
 
     /**
@@ -29,8 +30,9 @@ class ShipperController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
         $countries = [null => ' '];
         $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
         $area_codes = [null => ' '];
@@ -39,7 +41,8 @@ class ShipperController extends Controller
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
-        return view('shippers.create', ['countries' => $countries, 'area_codes' => $array]);
+        return view('shippers.create', ['countries' => $countries, 'area_codes' => $array,
+            'customers_id'=>$request->id]);
     }
 
     /**
@@ -50,6 +53,7 @@ class ShipperController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, $this->rules(), $this->ruleMessages());
 
         $data = $request->all();
@@ -65,7 +69,7 @@ class ShipperController extends Controller
             'text' => 'Shipper created successfully.'
         ];
 
-        return redirect('shippers')->with('message', $msg);
+        return redirect('shippers?id='.$request->customers_id)->with('message', $msg);
     }
 
     /**
@@ -86,8 +90,9 @@ class ShipperController extends Controller
      * @param  \App\Shipper  $shipper
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shipper $shipper)
+    public function edit(Shipper $shipper,Request $request)
     {
+
         $countries = Country::pluck('name', 'name');
         $area_codes = Country::pluck('area_code', 'code')->toArray();
         $areacode = null; $phone = null;
@@ -102,7 +107,7 @@ class ShipperController extends Controller
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
         return view('shippers.edit', ['shipper' => $shipper, 'countries' => $countries, 'area_codes' => $array,
-            'areacode' => $areacode, 'phone' => $phone]);
+            'areacode' => $areacode, 'phone' => $phone,'customers_id'=>$request->id]);
     }
 
     /**
@@ -128,7 +133,7 @@ class ShipperController extends Controller
             'text' => 'Shipper edited successfully.'
         ];
 
-        return redirect('shippers')->with('message', $msg);
+        return redirect('shippers?id='.$request->customers_id)->with('message', $msg);
     }
 
     /**
@@ -163,9 +168,9 @@ class ShipperController extends Controller
      * by: Octavio Cornejo
      * Creates datatable
      */
-    public function toDatatable()
+    public function toDatatable($id)
     {
-        $shippers = Shipper::where('status', 1)->get();
+        $shippers = Shipper::where('customers_id', $id)->where('status', 1)->get();
         return Datatables::of($shippers)
             ->addColumn('actions', function ($shipper) {
                 return view('shippers.partials.buttons', ['shipper' => $shipper]);

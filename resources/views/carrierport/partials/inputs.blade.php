@@ -2,7 +2,7 @@
 {{ Form::hidden('carrier_id', $id) }}
     <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
         <label for="type_lbl" class="control-label">Port*:</label>
-            {{ Form::select('portname_id', $port, null, ['class'=>'form-control']) }}
+            {{ Form::select('portname_id', $port, null, ['class'=>'form-control','id'=>'portname_id']) }}
     </div>
 </div>
   <h4 class="n-caption">Arbitrary*</h4>
@@ -22,37 +22,35 @@
 </div>
     <div class="row">
       <div class="col-md-6">
-        <div class="col-md-7 col-sm-10{{ $errors->has('departures') ? ' has-error' : '' }}">
+        <div class="col-md-5 col-sm-3{{ $errors->has('rate') ? ' has-error' : '' }}">
+              Include Subagent:
+            {!! Form::checkbox('include_subagent',1,$carrierport ? $carrierport->include_subagent : old('include_subagent'), ['class' => 'field']) !!}
+        </div><br></br>
+        <div class="col-md-4 col-sm-10{{ $errors->has('departures') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Departures*:</label>
             {!! Form::select('departures',
             [0 => ' ','MONDAY' => 'MONDAY', 'TUESDAY' => 'TUESDAY','WENDNESDAY' => 'WENDNESDAY', 'THURSDAY' => 'THURSDAY','FRIDAY' => 'FRIDAY', 'SATURDAY' => 'SATURDAY', 'SUNDAY' => 'SUNDAY'],
             $carrierport ? $carrierport->departures : null,
             ['class'=>'form-control', 'required']) !!}
         </div><br><br><br>
-        <div class="col-md-7 col-sm-10{{ $errors->has('tt') ? ' has-error' : '' }}">
+        <div class="col-md-4 col-sm-10{{ $errors->has('tt') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">T/T*:</label>
             {!! Form::text('tt',$carrierport ? $carrierport->tt : old('tt'),['class'=>'form-control', 'required']) !!}
         </div>
         <br><br><br>
-        <div class="col-md-7 col-sm-10{{ $errors->has('rate') ? ' has-error' : '' }}">
+        <div class="col-md-4 col-sm-10{{ $errors->has('rate') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Rate Type*:</label>
             {!! Form::select('rate',
             [0 => ' ','FAK' => 'FAK', 'NAC' => 'NAC'],
             $carrierport ? $carrierport->rate : null,
             ['class'=>'form-control', 'required']) !!}
         </div>
-
         <br><br><br>
-        <div class="col-md-7 col-sm-10{{ $errors->has('remarks') ? ' has-error' : '' }}">
+        <div class="col-md-4 col-sm-10{{ $errors->has('remarks') ? ' has-error' : '' }}">
             <label for="departure_lbl" class="control-label">Remarks:</label>
             {!! Form::textarea('remarks',$carrierport ? $carrierport->remarks : old('remarks'),['class'=>'field']) !!}
         </div>
       </div>
-      <div class="col-md-3 col-sm-3{{ $errors->has('rate') ? ' has-error' : '' }}">
-            Include Subagent:
-          {!! Form::checkbox('include_subagent',1,$carrierport ? $carrierport->include_subagent : old('include_subagent'), ['class' => 'field']) !!}
-      </div>
-      <br>
       <div class="col-md-6">
         <div class="col-md-6 col-sm-10{{ $errors->has('price') ? ' has-error' : '' }}">
             <h5 class="n-caption">Price calculation*</h5>

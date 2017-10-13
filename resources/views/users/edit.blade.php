@@ -22,5 +22,5 @@
     </div>
     {!! Form::close() !!}
 
-    @include('shippers.partials.script')
+
 @endsection

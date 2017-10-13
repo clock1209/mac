@@ -10,6 +10,8 @@ use App\Supplier;
 use App\Concepts;
 use File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
+use Session;
 
 class DocSupplierController extends Controller
 {
@@ -21,15 +23,15 @@ class DocSupplierController extends Controller
     public function index(Request $request)
     {
 
-      if(!auth()->user())
+        if(!auth()->user())
         return abort(404);
         if ($request->ajax()) {
             return $this->toDatatable($request->id);
         }
-        $concepts = [0 => 'Select Concept'];
+        $concepts = [0 => ' '];
         $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
 
-      return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts]);
+        return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id]);
     }
 
     /**
@@ -50,25 +52,44 @@ class DocSupplierController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request, $this->rules());
-      $extension = Input::file('doc')->getClientOriginalExtension();
-      $path = Storage::putFile($request->name, $request->file('doc'));
-      Storage::move($path, $request->name."/".$request->name.".".$extension);
+        if($request->name_reference)
+        {
+            Session::put('tab', 0);
+            $this->validate($request, $this->rules_reference());
+            $extension = Input::file('doc_reference')->getClientOriginalExtension();
+            $path = Storage::putFile($request->name_reference, $request->file('doc_reference'));
+            Storage::move($path, $request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
+            $doc =DocSuppliers::create([
+                'name'=> $request->name_reference,
+                'reference_number' =>0,
+                'cost' => 0,
+            ]);
+            $doc->name = $request->file('doc_reference')->getClientOriginalName();
+            $doc->supplier_id = $request->supplier_id;
+            $doc->doc = storage_path("signature/".$request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
+            $id=$doc->save();
 
+        }
+        else {
 
-      $doc =DocSuppliers::create($request->all());
-      $doc->name = $request->name;
-      $doc->supplier_id = $request->supplier_id;
-      $doc->doc = storage_path("signature/".$request->name."/".$request->name.".".$extension);
-      $id=$doc->save();
-      //dd($id);
-       $msg = [
-           'title' => 'Created!',
-           'type' => 'success',
-           'text' => 'Doc Supplier created successfully.'
-       ];
+            Session::put('tab', 1);
+            $this->validate($request, $this->rules());
+            $extension = Input::file('doc')->getClientOriginalExtension();
+            $path = Storage::putFile($request->name, $request->file('doc'));
+            Storage::move($path, $request->name."/".$request->file('doc')->getClientOriginalName());
+            $doc =DocSuppliers::create($request->all());
+            $doc->name = $request->file('doc')->getClientOriginalName();
+            $doc->supplier_id = $request->supplier_id;
+            $doc->doc = storage_path("signature/".$request->name."/".$request->file('doc')->getClientOriginalName());
+            $id=$doc->save();
+        }
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Doc Supplier created successfully.'
+        ];
 
-       return redirect('/docssupplier?id='.$request->supplier_id)->with('message', $msg);
+       return redirect('/docssupplier?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
 
     }
 
@@ -80,8 +101,8 @@ class DocSupplierController extends Controller
      */
     public function show($id)
     {
-      $doc  = DocSuppliers::find($id);
-      return response()->download($doc->doc);
+        $doc  = DocSuppliers::find($id);
+        return response()->download($doc->doc);
     }
 
     /**
@@ -92,19 +113,19 @@ class DocSupplierController extends Controller
      */
     public function edit($id)
     {
-      $doc = DocSuppliers::find($id);
-      File::delete($doc->doc);
-      $doc->status = 0;
-      $doc->name = $doc->name."_del";
-      $doc->save();
+        $doc = DocSuppliers::find($id);
+        File::delete($doc->doc);
+        $doc->status = 0;
+        $doc->name = $doc->name."_del";
+        $doc->save();
 
-      $msg = [
-          'title' => 'Delete!',
-          'type' => 'success',
-          'text' => 'Doc deleted successfully.'
-      ];
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Doc deleted successfully.'
+        ];
 
-      return redirect('/docssupplier?id='.$doc->supplier_id)->with('message', $msg);
+        return redirect('/docssupplier?id='.$doc->supplier_id)->with('message', $msg);
     }
 
     /**
@@ -127,17 +148,46 @@ class DocSupplierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doc = DocSuppliers::find($id);
+        File::delete($doc->doc);
+        $doc->status = 0;
+        $doc->name = $doc->name."_del";
+        $doc->save();
+
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Doc deleted successfully.'
+        ];
+
+        return response()->json($msg);
+
     }
 
     public function toDatatable($id)
     {
-
-        $docs = Supplier::find($id)->customDocs()->where('status', 1)->get();
-          return Datatables::of($docs)
+        $docs = DB::table('docs_supplier')
+            ->join('concepts', 'concepts.id', '=', 'docs_supplier.concept_id')
+            ->select('docs_supplier.id','docs_supplier.name','reference_number','bill',
+            'bank_account','concepts.name as concepts','cost','doc',
+            'supplier_id','docs_supplier.status')->where('supplier_id',$id)
+            ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
+        return Datatables::of($docs)
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
             })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public function supplierTableFilter($id)
+    {
+
+        $docs = Supplier::find($id)->customDocs()->where('status', 1)->whereNull('bill')->get();
+        return Datatables::of($docs)
+            ->addColumn('actions', function ($docs) {
+                return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
+              })
             ->rawColumns(['actions'])
             ->make(true);
     }
@@ -150,6 +200,15 @@ class DocSupplierController extends Controller
             'bank_account' => 'required|',
             'concept_id' => 'required|not_in:0',
             'doc'    => 'required|max:10000|mimes:doc,docx',
+            'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
+        ];
+    }
+
+    private function rules_reference()
+    {
+        return [
+            'name_reference' => 'required',
+            'doc_reference'    => 'required|max:10000|mimes:doc,docx',
         ];
     }
 }

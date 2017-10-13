@@ -45,13 +45,13 @@ class BrokerController extends Controller
     {
         $this->validate($request, $this->rules1(), $this->ruleMessages());
 
-
         if($request['customer_id']==0){
             $broker = new Broker($request->all());
             $broker['name']= $request->nameBroker;
             $broker['email']= $request->emailBroker;
             $broker['phone']= $request->phoneBroker;
             $broker['countrycode']= $request->countrycodebroker;
+            $broker['contact']= $request->contact;
             $broker['customer_id']= null;
             $broker->save();
         }
@@ -63,6 +63,7 @@ class BrokerController extends Controller
             $broker['countrycode']= $request->countrycodebroker;
             $broker['customer_id']= $request['customer_id'];
             $broker->customer_id =$request['customer_id'];
+            $broker['contact']= $request->contact;
             $broker->save();
         }
         $msg = [
@@ -91,9 +92,9 @@ class BrokerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Broker $broker)
     {
-        //
+        return response()->json($broker);
     }
 
     /**
@@ -103,9 +104,22 @@ class BrokerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Broker $broker)
     {
-        //
+        $this->validate($request, $this->rules1());
+        $broker->fill($request->all());
+        $broker->name=$request->nameBroker;
+        $broker->email=$request->emailBroker;
+        $broker->phone=$request->phoneBroker;
+        $broker->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Custom Broker edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -151,6 +165,7 @@ class BrokerController extends Controller
             ->rawColumns(['actions'])
             ->make(true);
     }
+
     private function rules1()
     {
         return [

@@ -8,7 +8,7 @@
 @endsection
 
 @section('main-content')
-  
+
     <a class="btn btn-success" href="{{ route('stuffs.create', ['consolidator'=>$con_id]) }}"><b>+ New concept cost </b></a>
     <a class="btn btn-default" href="{{ route('consolidators.index') }}"><b>Return</b></a>
     <br><br>

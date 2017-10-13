@@ -1,11 +1,11 @@
 @push('scripts')
 <script>
-var searchParams = new URLSearchParams(window.location.search);
-var id=searchParams.get("id")
+    var searchParams = new URLSearchParams(window.location.search);
+    var id=searchParams.get("id")
 
- $("#ruta").attr("href", "carrierport/create?id="+id);
+    $("#ruta").attr("href", "carrierport/create?id="+id);
+    $("#ruta_remark").attr("href", "remarks?id="+id);
 
-console.log(id)
     var dTable = $("#carrierport-table").DataTable({
         ajax: '/carrierport?id='+id,
         columns: [
@@ -61,6 +61,7 @@ console.log(id)
     });//BUTTON .delete-shipper
 
     $(document).ready(function () {
+        ordenarSelect('portname_id');
         var currency = {{ require('./js/currency.json') }};
         $('#currency').empty();
         $('#currency').select2();
@@ -70,5 +71,13 @@ console.log(id)
         });
     });
 
+    function ordenarSelect(id_componente)
+    {
+        var selectToSort = jQuery('#' + id_componente);
+        var optionActual = selectToSort.val();
+        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+        })).val(optionActual);
+    }
 </script>
 @endpush

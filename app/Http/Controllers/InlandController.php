@@ -167,10 +167,11 @@ class InlandController extends Controller
     private function rules()
     {
         return [
-            'type' => 'required|',
+            'type' => 'required|not_in:0',
             'cost' => 'required|not_in:0|numeric',
             'dischargeport_id' => 'required|not_in:0',
             'delivery_id' => 'required|not_in:0',
+            'container' => 'required|not_in:0',
             'currency' => 'required|not_in:0',
             'rangeup' => 'required|not_in:0',
             'rangeto' => 'required|not_in:0',

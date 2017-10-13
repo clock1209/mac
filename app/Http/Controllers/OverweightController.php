@@ -156,8 +156,8 @@ class OverweightController extends Controller
             'rangeup' => 'required|numeric',
             'rangeto' => 'required|numeric',
             'cost_overweight' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
-            'currency' => 'required',
-            'container' =>'required'
+            'currency' => 'required|not_in:0',
+            'container' =>'required|not_in:0'
         ];
     }
 

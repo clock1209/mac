@@ -24,7 +24,7 @@
             }
         },
         {
-            "targets": 3,
+            "targets": 4,
             "data": "rangeup",
             "render": function(data, type, full, meta) {
                 return full.rangeup + " - " + full.rangeto;

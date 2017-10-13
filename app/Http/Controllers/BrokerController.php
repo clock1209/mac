@@ -107,8 +107,10 @@ class BrokerController extends Controller
     public function update(Request $request,Broker $broker)
     {
         $this->validate($request, $this->rules1());
-
         $broker->fill($request->all());
+        $broker->name=$request->nameBroker;
+        $broker->email=$request->emailBroker;
+        $broker->phone=$request->phoneBroker;
         $broker->save();
 
         $msg = [

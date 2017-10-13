@@ -116,7 +116,7 @@
             $('#mdlPhoneBroker').val(data.phone);
             $('#mdlContact').val(data.contact);
             $('#MdlIdCustomBroker').val(id_broke);
-            $('#MdlIdCustomBroker').val(data.countrycode);
+          
 
         });
     });//MODAL .get-

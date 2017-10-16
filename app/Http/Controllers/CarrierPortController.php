@@ -84,6 +84,7 @@ class CarrierPortController extends Controller
         $price = Price::select('id','name') ->where('status', '=', 1)->get();
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        
         return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 

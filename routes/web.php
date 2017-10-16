@@ -154,7 +154,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/docssupplier/{id}/filter','DocSupplierController@supplierTableFilter');
 
     /*------------------VIEW PREVIEW ROUTES ------------------*/
-    Route::get('/docssupplier/{docid}/view','DocSupplierController@DocView');
+    Route::get('/docs-supplier/{docid}/view', 'DocSupplierController@DocView')
+        ->name('doc-view');
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes

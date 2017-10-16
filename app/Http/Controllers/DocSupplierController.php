@@ -12,7 +12,6 @@ use File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Session;
-use Redirect;
 
 class DocSupplierController extends Controller
 {
@@ -21,9 +20,11 @@ class DocSupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $url;
+
     public function index(Request $request)
     {
-
         if(!auth()->user())
         return abort(404);
         if ($request->ajax()) {
@@ -53,44 +54,41 @@ class DocSupplierController extends Controller
      */
     public function store(Request $request)
     {
+
         if($request->name_reference)
         {
             Session::put('tab', 0);
             $this->validate($request, $this->rules_reference());
-            $extension = Input::file('doc_reference')->getClientOriginalExtension();
-            $path = Storage::putFile($request->name_reference, $request->file('doc_reference'));
-            Storage::move($path, $request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
+            $path = $request->file('doc_reference')->store($request->supplier_id);
             $doc =DocSuppliers::create([
                 'name'=> $request->name_reference,
                 'reference_number' =>0,
                 'cost' => 0,
             ]);
-            $doc->name = $request->file('doc_reference')->getClientOriginalName();
-            $doc->supplier_id = $request->supplier_id;
-            $doc->doc = "signature/".$request->name_reference."/".$request->file('doc_reference')->getClientOriginalName();
-            $id=$doc->save();
+
+            $doc->fill($request->all());
+            $doc->doc = $path;
+            $doc->save();
 
         }
         else {
 
             Session::put('tab', 1);
             $this->validate($request, $this->rules());
-            $extension = Input::file('doc')->getClientOriginalExtension();
-            $path = Storage::putFile($request->name, $request->file('doc'));
-            Storage::move($path, $request->name."/".$request->file('doc')->getClientOriginalName());
+            $path = $request->file('doc')->store($request->supplier_id);
             $doc =DocSuppliers::create($request->all());
-            $doc->name = $request->file('doc')->getClientOriginalName();
-            $doc->supplier_id = $request->supplier_id;
-            $doc->doc = "signature/".$request->name."/".$request->file('doc')->getClientOriginalName();
-            $id=$doc->save();
+            $doc->fill($request->all());
+            $doc->doc = $path;
+            $doc->save();
         }
+
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
             'text' => 'Doc Supplier created successfully.'
         ];
 
-       return redirect('/docssupplier?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
+        return redirect('/docssupplier?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
 
     }
 
@@ -129,8 +127,8 @@ class DocSupplierController extends Controller
         }
          if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
              $url='https://view.officeapps.live.com/op/view.aspx?src='.
-                 'http://maritimo.nuvem.mx'.$doc->doc;
-             return Redirect::to($url);
+                 'http://maritimo.nuvem.mx'.'/storage/signature/'.$doc->doc;
+             return redirect($url);
          }
          else {
              return response()->file(storage_path($doc->doc), [
@@ -144,7 +142,7 @@ class DocSupplierController extends Controller
     public function show($id)
     {
         $doc  = DocSuppliers::find($id);
-        return response()->download(storage_path($doc->doc));
+        return response()->download(storage_path('signature/'.$doc->doc));
     }
 
     /**

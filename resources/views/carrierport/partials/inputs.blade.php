@@ -23,7 +23,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="col-md-5 col-sm-3{{ $errors->has('rate') ? ' has-error' : '' }}">
-              Include Subagent:
+              Subagente cost:
             {!! Form::checkbox('include_subagent',1,$carrierport ? $carrierport->include_subagent : old('include_subagent'), ['class' => 'field']) !!}
         </div><br></br>
         <div class="col-md-4 col-sm-10{{ $errors->has('departures') ? ' has-error' : '' }}">

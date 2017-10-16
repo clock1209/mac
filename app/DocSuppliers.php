@@ -16,5 +16,6 @@ class DocSuppliers extends Model
       'bank_account',
       'concept_id',
       'cost',
+      'supplier_id',
   ];
 }

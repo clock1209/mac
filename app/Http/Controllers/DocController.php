@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Storage;
-use Redirect;
 use Session;
 use View;
 use App\Doc;
@@ -20,6 +19,9 @@ class DocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $url;
+
     public function index(Request $request)
     {
 
@@ -52,23 +54,19 @@ class DocController extends Controller
     {
 
         $this->validate($request, $this->rules());
-        $path = storage_path();
-        $extension = Input::file('doc')->getClientOriginalExtension();
-        $path = Storage::putFile($request->name, $request->file('doc'));
-        Storage::move($path, $request->name."/".$request->name.".".$extension);
+        $path = $request->file('doc')->store($request->customer_id);
         $doc = new Doc;
-        $doc->name = $request->name;
-        $doc->customer_id = $request->custom_id;
-        $doc->doc = "signature/".$request->name."/".$request->name.".".$extension;
-        $id=$doc->save();
-        //dd($id);
-         $msg = [
-             'title' => 'Created!',
-             'type' => 'success',
-             'text' => 'Doc created successfully.'
-         ];
+        $doc->fill($request->all());
+        $doc->doc = $path;
+        $doc->save();
 
-         return redirect('/docs?id='.$request->custom_id)->with('message', $msg);
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Doc created successfully.'
+        ];
+
+        return redirect('/docs?id='.$request->customer_id)->with('message', $msg);
     }
 
     /**
@@ -80,7 +78,7 @@ class DocController extends Controller
     public function show($id)
     {
         $doc  = Doc::find($id);
-        return response()->download(storage_path($doc->doc));
+        return response()->download(storage_path('signature/'.$doc->doc));
     }
 
     /**
@@ -92,14 +90,11 @@ class DocController extends Controller
     public function edit($id)
     {
 
-
         $doc = Doc::find($id);
         File::delete($doc->doc);
         $doc->status = 0;
         $doc->name = $doc->name."_del";
         $doc->save();
-
-
         $msg = [
             'title' => 'Delete!',
             'type' => 'success',
@@ -139,11 +134,11 @@ class DocController extends Controller
 
         if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
             $url='https://view.officeapps.live.com/op/view.aspx?src='.
-                'http://maritimo.nuvem.mx'.$doc->doc;
-            return Redirect::to($url);
+                'http://maritimo.nuvem.mx'.'/storage/signature/'.$doc->doc;
+            return redirect($url);
         }
         else {
-            return response()->file(storage_path($doc->doc), [
+            return response()->file(storage_path('/signature/').$doc->doc, [
                 'Content-Type' => $content_types,
                 'target' => '_blank'
             ]);

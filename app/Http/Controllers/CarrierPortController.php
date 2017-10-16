@@ -51,8 +51,6 @@ class CarrierPortController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $this->validate($request, $this->rules());
         CarrierPort::create($request->all());
 
@@ -63,7 +61,6 @@ class CarrierPortController extends Controller
         ];
 
         return redirect('/carrierport?id='.$request->carrier_id)->with('message', $msg);
-
     }
 
     /**
@@ -74,7 +71,7 @@ class CarrierPortController extends Controller
      */
     public function show(Request $request,$id)
     {
-      //dd($id);
+      //
     }
     /**
      * Show the form for editing the specified resource.
@@ -84,11 +81,10 @@ class CarrierPortController extends Controller
      */
     public function edit(Carrierport $carrierport)
     {
-
-      $price = Price::select('id','name') ->where('status', '=', 1)->get();
-      $ports = [0 => ' '];
-      $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-      return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
+        $price = Price::select('id','name') ->where('status', '=', 1)->get();
+        $ports = [0 => ' '];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 
     /**
@@ -100,28 +96,24 @@ class CarrierPortController extends Controller
      */
     public function update(Request $request, CarrierPort $carrierport)
     {
+        $request->flash();
+        if($request->include_subagent==1){
+            $carrierport->include_subagent = $request->include_subagent;
+        }
+        else{
+            $carrierport->include_subagent =0;
+        }
+        $this->validate($request, $this->rules());
+        $carrierport->fill($request->all());
+        $carrierport->save();
 
-      $request->flash();
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Carrier port edited successfully.'
+        ];
 
-      if($request->include_subagent==1){
-        $carrierport->include_subagent = $request->include_subagent;
-
-      }
-      else {
-          $carrierport->include_subagent =0;
-      }
-      $this->validate($request, $this->rules());
-
-      $carrierport->fill($request->all());
-      $carrierport->save();
-
-      $msg = [
-          'title' => 'Edited!',
-          'type' => 'success',
-          'text' => 'Carrier port edited successfully.'
-      ];
-
-      return redirect('/carrierport?id='.$carrierport->carrier_id)->with('message', $msg);
+        return redirect('/carrierport?id='.$carrierport->carrier_id)->with('message', $msg);
     }
 
     /**
@@ -132,29 +124,29 @@ class CarrierPortController extends Controller
      */
     public function destroy(Carrierport $carrierport)
     {
-      if ($carrierport) {
-          $status = $carrierport->status ? 0 : 1;
+        if ($carrierport) {
+        $status = $carrierport->status ? 0 : 1;
 
-          if($status) {
-              $msg = [
-                  'title' => 'Activated!',
-                  'type' => 'success',
-                  'text' => 'Carrier activaded successfully.'
-              ];
-          } else {
-              $msg = [
-                  'title' => 'Deleted!',
-                  'type' => 'success',
-                  'text' => 'Carrier Port deleted successfully.'
-              ];
+        if($status) {
+            $msg = [
+                'title' => 'Activated!',
+                'type' => 'success',
+                'text' => 'Carrier activaded successfully.'
+            ];
+          }else {
+            $msg = [
+                'title' => 'Deleted!',
+                'type' => 'success',
+                'text' => 'Carrier Port deleted successfully.'
+            ];
           }
 
-          $carrierport->status = $status;
-          $carrierport->save();
+            $carrierport->status = $status;
+            $carrierport->save();
+            return response()->json($msg);
+        }
 
-          return response()->json($msg);
-      }
-      return abort(404);
+        return abort(404);
     }
 
     public function toDatatable($id)

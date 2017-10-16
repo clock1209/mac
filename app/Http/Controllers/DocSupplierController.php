@@ -12,6 +12,7 @@ use File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Redirect;
 
 class DocSupplierController extends Controller
 {
@@ -66,7 +67,7 @@ class DocSupplierController extends Controller
             ]);
             $doc->name = $request->file('doc_reference')->getClientOriginalName();
             $doc->supplier_id = $request->supplier_id;
-            $doc->doc = storage_path("signature/".$request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
+            $doc->doc = "signature/".$request->name_reference."/".$request->file('doc_reference')->getClientOriginalName();
             $id=$doc->save();
 
         }
@@ -80,7 +81,7 @@ class DocSupplierController extends Controller
             $doc =DocSuppliers::create($request->all());
             $doc->name = $request->file('doc')->getClientOriginalName();
             $doc->supplier_id = $request->supplier_id;
-            $doc->doc = storage_path("signature/".$request->name."/".$request->file('doc')->getClientOriginalName());
+            $doc->doc = "signature/".$request->name."/".$request->file('doc')->getClientOriginalName();
             $id=$doc->save();
         }
         $msg = [
@@ -99,10 +100,51 @@ class DocSupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     public function DocView($id, Request $request) {
+        $doc = DocSuppliers::find($id);
+        $ext = File::extension($doc->doc);
+        if ($ext == 'pdf') {
+            $content_types = 'application/pdf';
+        }
+         elseif($ext == 'doc') {
+            $content_types = 'application/msword';
+        }
+        elseif($ext == 'docx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        }
+        elseif($ext == 'xls') {
+            $content_types = 'application/vnd.ms-excel';
+        }
+        elseif($ext == 'xlsx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        }
+        elseif($ext == 'jpg') {
+            $content_types = 'image/jpg';
+        }
+        elseif($ext == 'jpeg') {
+            $content_types = 'image/jpeg';
+        }
+        elseif($ext == 'png') {
+            $content_types = 'image/png';
+        }
+         if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
+             $url='https://view.officeapps.live.com/op/view.aspx?src='.
+                 'http://maritimo.nuvem.mx'.$doc->doc;
+             return Redirect::to($url);
+         }
+         else {
+             return response()->file(storage_path($doc->doc), [
+                 'Content-Type' => $content_types,
+                 'target' => '_blank'
+             ]);
+         }
+
+    }
+
     public function show($id)
     {
         $doc  = DocSuppliers::find($id);
-        return response()->download($doc->doc);
+        return response()->download(storage_path($doc->doc));
     }
 
     /**
@@ -199,7 +241,7 @@ class DocSupplierController extends Controller
             'bill' => 'required|',
             'bank_account' => 'required|',
             'concept_id' => 'required|not_in:0',
-            'doc'    => 'required|max:10000|mimes:doc,docx',
+            'doc'    => 'required|max:10000',
             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
         ];
     }
@@ -208,7 +250,7 @@ class DocSupplierController extends Controller
     {
         return [
             'name_reference' => 'required',
-            'doc_reference'    => 'required|max:10000|mimes:doc,docx',
+            'doc_reference'    => 'required|max:10000',
         ];
     }
 }

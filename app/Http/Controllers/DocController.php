@@ -52,13 +52,14 @@ class DocController extends Controller
     {
 
         $this->validate($request, $this->rules());
+        $path = storage_path();
         $extension = Input::file('doc')->getClientOriginalExtension();
         $path = Storage::putFile($request->name, $request->file('doc'));
         Storage::move($path, $request->name."/".$request->name.".".$extension);
         $doc = new Doc;
         $doc->name = $request->name;
         $doc->customer_id = $request->custom_id;
-        $doc->doc = storage_path("signature/".$request->name."/".$request->name.".".$extension);
+        $doc->doc = "signature/".$request->name."/".$request->name.".".$extension;
         $id=$doc->save();
         //dd($id);
          $msg = [
@@ -79,7 +80,7 @@ class DocController extends Controller
     public function show($id)
     {
         $doc  = Doc::find($id);
-        return response()->download($doc->doc);
+        return response()->download(storage_path($doc->doc));
     }
 
     /**
@@ -114,6 +115,18 @@ class DocController extends Controller
         if ($ext == 'pdf') {
             $content_types = 'application/pdf';
         }
+        elseif($ext == 'doc') {
+            $content_types = 'application/msword';
+        }
+        elseif($ext == 'docx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        }
+        elseif($ext == 'xls') {
+            $content_types = 'application/vnd.ms-excel';
+        }
+        elseif($ext == 'xlsx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        }
         elseif($ext == 'jpg') {
             $content_types = 'image/jpg';
         }
@@ -122,25 +135,19 @@ class DocController extends Controller
         }
         elseif($ext == 'png') {
             $content_types = 'image/png';
-        }else {
-
-            $msg = [
-                'title' => 'Error!',
-                'type' => 'error',
-                'text' => 'No se puede mostrar vista previa.'
-            ];
-
-            $url='https://view.officeapps.live.com/op/view.aspx?'.
-                'src=http://maritimo.nuvem.mx'.$doc->doc;
-
         }
 
-        return Redirect::to($url);
-
-        return response()->file($doc->doc, [
-            'Content-Type' => $content_types,
-            'target' => '_blank'
-        ]);
+        if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
+            $url='https://view.officeapps.live.com/op/view.aspx?src='.
+                'http://maritimo.nuvem.mx'.$doc->doc;
+            return Redirect::to($url);
+        }
+        else {
+            return response()->file(storage_path($doc->doc), [
+                'Content-Type' => $content_types,
+                'target' => '_blank'
+            ]);
+        }
 
     }
 

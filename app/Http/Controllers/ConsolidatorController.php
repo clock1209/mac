@@ -115,31 +115,35 @@ class ConsolidatorController extends Controller
      * @param  \App\Consolidator  $consolidator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Consolidator $consolidator)
+    public function destroy(Request $request)
     {
-        if ($consolidator) {
-            $status = $consolidator->status ? 0 : 1;
 
-            if($status) {
-                $msg = [
-                    'title' => 'Activated!',
-                    'type' => 'success',
-                    'text' => 'Consolidator activaded successfully.'
-                ];
-            } else {
-                $msg = [
-                    'title' => 'Deleted!',
-                    'type' => 'success',
-                    'text' => 'Consolidator deleted successfully.'
-                ];
-            }
+        if($request->type==2){
+            $consolidator = Consolidator::findOrFail($request->id);
+            $consolidator->status = 2;
 
-            $consolidator->status = $status;
-            $consolidator->save();
+            $msg = [
+                'title' => 'Delete!',
+                'type' => 'success',
+                'text' => 'Price delete'
+            ];
 
-            return response()->json($msg);
+        }else {
+            $consolidator = Consolidator::findOrFail($request->id);
+            $consolidator->status = ($consolidator->status == 1) ? 0 : 1;
+
+            $msg = [
+                'title' => 'Change!',
+                'type' => 'success',
+                'text' => ($consolidator->status == 1) ? 'Consolidator activated.' : 'Consolidator deactivated.'
+            ];
         }
-        return abort(404);
+
+
+        $consolidator->save();
+
+        return response()->json($msg);
+
     }
 
     /**
@@ -150,7 +154,7 @@ class ConsolidatorController extends Controller
      */
     public function toDatatable()
     {
-        $consolidators = Consolidator::get();
+        $consolidators = Consolidator::where('status', '<>', 2)->get();
         return Datatables::of($consolidators)
             ->addColumn('actions', function ($consolidator) {
                 return view('consolidators.partials.buttons', ['consolidator' => $consolidator]);

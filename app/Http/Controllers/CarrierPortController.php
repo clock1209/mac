@@ -19,13 +19,13 @@ class CarrierPortController extends Controller
      */
     public function index(Request $request)
     {
-      if(!auth()->user())
-          return abort(404);
-          if ($request->ajax()) {
-              return $this->toDatatable($request->id);
-          }
+        if(!auth()->user())
+        return abort(404);
+        if ($request->ajax()) {
+            return $this->toDatatable($request->id);
+        }
 
-      return view('carrierport.index');
+        return view('carrierport.index');
     }
 
     /**
@@ -84,7 +84,7 @@ class CarrierPortController extends Controller
         $price = Price::select('id','name') ->where('status', '=', 1)->get();
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        
+
         return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 
@@ -104,6 +104,7 @@ class CarrierPortController extends Controller
         else{
             $carrierport->include_subagent =0;
         }
+
         $this->validate($request, $this->rules());
         $carrierport->fill($request->all());
         $carrierport->save();

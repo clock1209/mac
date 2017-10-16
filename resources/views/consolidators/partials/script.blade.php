@@ -14,6 +14,31 @@
         consolidator_id = $(this).attr('consolidator_id');
         swal({
             title: 'Are you sure?',
+            text: "You'll deactivate this consolidator.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, deactivate this consolidator!'
+        }).then(function () {
+            $.ajax({
+                url: '/consolidators/' + consolidator_id,
+                type: 'DELETE',
+                dataType: 'json',
+                data: {id: consolidator_id,
+                    type:1}
+            }).done(function(data){
+                sAlert(data.title, data.type, data.text);
+                dTable.ajax.reload();
+            });
+        });
+    });//BUTTON .delete-shipper
+
+    $('body').delegate('.delete-consolidator-level2','click',function(){
+        consolidator_id = $(this).attr('consolidator_id');
+        swal({
+            title: 'Are you sure?',
             text: "it won't be possible to reverse this action.",
             type: 'warning',
             showCancelButton: true,
@@ -26,7 +51,8 @@
                 url: '/consolidators/' + consolidator_id,
                 type: 'DELETE',
                 dataType: 'json',
-                data: {id: consolidator_id}
+                data: {id: consolidator_id,
+                    type:2}
             }).done(function(data){
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();
@@ -50,7 +76,8 @@
                 url: '/consolidators/' + consolidator_id,
                 type: 'DELETE',
                 dataType: 'json',
-                data: {id: consolidator_id}
+                data: {id: consolidator_id,
+                    type:1}
             }).done(function(data){
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();

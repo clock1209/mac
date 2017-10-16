@@ -24,7 +24,33 @@
                 url: '/prices/' + port_id,
                 type: 'DELETE',
                 dataType: 'json',
-                data: {id: port_id}
+                data: {id: port_id,
+                    type:'1'}
+            }).done(function(data){
+                sAlert(data.title, data.type, data.text);
+                dTable.ajax.reload();
+            });
+        });
+    });//BUTTON .delete-shipper
+
+    $('body').delegate('.delete-port_level2','click',function(){
+        port_id = $(this).attr('port_id');
+        swal({
+            title: 'Are you sure?',
+            text: "You'll delete this price.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Delete!'
+        }).then(function () {
+            $.ajax({
+                url: '/prices/' + port_id,
+                type: 'DELETE',
+                dataType: 'json',
+                data: {id: port_id,
+                    type:'2'}
             }).done(function(data){
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();
@@ -48,7 +74,8 @@
                 url: '/prices/' + port_id,
                 type: 'DELETE',
                 dataType: 'json',
-                data: {id: port_id}
+                data: {id: port_id,
+                    type:'1'}
             }).done(function(data){
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();

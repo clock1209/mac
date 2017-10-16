@@ -30,7 +30,7 @@ class DocSupplierController extends Controller
             return $this->toDatatable($request->id);
         }
         $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->where('status',1)->toArray());
 
         return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id]);
     }

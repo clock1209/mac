@@ -90,7 +90,7 @@ class InlandController extends Controller
     {
         Session::put('tab', 3);
         $inland = Inlandscharges::find($inlands);
-        $concepts = Concepts::pluck('name', 'id')->toArray();
+        $concepts = Concepts::pluck('name', 'id')->where('status',1)->toArray();
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,

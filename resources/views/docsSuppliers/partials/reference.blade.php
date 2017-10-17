@@ -5,7 +5,7 @@
 </div>
 <div class="row" style="background: rgba(128, 128, 128, 0.14); padding: 10px;
 border-radius: 15px; margin: 5px;">
-    {!!Form::open(array('url' => '/docssupplier','files'=>'true')) !!}
+    {!!Form::open(array('url' => '/docs-suppliers','files'=>'true')) !!}
     {{ Form::hidden('supplier_id', $supplier_id, array('id' => 'supplier_id')) }}
         <div class="col-md-10">
             <div class="form-group">

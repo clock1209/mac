@@ -5,7 +5,7 @@
 </div>
 <div class="row" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
 border-radius: 15px; margin: 10px;">
-    {!!Form::open(array('url' => '/docssupplier','files'=>'true')) !!}
+    {!!Form::open(array('url' => '/docs-suppliers','files'=>'true')) !!}
     {{ Form::hidden('supplier_id', $supplier_id, array('id' => 'supplier_id')) }}
         <div class="col-md-10">
             <div class="form-group">
@@ -19,7 +19,7 @@ border-radius: 15px; margin: 10px;">
                 </div>
                 <div class="col-md-3 col-sm-12{{ $errors->has('bank_account') ? ' has-error' : '' }}">
                     <label for="name_lbl" class="control-label">Bank account*:</label>
-                        {!! Form::text('bank_account',$docssupplier ? $docssupplier->bank_account : old('bank_account'),['class'=>'form-control', 'required']) !!}
+                        {!! Form::select('bank_account', $bank_account , 0, ['class'=>'form-control']) !!}
                 </div>
             </div>
         </div>

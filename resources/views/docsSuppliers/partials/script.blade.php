@@ -4,7 +4,7 @@ var searchParams = new URLSearchParams(window.location.search);
 var id=searchParams.get("id")
 $( "#supplier_id" ).val(id);
     var dTable = $("#docsSuppliers-table").DataTable({
-        ajax: '/docssupplier?id='+id,
+        ajax: '/docs-suppliers?id='+id,
         columns: [
             {data: 'reference_number'},
             {data: 'bill'},
@@ -19,12 +19,12 @@ $( "#supplier_id" ).val(id);
             "data": "doc",
             "render": function ( data, type, full, meta )
             {
-                return '<a href="docssupplier/'+full.id+'">'+full.name+'</a>';
+                return '<a href="docs-suppliers/'+full.id+'">'+full.name+'</a>';
             }
       }],
     });
         var dTable_ = $("#supplierReference-table").DataTable({
-            ajax: '/docssupplier/'+id+'/filter',
+            ajax: '/docs-suppliers/'+id+'/filter',
             columns: [
                 {data: 'name'},
                 {data: 'doc'},
@@ -35,7 +35,7 @@ $( "#supplier_id" ).val(id);
                 "data": "doc",
                 "render": function ( data, type, full, meta )
                 {
-                    return '<a href="docssupplier/'+full.id+'">'+full.name+'</a>';
+                    return '<a href="docs-suppliers/'+full.id+'">'+full.name+'</a>';
                 }
           }],
         });
@@ -53,7 +53,7 @@ $( "#supplier_id" ).val(id);
                 confirmButtonText: 'Yes, delete this doc!'
             }).then(function () {
                 $.ajax({
-                    url: '/docssupplier/'+id,
+                    url: '/docs-suppliers/'+id,
                     type: 'DELETE',
                     dataType: 'json',
                     data: {id: id}

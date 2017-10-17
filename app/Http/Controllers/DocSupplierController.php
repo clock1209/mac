@@ -8,6 +8,7 @@ use Storage;
 use App\DocSuppliers;
 use App\Supplier;
 use App\Concepts;
+use App\BankAccount;
 use File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -25,15 +26,20 @@ class DocSupplierController extends Controller
 
     public function index(Request $request)
     {
+
         if(!auth()->user())
         return abort(404);
         if ($request->ajax()) {
+            Session::put('tab', 0);
             return $this->toDatatable($request->id);
         }
         $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->where('status',1)->toArray());
-
-        return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id]);
+        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'id')->toArray());
+        $bank_account = [0 => ' '];
+        $bank_account = array_merge($bank_account, BankAccount::where('status',1)
+            ->pluck('bank', 'bank')->toArray());
+        return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,
+            'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id,'bank_account'=>$bank_account]);
     }
 
     /**
@@ -79,6 +85,7 @@ class DocSupplierController extends Controller
             $doc =DocSuppliers::create($request->all());
             $doc->fill($request->all());
             $doc->doc = $path;
+            $doc->name = $request->doc->getClientOriginalName();
             $doc->save();
         }
 
@@ -88,7 +95,7 @@ class DocSupplierController extends Controller
             'text' => 'Doc Supplier created successfully.'
         ];
 
-        return redirect('/docssupplier?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
+        return redirect('/docs-suppliers?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
 
     }
 
@@ -127,11 +134,11 @@ class DocSupplierController extends Controller
         }
          if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
              $url='https://view.officeapps.live.com/op/view.aspx?src='.
-                 'http://maritimo.nuvem.mx'.'/storage/signature/'.$doc->doc;
+                 'http://maritimo.nuvem.mx'.storage_path('signature/'.$doc->doc);
              return redirect($url);
          }
          else {
-             return response()->file(storage_path($doc->doc), [
+             return response()->file(storage_path('signature/'.$doc->doc), [
                  'Content-Type' => $content_types,
                  'target' => '_blank'
              ]);
@@ -165,7 +172,7 @@ class DocSupplierController extends Controller
             'text' => 'Doc deleted successfully.'
         ];
 
-        return redirect('/docssupplier?id='.$doc->supplier_id)->with('message', $msg);
+        return redirect('/docs-suppliers?id='.$doc->supplier_id)->with('message', $msg);
     }
 
     /**

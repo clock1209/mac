@@ -11,14 +11,13 @@
 {!! Form::open(['route'=>'concepts.store', 'method'=>'POST', 'class' => 'form-horizontal']) !!}
 @permission('create_concepts')
 <div class="row">
-  <div class="col-md-9">
-    Name*
-  </div>
-  <div class="col-md-4">
-    {!! Form::text('name','',['class'=>'form-control']) !!}
-  </div>
-  <div class="col-md-4">  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button>
+    <div class="col-md-9">
+        Name*
     </div>
+    <div class="col-md-4">
+        {!! Form::text('name','',['class'=>'form-control']) !!}
+    </div>
+    <div class="col-md-4"><button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Add</button></div>
 </div>
 @endpermission
 <br>

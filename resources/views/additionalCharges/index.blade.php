@@ -8,12 +8,12 @@
         <div class="col-md-3 col-sm-12 {{ $errors->has('collect_prepaid') ? ' has-error' : '' }}">
             <label for="collect_prepaid_lbl" class="control-label">Collect/prepaid*:</label>
             {!! Form::select('collect_prepaid', [' ' => ' ','Collect' => 'Collect', 'Prepaid' => 'Prepaid'], null,
-                ['class'=>'form-control']) !!}
+                ['class'=>'form-control','id'=>'collect_prepaid']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('import_export') ? ' has-error' : '' }}">
             <label for="import_export_lbl" class="control-label">Import/Export*:</label>
             {!! Form::select('import_export', [' ' => ' ','Import' => 'Import', 'Export' => 'Export'], null,
-                ['class'=>'form-control']) !!}
+                ['class'=>'form-control','id'=>'import_export']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('amount') ? ' has-error' : '' }}">
             <label for="amount_lbl" class="control-label">Amount*:</label>
@@ -27,18 +27,18 @@
         </div>
         <div class="col-md-3 col-sm-12 {{ $errors->has('last_updated') ? ' has-error' : '' }}">
             <label for="last_updated_lbl" class="control-label">Last updated*:</label>
-            {!! Form::date('last_updated', \Carbon\Carbon::now(), ['class'=>'form-control']) !!}
+            {!! Form::date('last_updated', \Carbon\Carbon::now(), ['class'=>'form-control','id'=>'last_updated']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge_type') ? ' has-error' : '' }}">
             <label for="charge_type_lbl" class="control-label">Charge type*:</label>
             {!! Form::select('charge_type', [' ' => ' ','BL' => 'BL', 'Container' => 'Container', 'Others' => 'Others'],
-                null, ['class'=>'form-control']) !!}
+                null, ['class'=>'form-control','id'=>'charge_type']) !!}
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge') ? ' has-error' : '' }}">
             <label for="charge_lbl" class="control-label">Charge*:</label>
             {!! Form::select('charge', [' ' => ' ','ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board',
                 'ETB' => 'ETB'], null,
-                ['class'=>'form-control']) !!}
+                ['class'=>'form-control','id'=>'charge']) !!}
         </div>
     </div>{{--form-group--}}
     <div class="form-group">
@@ -49,7 +49,7 @@
     </div>{{--form-group--}}
     {!! Form::hidden('notes', null, ['id'=>'mdlIdAdditionalCharge']) !!}
 </div>{{--ac-form--}}
-<span class="btn btn-success" id="btn-additional-charge"><span class="glyphicon glyphicon-plus"></span> Add</span><br><br>
+<button type="button" id="btn-additional-charge" class="btn btn-success" style="margin-bottom:2%;"><span class="glyphicon glyphicon-plus"></span> Add</button>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
         <table class="table table-bordered table-hover" id="additional-charges-table">

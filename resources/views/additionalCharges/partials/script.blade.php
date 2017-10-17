@@ -36,7 +36,6 @@
                 supplier_id: $('[name="supplier_id"]').val()
             }
         }).done(function (data) {
-            console.log(data);
             resetAdditionalChargeInputs();
             sAlert(data.title, data.type, data.text);
             dTableCharge.ajax.reload();
@@ -68,7 +67,6 @@
                 dataType: 'json',
                 data: {id: id_additionalCharge}
             }).done(function(data){
-                console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTableCharge.ajax.reload();
             });
@@ -84,18 +82,18 @@
             dataType: 'json',
             data : {id: id_additionalCharge}
         }).done(function(data){
-            console.log(data);
             $('#mdl_concept option[value="' + data.concept + '"]').attr('selected', 'selected');
             $('#mdl_collect_prepaid option[value="' + data.collect_prepaid + '"]').attr('selected', 'selected');
             $('#mdl_import_export option[value="' + data.import_export + '"]').attr('selected', 'selected');
             $('#mdl_amount').val(data.amount);
-            $('#mdl_currency-ac').val(data.currency);
             $('#mdl_last_updated').val(data.last_updated);
             $('#mdl_charge_type option[value="' + data.charge_type + '"]').attr('selected', 'selected');
             $('#mdl_charge option[value="' + data.charge + '"]').attr('selected', 'selected');
             $('#mdl_notes').val(data.notes);
             $('#mdlIdAdditionalCharge').val(id_additionalCharge);
             $('#mdl_concept').val(data.concept);
+            $('#mdl_currency-ac').val(data.currency);
+            $('#mdl_currency-ac').trigger('change');
         });
     });//MODAL .get-additionalCharge
 
@@ -132,9 +130,17 @@
     });//MODAL .get-additionalCharge
 
     function resetAdditionalChargeInputs() {
+
         $('[name="amount"]').val('');
-        $('[name="last_updated"]').val('{!! \Carbon\Carbon::now() !!}');
+        $('[name="last_updated"]').val('{!! \Carbon\Carbon::now()->format('Y-m-d') !!}');
         $('[name="notes"]').val('');
+        $('[name="concept"]').val('');
+        $('[name="collect_prepaid"]').val('');
+        $('[name="import_export"]').val('');
+        $('[name="currency"]').val('');
+        $('#currency-ac').trigger('change');
+        $('[name="charge_type"]').val('');
+        $('[name="charge"]').val('');
     }
 
     $(document).ready(function () {
@@ -152,6 +158,27 @@
             $('#currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
             $('#mdl_currency-ac').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
+
+        $('#currency-ac').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#last_updated").focus();
+            });
+        });
+
+        $('#mdl_currency-ac').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#mdl_last_updated").focus();
+            });
+        });
+
     });
 
     @if (Session::has('message'))

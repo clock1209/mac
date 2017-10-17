@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Remark;
-use App\Concepts;
-use App\PortName;
+use App\RemarkCondition;
 use Yajra\Datatables\Datatables;
 
-class RemarkController extends Controller
+class RemarkConditionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,19 +15,8 @@ class RemarkController extends Controller
      */
     public function index(Request $request)
     {
-
-        session(['carrier_id' => $request->id]);
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-
-        $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::orderby('name','ASC')->where('status',1)->pluck('name', 'id')->toArray());
-
         if ($request->ajax())
             return $this->toDatatable($request->id);
-
-            return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,
-                'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports,'idCarrier'=> $request->id]);
     }
 
     /**
@@ -52,7 +39,7 @@ class RemarkController extends Controller
     {
         session()->put('tab', 0);
         $this->validate($request, $this->rules());
-        $remark = new Remark($request->all());
+        $remark = new RemarkCondition($request->all());
         $remark->save();
         $msg = [
             'title' => 'Created!',
@@ -80,9 +67,10 @@ class RemarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Remark $remark)
+    public function edit($id)
     {
-        return response()->json($remark);
+        $remarkcondition = RemarkCondition::find($id);
+        return response()->json($remarkcondition);
     }
 
     /**
@@ -92,16 +80,17 @@ class RemarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Remark $remark)
+    public function update(Request $request,$id)
     {
         $this->validate($request, $this->rules());
-        $remark->fill($request->all());
-        $remark->save();
+        $RemarkCondition = RemarkCondition::find($id);
+        $RemarkCondition->fill($request->all());
+        $RemarkCondition->save();
 
         $msg = [
             'title' => 'Edited!',
             'type' => 'success',
-            'text' => 'Note edited successfully.'
+            'text' => 'Condition edited successfully.'
         ];
 
         return response()->json($msg);
@@ -115,14 +104,14 @@ class RemarkController extends Controller
      */
     public function destroy($id)
     {
-        $note = Remark::find($id);
-        $note->status = 0;
-        $note->save();
+        $condition = RemarkCondition::find($id);
+        $condition->status = 0;
+        $condition->save();
 
         $msg = [
             'title' => 'Delete!',
             'type' => 'success',
-            'text' => 'Note deleted successfully.'
+            'text' => 'Condition deleted successfully.'
         ];
 
         return response()->json($msg);
@@ -131,16 +120,17 @@ class RemarkController extends Controller
     private function rules()
     {
         return [
-            'note' => 'required'
+            'free_demurrage' => 'required',
+            'price_day' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric',
         ];
     }
 
     public function toDatatable($id)
     {
-        $note = Remark::where('carrier_id', $id)->where('status', 1)->get();
-        return Datatables::of($note)
-            ->addColumn('actions', function ($note) {
-                return view('remarks.partials.buttons', ['note' => $note]);
+        $condition = RemarkCondition::where('carrier_id', $id)->where('status', 1)->get();
+        return Datatables::of($condition)
+            ->addColumn('actions', function ($condition) {
+                return view('remarks.partials.buttons_conditions', ['condition' => $condition]);
             })
             ->rawColumns(['actions'])
             ->make(true);

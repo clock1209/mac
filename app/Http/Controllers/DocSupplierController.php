@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Session;
 
+
 class DocSupplierController extends Controller
 {
     /**
@@ -22,7 +23,7 @@ class DocSupplierController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $url;
+    protected $url='https://view.officeapps.live.com/op/view.aspx?src=http://maritimo.nuvem.mx/storage/signature/';
 
     public function index(Request $request)
     {
@@ -133,9 +134,7 @@ class DocSupplierController extends Controller
             $content_types = 'image/png';
         }
          if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
-             $url='https://view.officeapps.live.com/op/view.aspx?src='.
-                 'http://maritimo.nuvem.mx'.storage_path('signature/'.$doc->doc);
-             return redirect($url);
+             return redirect($this->url.$doc->doc);
          }
          else {
              return response()->file(storage_path('signature/'.$doc->doc), [

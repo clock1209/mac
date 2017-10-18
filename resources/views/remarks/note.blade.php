@@ -39,21 +39,21 @@
                 <button style="" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
             </div>
         </div>
-    {{ Form::close() }}
-    <div class="col-md-4 col-sm-8" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
-        border-radius: 15px; margin-left: 30px;">
-        <div class="row">
-            <h3 class="text-center">Type demurrage:</h3>
-            <div class="col-md-8">
-                {{ Form::radio('demurrage','One clock', old('price'),['class'=>'field', 'required']) }}
-                <label for="demurrage_lbl" class="control-label">One clock</label>
-            </div>
-            <div class="col-md-8">
-                {{ Form::radio('demurrage','Demurrage and detentions', old('price'),['class'=>'field', 'required']) }}
-                <label for="demurrage_lbl" class="control-label">Demurrage and detentions</label>
+        <div class="col-md-4 col-sm-8" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
+            border-radius: 15px; margin-left: 30px;">
+            <div class="row">
+                <h3 class="text-center">Type demurrage:</h3>
+                <div class="col-md-8">
+                    {{ Form::radio('type_demurrage',0, old('demurrage'),['class'=>'field', 'required']) }}
+                    <label for="demurrage_lbl" class="control-label">One clock</label>
+                </div>
+                <div class="col-md-8">
+                    {{ Form::radio('type_demurrage',1, old('demurrage'),['class'=>'field', 'required']) }}
+                    <label for="demurrage_lbl" class="control-label">Demurrage and detentions</label>
+                </div>
             </div>
         </div>
-    </div>
+    {{ Form::close() }}
 </div>
 <h4 class="n-caption">Notes</h4>
 <div class="box box-solid">

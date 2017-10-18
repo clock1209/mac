@@ -20,11 +20,12 @@ class CreateRemarksConditionsTable extends Migration
             $table->string('eta_day')->nullable();
             $table->string('operation')->nullable();
             $table->float('price_day', 8, 2)->nullable();
+            $table->integer('type_demurrage')->nullable();
             $table->integer('carrier_id')->unsigned()->nullable();
-            $table->foreign('carrier_id')->references('id')->on('carriers')
-                ->onUpdate('cascade')->onDelete('cascade');
             $table->char('status',1)->default(1);
             $table->timestamps();
+            $table->foreign('carrier_id')->references('id')->on('carriers')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

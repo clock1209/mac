@@ -16,5 +16,6 @@ class RemarkCondition extends Model
         'price_day',
         'carrier_id',
         'status',
+        'type_demurrage',
     ];
 }

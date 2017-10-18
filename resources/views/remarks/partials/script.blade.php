@@ -109,7 +109,7 @@
     $('body').delegate('.edit-remarks','click',function(){
         id_remarks = $(this).attr('id_remarks');
         $.ajax({
-            url : '/remarks/' + id_remarks + '/edit',
+            url : '/remarks/' + id_remarks,
             type : 'GET',
             dataType: 'json',
             data : {id: id_remarks}
@@ -122,11 +122,12 @@
     $('body').delegate('.edit-condition','click',function(){
         id_condition = $(this).attr('id_condition');
         $.ajax({
-            url : '/conditions/' + id_condition + '/edit',
+            url : '/conditions/' + id_condition,
             type : 'GET',
             dataType: 'json',
             data : {id: id_condition}
         }).done(function(data){
+            console.log(data)
             $( "#mdl_after_eta" ).prop( "checked",false );
             $( "#mdl_eta_day" ).prop( "checked",false );
             $( "#mdl_operation" ).prop( "checked",false );
@@ -141,6 +142,7 @@
             $( "#mdl_eta_day" ).prop( "checked",true );
             if(data.operation!= 0)
             $( "#mdl_operation" ).prop( "checked",true );
+            $("input[name=type_demurrage][value='"+data.type_demurrage+"']").prop("checked",true);
             $('#mdlIdCondition').val(id_condition);
         });
     });//MODAL
@@ -180,7 +182,8 @@
                 after_eta:  $('#mdl_after_eta').val(),
                 eta_day:  $('#mdl_eta_day').val(),
                 operation:  $('#mdl_operation').val(),
-                price_day:  $('#mdl_price_day').val()
+                price_day:  $('#mdl_price_day').val(),
+                type_demurrage: $('.radio_demurrage:checked').val()
             }
         }).done(function(data){
             $('#condition_modal').modal('hide');

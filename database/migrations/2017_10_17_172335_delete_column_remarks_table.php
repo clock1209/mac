@@ -30,7 +30,12 @@ class DeleteColumnRemarksTable extends Migration
     public function down()
     {
         Schema::table('remarks', function (Blueprint $table) {
-          //
+            $table->string('nameconditions')->nullable();
+            $table->float('valuecondition')->nullable();
         });
+
+        if (Schema::hasColumn('carrier_id')) {
+            $table->dropColumn('carrier_id');
+        }
     }
 }

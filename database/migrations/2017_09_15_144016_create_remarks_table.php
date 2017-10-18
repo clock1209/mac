@@ -36,20 +36,16 @@ class CreateRemarksTable extends Migration
 
       Schema::create('subjectto', function (Blueprint $table) {
       $table->increments('id');
-      $table->integer('concept_id')->unsigned()->nullable();
-      $table->foreign('concept_id')->references('id')->on('concepts');
       $table->float('cost');
       $table->char('status',1)->default(1);
       $table->timestamps();
+      $table->integer('concept_id')->unsigned()->nullable();
+      $table->foreign('concept_id')->references('id')->on('concepts');
       });
 
       Schema::create('inlandscharges', function (Blueprint $table) {
       $table->increments('id');
       $table->string('type')->nullable();
-      $table->integer('dischargeport_id')->unsigned()->nullable();
-      $table->foreign('dischargeport_id')->references('id')->on('portsname');
-      $table->integer('delivery_id')->unsigned()->nullable();
-      $table->foreign('delivery_id')->references('id')->on('portsname');
       $table->float('rangeup')->nullable();
       $table->float('rangeto')->nullable();
       $table->float('cost')->nullable();
@@ -57,6 +53,11 @@ class CreateRemarksTable extends Migration
       $table->string('currency')->nullable();
       $table->char('status',1)->default(1);
       $table->timestamps();
+      $table->integer('dischargeport_id')->unsigned()->nullable();
+      $table->foreign('dischargeport_id')->references('id')->on('portsname');
+      $table->integer('delivery_id')->unsigned()->nullable();
+      $table->foreign('delivery_id')->references('id')->on('portsname');
+      
       });
 
     }

@@ -12,7 +12,7 @@ use App\BankAccount;
 use File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
-use Session;
+use App\ConceptsBill;
 
 
 class DocSupplierController extends Controller
@@ -31,14 +31,13 @@ class DocSupplierController extends Controller
         if(!auth()->user())
         return abort(404);
         if ($request->ajax()) {
-            Session::put('tab', 0);
+            session()->put('tab', 0);
             return $this->toDatatable($request->id);
         }
-        $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'id')->toArray());
-        $bank_account = [0 => ' '];
-        $bank_account = array_merge($bank_account, BankAccount::where('status',1)
-            ->pluck('bank', 'bank')->toArray());
+
+        $concepts = Concepts::where('status',1)->pluck('name', 'id')->toArray();
+        $bank_account = BankAccount::where('status',1)->pluck('clabe', 'clabe')->toarray();
+
         return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,
             'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id,'bank_account'=>$bank_account]);
     }
@@ -61,10 +60,9 @@ class DocSupplierController extends Controller
      */
     public function store(Request $request)
     {
-
         if($request->name_reference)
         {
-            Session::put('tab', 0);
+            session()->put('tab', 0);
             $this->validate($request, $this->rules_reference());
             $path = $request->file('doc_reference')->store($request->supplier_id);
             $doc =DocSuppliers::create([
@@ -78,9 +76,9 @@ class DocSupplierController extends Controller
             $doc->save();
 
         }
-        else {
+        else{
 
-            Session::put('tab', 1);
+            session()->put('tab', 1);
             $this->validate($request, $this->rules());
             $path = $request->file('doc')->store($request->supplier_id);
             $doc =DocSuppliers::create($request->all());
@@ -88,6 +86,13 @@ class DocSupplierController extends Controller
             $doc->doc = $path;
             $doc->name = $request->doc->getClientOriginalName();
             $doc->save();
+            $dataSet = [];
+
+            foreach ($request->concept_id as $concept) {
+                array_push($dataSet, ['docs_supplier_id' => $doc->id, 'concept_id' => $concept]);
+            }
+
+            ConceptsBill::insert($dataSet);
         }
 
         $msg = [
@@ -174,6 +179,14 @@ class DocSupplierController extends Controller
         return redirect('/docs-suppliers?id='.$doc->supplier_id)->with('message', $msg);
     }
 
+    public function docSupplierBillConcepts(Request $request)
+    {
+        $data = DB::table('concepts_bill')
+            ->join('concepts', 'concepts.id', '=', 'concepts_bill.concept_id')
+            ->select('concepts_bill.id','concepts.name')->where('docs_supplier_id',$request->id)->get();
+        return response()->json($data);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -212,17 +225,20 @@ class DocSupplierController extends Controller
 
     public function toDatatable($id)
     {
+
         $docs = DB::table('docs_supplier')
-            ->join('concepts', 'concepts.id', '=', 'docs_supplier.concept_id')
             ->select('docs_supplier.id','docs_supplier.name','reference_number','bill',
-            'bank_account','concepts.name as concepts','cost','doc',
+            'bank_account','cost','doc',
             'supplier_id','docs_supplier.status')->where('supplier_id',$id)
             ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
         return Datatables::of($docs)
+            ->addColumn('concepts', function ($docs) {
+                return view('docsSuppliers.partials.buttons_concept', ['docs' => $docs]);
+            })
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions','concepts'])
             ->make(true);
     }
 
@@ -243,7 +259,7 @@ class DocSupplierController extends Controller
         return [
             'reference_number' => 'required|numeric',
             'bill' => 'required|',
-            'bank_account' => 'required|',
+            'bank_account' => 'required|not_in:0',
             'concept_id' => 'required|not_in:0',
             'doc'    => 'required|max:10000',
             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',

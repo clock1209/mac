@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class DocSuppliers extends Model
 {
-  protected $table = 'docs_supplier';
+    protected $table = 'docs_supplier';
 
-  protected $fillable = [
-
-      'name',
-      'reference_number',
-      'bill',
-      'bank_account',
-      'concept_id',
-      'cost',
-      'supplier_id',
-  ];
+    protected $fillable = [
+        'name',
+        'reference_number',
+        'bill',
+        'bank_account',
+        'cost',
+        'supplier_id',
+    ];
 }

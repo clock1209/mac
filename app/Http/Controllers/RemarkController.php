@@ -69,9 +69,9 @@ class RemarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Remark $remark)
     {
-        //
+        return response()->json($remark);
     }
 
     /**
@@ -80,9 +80,9 @@ class RemarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Remark $remark)
+    public function edit()
     {
-        return response()->json($remark);
+
     }
 
     /**

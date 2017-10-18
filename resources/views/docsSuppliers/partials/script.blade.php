@@ -21,8 +21,10 @@ $( "#supplier_id" ).val(id);
             {
                 return '<a href="docs-suppliers/'+full.id+'">'+full.name+'</a>';
             }
-      }],
+      }]
+
     });
+
         var dTable_ = $("#supplierReference-table").DataTable({
             ajax: '/docs-suppliers/'+id+'/filter',
             columns: [
@@ -83,6 +85,31 @@ $( "#supplier_id" ).val(id);
             timer: 3000
         });
     }
+
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+        $(".select2-container--default").css({
+            minWidth: "350px",
+        });
+
+    });
+
+    $('body').delegate('.view-concepts','click',function(){
+        id_view = $(this).attr('id_view');
+        $.ajax({
+            url: '{{ route('bill.concepts',['id'=>'+id_view+']) }}',
+            type : 'GET',
+            dataType: 'json',
+            data : {id: id_view}
+        }).done(function(data){
+            var datos = [];
+            $.each(data, function( key, value ) {
+                datos.push(key);
+            });
+            $("#mdlconcept_id").val(datos);
+            $('#mdlconcept_id').trigger('change.select2');
+        });
+    });//MODAL
 
 </script>
 @endpush

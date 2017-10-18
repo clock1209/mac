@@ -58,7 +58,8 @@ class RemarkConditionController extends Controller
      */
     public function show($id)
     {
-        //
+        $remarkcondition = RemarkCondition::find($id);
+        return response()->json($remarkcondition);
     }
 
     /**
@@ -67,10 +68,9 @@ class RemarkConditionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        $remarkcondition = RemarkCondition::find($id);
-        return response()->json($remarkcondition);
+
     }
 
     /**
@@ -122,6 +122,7 @@ class RemarkConditionController extends Controller
         return [
             'free_demurrage' => 'required',
             'price_day' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric',
+            'type_demurrage' => 'required',
         ];
     }
 

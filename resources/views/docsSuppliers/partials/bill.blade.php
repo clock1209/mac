@@ -19,16 +19,20 @@ border-radius: 15px; margin: 10px;">
                 </div>
                 <div class="col-md-3 col-sm-12{{ $errors->has('bank_account') ? ' has-error' : '' }}">
                     <label for="name_lbl" class="control-label">Bank account*:</label>
-                        {!! Form::select('bank_account', $bank_account , 0, ['class'=>'form-control']) !!}
+                        {!! Form::select('bank_account', $bank_account , 0, ['class'=>'form-control','placeholder' => ' ',]) !!}
                 </div>
             </div>
         </div>
+        <div class="col-md-12" style="margin:2%;">
+          <div class="form-group">
+            <div class="col-md-12 col-sm-12 {{ $errors->has('concept_id') ? ' has-error' : '' }}">
+                <label for="concept_lbl" class="control-label">Concept*:</label>
+                {!! Form::select('concept_id[]', $concepts , 0, ['class'=>'js-example-basic-multiple','multiple'=>'multiple','id'=>'concept_id']) !!}
+            </div>
+          </div>
+        </div>
         <div class="col-md-10">
             <div class="form-group">
-                <div class="col-md-3 col-sm-12{{ $errors->has('concept_id') ? ' has-error' : '' }}">
-                    <label for="concept_lbl" class="control-label">Concept*:</label>
-                        {!! Form::select('concept_id', $concepts , 0, ['class'=>'form-control']) !!}
-                </div>
                 <div class="col-md-3 col-sm-12{{ $errors->has('cost') ? ' has-error' : '' }}">
                     <label for="name_lbl" class="control-label">Cost*:</label>
                         {!! Form::text('cost',$docssupplier ? $docssupplier->cost : old('cost'),['class'=>'form-control', 'required']) !!}
@@ -46,10 +50,10 @@ border-radius: 15px; margin: 10px;">
   {!! Form::close() !!}
 </div>
 <br>
-    <div class="box box-solid">
-        <div class="panel-body" style="overflow-x: auto; height:100%;">
-            <table class="table table-bordered table-hover" id="docsSuppliers-table">
-                <thead>
+<div class="box box-solid">
+    <div class="panel-body" style="overflow-x: auto; height:100%;">
+        <table class="table table-bordered table-hover" id="docsSuppliers-table">
+            <thead>
                 <tr>
                     <th>Reference Number</th>
                     <th>Bill</th>
@@ -59,7 +63,8 @@ border-radius: 15px; margin: 10px;">
                     <th>Doc</th>
                     <th width="210px;">Actions</th>
                 </tr>
-                </thead>
-            </table>
-        </div>
+            </thead>
+        </table>
     </div>
+</div>
+@include('docsSuppliers.partials.editModal')

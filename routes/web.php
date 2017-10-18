@@ -160,6 +160,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ REMARK'S CONDITIONS ROUTES ------------------*/
     Route::resource('conditions','RemarkConditionController');
 
+    Route::get('/docs-suppliers/{docid}/concepts', 'DocSupplierController@docSupplierBillConcepts')
+        ->name('bill.concepts');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

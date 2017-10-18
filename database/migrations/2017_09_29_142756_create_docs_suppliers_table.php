@@ -19,14 +19,14 @@ class CreateDocsSuppliersTable extends Migration
           $table->float('reference_number',10,2);
           $table->string('bill')->nullable();
           $table->string('bank_account')->nullable();
-          $table->integer('concept_id')->unsigned()->nullable();
-          $table->foreign('concept_id')->references('id')->on('concepts');
           $table->float('cost',10,2);
           $table->text('doc')->nullable();
-          $table->integer('supplier_id')->unsigned()->nullable();
-          $table->foreign('supplier_id')->references('id')->on('suppliers');
           $table->char('status',1)->default(1);
           $table->timestamps();
+          $table->integer('concept_id')->unsigned()->nullable();
+          $table->foreign('concept_id')->references('id')->on('concepts');
+          $table->integer('supplier_id')->unsigned()->nullable();
+          $table->foreign('supplier_id')->references('id')->on('suppliers');
       });
     }
 

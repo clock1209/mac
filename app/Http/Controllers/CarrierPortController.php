@@ -8,7 +8,7 @@ use App\Carrier;
 use App\PortName;
 use App\Price;
 use Yajra\Datatables\Facades\Datatables;
-use Session;
+
 
 class CarrierPortController extends Controller
 {
@@ -24,7 +24,7 @@ class CarrierPortController extends Controller
         return abort(404);
         if ($request->ajax())
             return $this->toDatatable($request->id);
-            Session::put('tab', 0);
+            session()->put('tab', 0);
             return view('carrierport.index');
     }
 
@@ -154,10 +154,9 @@ class CarrierPortController extends Controller
     {
 
         $carrierport = Carrier::find($id)->customCarrierPort()
-        ->join('portsname', 'portsname.id', '=', 'carrierport.portname_id')
-        ->select('carrierport.id','portname_id','departures','arbitraryone'
-        ,'arbitrarytwo','arbitrarythree','tt','rate','portsname.name','carrierport.status','rate')
-        ->where('status', 1)->get();
+                ->join('portsname', 'portsname.id', '=', 'carrierport.portname_id')
+                    ->select('carrierport.id','portname_id','departures','arbitraryone'
+                        ,'arbitrarytwo','arbitrarythree','tt','rate','portsname.name','carrierport.status','rate')->where('status', 1)->get();
 
         return Datatables::of($carrierport)
             ->addColumn('actions', function ($carrierport) {

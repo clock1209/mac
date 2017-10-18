@@ -13,7 +13,7 @@ class ConceptsBill extends Model
         'concept_id',
     ];
 
-    public function getconceptsname()
+    public function getConceptsName()
     {
         return $this->hasOne('App\Concepts');
     }

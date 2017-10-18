@@ -60,7 +60,8 @@ class RemarkController extends Controller
             'text' => 'Remark created successfully.'
         ];
 
-        return redirect('/remarks?id='.$request->carrier_id)->with('message', $msg);
+
+        return redirect()->route('remarks.redirect',['id'=>$request->carrier_id])->with('message', $msg);
     }
 
     /**

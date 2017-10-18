@@ -24,12 +24,12 @@ border-radius: 15px; margin: 10px;">
             </div>
         </div>
         <div class="col-md-12" style="margin:2%;">
-          <div class="form-group">
-            <div class="col-md-12 col-sm-12 {{ $errors->has('concept_id') ? ' has-error' : '' }}">
-                <label for="concept_lbl" class="control-label">Concept*:</label>
-                {!! Form::select('concept_id[]', $concepts , 0, ['class'=>'js-example-basic-multiple','multiple'=>'multiple','id'=>'concept_id']) !!}
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 {{ $errors->has('concept_id') ? ' has-error' : '' }}">
+                    <label for="concept_lbl" class="control-label">Concept*:</label>
+                    {!! Form::select('concept_id[]', $concepts , 0, ['class'=>'js-example-basic-multiple','multiple'=>'multiple','id'=>'concept_id']) !!}
+                </div>
             </div>
-          </div>
         </div>
         <div class="col-md-10">
             <div class="form-group">

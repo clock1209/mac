@@ -163,6 +163,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/docs-suppliers/{docid}/concepts', 'DocSupplierController@docSupplierBillConcepts')
         ->name('bill.concepts');
 
+    Route::get('/remarks?id={id}/', 'RemarkController@index')
+        ->name('remarks.redirect');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

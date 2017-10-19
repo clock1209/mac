@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header modal-title">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4>Edit Note</h4>
+                <h4>Concepts</h4>
             </div>
             <div class="modal-body">
                 <div id="view-form">
@@ -18,7 +18,6 @@
                         </div>
                     </div>{{--form-group--}}
                 </div>{{--note-form--}}
-                {!! Form::hidden('idNote', null, ['id' => 'mdlIdNote']) !!}
             </div>{{--modal-body--}}
             <div class="modal-footer">
 

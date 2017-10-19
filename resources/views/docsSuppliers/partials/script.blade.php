@@ -11,17 +11,9 @@ $( "#supplier_id" ).val(id);
             {data: 'bank_account'},
             {data: 'concepts'},
             {data: 'cost'},
-            {data: 'doc'},
+            {data: 'doc', name: 'download'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
-        ],
-        "columnDefs": [{
-            "targets": 5,
-            "data": "doc",
-            "render": function ( data, type, full, meta )
-            {
-                return '<a href="docs-suppliers/'+full.id+'">'+full.name+'</a>';
-            }
-      }]
+        ]
 
     });
 
@@ -31,15 +23,7 @@ $( "#supplier_id" ).val(id);
                 {data: 'name'},
                 {data: 'doc'},
                 {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
-            ],
-            "columnDefs": [{
-                "targets": 1,
-                "data": "doc",
-                "render": function ( data, type, full, meta )
-                {
-                    return '<a href="docs-suppliers/'+full.id+'">'+full.name+'</a>';
-                }
-          }],
+            ]
         });
 
         $('body').delegate('.delete-doc','click',function(){

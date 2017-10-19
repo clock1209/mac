@@ -20,16 +20,17 @@ class DocController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $url;
+    protected $url='https://view.officeapps.live.com/op/view.aspx?src=http://maritimo.nuvem.mx/storage/signature/';
 
     public function index(Request $request)
     {
 
           if(!auth()->user())
-            return abort(404);
-            if ($request->ajax()) {
-                return $this->toDatatable($request->id);
-            }
+              return abort(404);
+
+          if($request->ajax()) {
+              return $this->toDatatable($request->id);
+          }
 
           return view('docs.index');
     }
@@ -66,7 +67,8 @@ class DocController extends Controller
             'text' => 'Doc created successfully.'
         ];
 
-        return redirect('/docs?id='.$request->customer_id)->with('message', $msg);
+
+        return redirect()->route('docs.index',['id'=>$request->customer_id])->with('message', $msg);
     }
 
     /**
@@ -89,7 +91,6 @@ class DocController extends Controller
      */
     public function edit($id)
     {
-
         $doc = Doc::find($id);
         File::delete($doc->doc);
         $doc->status = 0;
@@ -101,7 +102,7 @@ class DocController extends Controller
             'text' => 'Doc deleted successfully.'
         ];
 
-        return redirect('/docs?id='.$doc->customer_id)->with('message', $msg);
+        return redirect()->route('docs.index',['id'=>$doc->customer_id])->with('message', $msg);
     }
 
     public function DocView($id, Request $request) {
@@ -133,9 +134,7 @@ class DocController extends Controller
         }
 
         if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
-            $url='https://view.officeapps.live.com/op/view.aspx?src='.
-                'http://maritimo.nuvem.mx'.'/storage/signature/'.$doc->doc;
-            return redirect($url);
+            return redirect($this->url.$doc->doc);
         }
         else {
             return response()->file(storage_path('/signature/').$doc->doc, [
@@ -166,6 +165,18 @@ class DocController extends Controller
      */
     public function destroy($id)
     {
+        $doc = Doc::find($id);
+        File::delete($doc->doc);
+        $doc->status = 0;
+        $doc->name = $doc->name."_del";
+        $doc->save();
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Doc deleted successfully.'
+        ];
+
+        return redirect()->route('docs.index',['id'=>$doc->customer_id])->with('message', $msg);
     }
 
     public function toDatatable($id)

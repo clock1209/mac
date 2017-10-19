@@ -101,8 +101,7 @@ class DocSupplierController extends Controller
             'text' => 'Doc Supplier created successfully.'
         ];
 
-        return redirect('/docs-suppliers?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
-
+        return redirect()->route('docs-suppliers.index',['id'=>$request->supplier_id])->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
     }
 
     /**
@@ -176,14 +175,14 @@ class DocSupplierController extends Controller
             'text' => 'Doc deleted successfully.'
         ];
 
-        return redirect('/docs-suppliers?id='.$doc->supplier_id)->with('message', $msg);
+        return redirect()->route('docs-suppliers.index',['id'=>$doc->supplier_id])->with('message', $msg);
     }
 
     public function docSupplierBillConcepts(Request $request)
     {
         $data = DB::table('concepts_bill')
             ->join('concepts', 'concepts.id', '=', 'concepts_bill.concept_id')
-            ->select('concepts_bill.id','concepts.name')->where('docs_supplier_id',$request->id)->get();
+                ->select('concepts_bill.id','concepts.name')->where('docs_supplier_id',$request->id)->get();
         return response()->json($data);
     }
 
@@ -228,17 +227,19 @@ class DocSupplierController extends Controller
 
         $docs = DB::table('docs_supplier')
             ->select('docs_supplier.id','docs_supplier.name','reference_number','bill',
-            'bank_account','cost','doc',
-            'supplier_id','docs_supplier.status')->where('supplier_id',$id)
-            ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
+                'bank_account','cost','doc','supplier_id','docs_supplier.status')->where('supplier_id',$id)
+                    ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
         return Datatables::of($docs)
             ->addColumn('concepts', function ($docs) {
                 return view('docsSuppliers.partials.buttons_concept', ['docs' => $docs]);
             })
+            ->addColumn('doc', function ($docs) {
+                return view('docsSuppliers.partials.buttons_link', ['docs' => $docs]);
+            })
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
             })
-            ->rawColumns(['actions','concepts'])
+            ->rawColumns(['actions','concepts','doc'])
             ->make(true);
     }
 
@@ -249,8 +250,11 @@ class DocSupplierController extends Controller
         return Datatables::of($docs)
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
-              })
-            ->rawColumns(['actions'])
+            })
+            ->addColumn('doc', function ($docs) {
+                return view('docsSuppliers.partials.buttons_link', ['docs' => $docs]);
+            })
+            ->rawColumns(['actions','doc'])
             ->make(true);
     }
 

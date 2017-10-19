@@ -60,7 +60,7 @@ class CarrierPortController extends Controller
             'text' => 'Carrier Port created successfully.'
         ];
 
-        return redirect('/carrierport?id='.$request->carrier_id)->with('message', $msg);
+        return redirect()->route('carrierport.index',['id'=>$request->carrier_id])->with('message', $msg);
     }
 
     /**
@@ -114,7 +114,8 @@ class CarrierPortController extends Controller
             'text' => 'Carrier port edited successfully.'
         ];
 
-        return redirect('/carrierport?id='.$carrierport->carrier_id)->with('message', $msg);
+        return redirect()->route('carrierport.index',['id'=>$carrierport->carrier_id])->with('message', $msg);
+
     }
 
     /**
@@ -126,7 +127,7 @@ class CarrierPortController extends Controller
     public function destroy(Carrierport $carrierport)
     {
         if ($carrierport) {
-        $status = $carrierport->status ? 0 : 1;
+            $status = $carrierport->status ? 0 : 1;
 
         if($status) {
             $msg = [

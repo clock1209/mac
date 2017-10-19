@@ -219,24 +219,24 @@
 
     $('input[type=checkbox]').click(function(){
         if ($('#mdl_after_eta').is(':checked')) {
-           $('#mdl_after_eta').val(1);
+            $('#mdl_after_eta').val(1);
         }
         else{
-           $('#mdl_after_eta').val(0);
+            $('#mdl_after_eta').val(0);
         }
 
         if ($('#mdl_eta_day').is(':checked')) {
-           $('#mdl_eta_day').val(1);
+            $('#mdl_eta_day').val(1);
         }
         else{
-           $('#mdl_eta_day').val(0);
+            $('#mdl_eta_day').val(0);
         }
 
         if ($('#mdl_operation').is(':checked')) {
-           $('#mdl_operation').val(1);
+            $('#mdl_operation').val(1);
         }
         else{
-           $('#mdl_operation').val(0);
+            $('#mdl_operation').val(0);
         }
     });
 

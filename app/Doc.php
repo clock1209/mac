@@ -8,6 +8,6 @@ class Doc extends Model
 {
     //
     protected $fillable = [
-        'name', 'doc',
+        'name', 'doc', 'customer_id'
     ];
 }

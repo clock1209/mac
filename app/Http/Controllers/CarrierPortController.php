@@ -9,6 +9,7 @@ use App\PortName;
 use App\Price;
 use Yajra\Datatables\Facades\Datatables;
 
+
 class CarrierPortController extends Controller
 {
 
@@ -19,13 +20,12 @@ class CarrierPortController extends Controller
      */
     public function index(Request $request)
     {
-      if(!auth()->user())
-          return abort(404);
-          if ($request->ajax()) {
-              return $this->toDatatable($request->id);
-          }
-
-      return view('carrierport.index');
+        if(!auth()->user())
+        return abort(404);
+        if ($request->ajax())
+            return $this->toDatatable($request->id);
+            session()->put('tab', 0);
+            return view('carrierport.index');
     }
 
     /**
@@ -51,8 +51,6 @@ class CarrierPortController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $this->validate($request, $this->rules());
         CarrierPort::create($request->all());
 
@@ -62,8 +60,7 @@ class CarrierPortController extends Controller
             'text' => 'Carrier Port created successfully.'
         ];
 
-        return redirect('/carrierport?id='.$request->carrier_id)->with('message', $msg);
-
+        return redirect()->route('carrierport.index',['id'=>$request->carrier_id])->with('message', $msg);
     }
 
     /**
@@ -74,7 +71,7 @@ class CarrierPortController extends Controller
      */
     public function show(Request $request,$id)
     {
-      //dd($id);
+      //
     }
     /**
      * Show the form for editing the specified resource.
@@ -84,11 +81,10 @@ class CarrierPortController extends Controller
      */
     public function edit(Carrierport $carrierport)
     {
-
-      $price = Price::select('id','name') ->where('status', '=', 1)->get();
-      $ports = [0 => ' '];
-      $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-      return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
+        $price = Price::select('id','name') ->where('status', '=', 1)->get();
+        $ports = [0 => ' '];
+        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 
     /**
@@ -100,28 +96,26 @@ class CarrierPortController extends Controller
      */
     public function update(Request $request, CarrierPort $carrierport)
     {
+        $request->flash();
+        if($request->include_subagent==1){
+            $carrierport->include_subagent = $request->include_subagent;
+        }
+        else{
+            $carrierport->include_subagent =0;
+        }
 
-      $request->flash();
+        $this->validate($request, $this->rules());
+        $carrierport->fill($request->all());
+        $carrierport->save();
 
-      if($request->include_subagent==1){
-        $carrierport->include_subagent = $request->include_subagent;
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Carrier port edited successfully.'
+        ];
 
-      }
-      else {
-          $carrierport->include_subagent =0;
-      }
-      $this->validate($request, $this->rules());
+        return redirect()->route('carrierport.index',['id'=>$carrierport->carrier_id])->with('message', $msg);
 
-      $carrierport->fill($request->all());
-      $carrierport->save();
-
-      $msg = [
-          'title' => 'Edited!',
-          'type' => 'success',
-          'text' => 'Carrier port edited successfully.'
-      ];
-
-      return redirect('/carrierport?id='.$carrierport->carrier_id)->with('message', $msg);
     }
 
     /**
@@ -132,39 +126,38 @@ class CarrierPortController extends Controller
      */
     public function destroy(Carrierport $carrierport)
     {
-      if ($carrierport) {
-          $status = $carrierport->status ? 0 : 1;
+        if ($carrierport) {
+            $status = $carrierport->status ? 0 : 1;
 
-          if($status) {
-              $msg = [
-                  'title' => 'Activated!',
-                  'type' => 'success',
-                  'text' => 'Carrier activaded successfully.'
-              ];
-          } else {
-              $msg = [
-                  'title' => 'Deleted!',
-                  'type' => 'success',
-                  'text' => 'Carrier Port deleted successfully.'
-              ];
+        if($status) {
+            $msg = [
+                'title' => 'Activated!',
+                'type' => 'success',
+                'text' => 'Carrier activaded successfully.'
+            ];
+          }else {
+            $msg = [
+                'title' => 'Deleted!',
+                'type' => 'success',
+                'text' => 'Carrier Port deleted successfully.'
+            ];
           }
 
-          $carrierport->status = $status;
-          $carrierport->save();
+            $carrierport->status = $status;
+            $carrierport->save();
+            return response()->json($msg);
+        }
 
-          return response()->json($msg);
-      }
-      return abort(404);
+        return abort(404);
     }
 
     public function toDatatable($id)
     {
 
         $carrierport = Carrier::find($id)->customCarrierPort()
-        ->join('portsname', 'portsname.id', '=', 'carrierport.portname_id')
-        ->select('carrierport.id','portname_id','departures','arbitraryone'
-        ,'arbitrarytwo','arbitrarythree','tt','rate','portsname.name','carrierport.status','rate')
-        ->where('status', 1)->get();
+                ->join('portsname', 'portsname.id', '=', 'carrierport.portname_id')
+                    ->select('carrierport.id','portname_id','departures','arbitraryone'
+                        ,'arbitrarytwo','arbitrarythree','tt','rate','portsname.name','carrierport.status','rate')->where('status', 1)->get();
 
         return Datatables::of($carrierport)
             ->addColumn('actions', function ($carrierport) {

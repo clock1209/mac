@@ -38,8 +38,8 @@ class StuffController extends Controller
     {
 
         $concepts = [null=> ''];
-        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->
-            pluck('name', 'name')->toArray());
+        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')
+            ->where('status',1)->pluck('name', 'name')->toArray());
         return view('stuffs.create', ['consolidator'=>$request->consolidator, 'concepts' => $concepts]);
     }
 
@@ -115,7 +115,7 @@ class StuffController extends Controller
     public function edit(Stuff $stuff, Request $request)
     {
         $concepts = [null => 'Select'];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->toArray());
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->where('status',1)->toArray());
         return view('stuffs.edit', ['stuff' => $stuff, 'consolidator'=>$request->consolidator], compact('concepts'));
     }
 

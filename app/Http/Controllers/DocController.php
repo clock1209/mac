@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Storage;
-use Redirect;
 use Session;
 use View;
 use App\Doc;
@@ -20,14 +19,18 @@ class DocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $url='https://view.officeapps.live.com/op/view.aspx?src=http://maritimo.nuvem.mx/storage/signature/';
+
     public function index(Request $request)
     {
 
           if(!auth()->user())
-            return abort(404);
-            if ($request->ajax()) {
-                return $this->toDatatable($request->id);
-            }
+              return abort(404);
+
+          if($request->ajax()) {
+              return $this->toDatatable($request->id);
+          }
 
           return view('docs.index');
     }
@@ -52,22 +55,20 @@ class DocController extends Controller
     {
 
         $this->validate($request, $this->rules());
-        $extension = Input::file('doc')->getClientOriginalExtension();
-        $path = Storage::putFile($request->name, $request->file('doc'));
-        Storage::move($path, $request->name."/".$request->name.".".$extension);
+        $path = $request->file('doc')->store($request->customer_id);
         $doc = new Doc;
-        $doc->name = $request->name;
-        $doc->customer_id = $request->custom_id;
-        $doc->doc = storage_path("signature/".$request->name."/".$request->name.".".$extension);
-        $id=$doc->save();
-        //dd($id);
-         $msg = [
-             'title' => 'Created!',
-             'type' => 'success',
-             'text' => 'Doc created successfully.'
-         ];
+        $doc->fill($request->all());
+        $doc->doc = $path;
+        $doc->save();
 
-         return redirect('/docs?id='.$request->custom_id)->with('message', $msg);
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Doc created successfully.'
+        ];
+
+
+        return redirect()->route('docs.index',['id'=>$request->customer_id])->with('message', $msg);
     }
 
     /**
@@ -79,7 +80,7 @@ class DocController extends Controller
     public function show($id)
     {
         $doc  = Doc::find($id);
-        return response()->download($doc->doc);
+        return response()->download(storage_path('signature/'.$doc->doc));
     }
 
     /**
@@ -90,22 +91,18 @@ class DocController extends Controller
      */
     public function edit($id)
     {
-
-
         $doc = Doc::find($id);
         File::delete($doc->doc);
         $doc->status = 0;
         $doc->name = $doc->name."_del";
         $doc->save();
-
-
         $msg = [
             'title' => 'Delete!',
             'type' => 'success',
             'text' => 'Doc deleted successfully.'
         ];
 
-        return redirect('/docs?id='.$doc->customer_id)->with('message', $msg);
+        return redirect()->route('docs.index',['id'=>$doc->customer_id])->with('message', $msg);
     }
 
     public function DocView($id, Request $request) {
@@ -113,6 +110,18 @@ class DocController extends Controller
         $ext = File::extension($doc->doc);
         if ($ext == 'pdf') {
             $content_types = 'application/pdf';
+        }
+        elseif($ext == 'doc') {
+            $content_types = 'application/msword';
+        }
+        elseif($ext == 'docx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        }
+        elseif($ext == 'xls') {
+            $content_types = 'application/vnd.ms-excel';
+        }
+        elseif($ext == 'xlsx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         }
         elseif($ext == 'jpg') {
             $content_types = 'image/jpg';
@@ -122,25 +131,17 @@ class DocController extends Controller
         }
         elseif($ext == 'png') {
             $content_types = 'image/png';
-        }else {
-
-            $msg = [
-                'title' => 'Error!',
-                'type' => 'error',
-                'text' => 'No se puede mostrar vista previa.'
-            ];
-
-            $url='https://view.officeapps.live.com/op/view.aspx?'.
-                'src=http://maritimo.nuvem.mx'.$doc->doc;
-
         }
 
-        return Redirect::to($url);
-
-        return response()->file($doc->doc, [
-            'Content-Type' => $content_types,
-            'target' => '_blank'
-        ]);
+        if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
+            return redirect($this->url.$doc->doc);
+        }
+        else {
+            return response()->file(storage_path('/signature/').$doc->doc, [
+                'Content-Type' => $content_types,
+                'target' => '_blank'
+            ]);
+        }
 
     }
 
@@ -164,6 +165,18 @@ class DocController extends Controller
      */
     public function destroy($id)
     {
+        $doc = Doc::find($id);
+        File::delete($doc->doc);
+        $doc->status = 0;
+        $doc->name = $doc->name."_del";
+        $doc->save();
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Doc deleted successfully.'
+        ];
+
+        return redirect()->route('docs.index',['id'=>$doc->customer_id])->with('message', $msg);
     }
 
     public function toDatatable($id)

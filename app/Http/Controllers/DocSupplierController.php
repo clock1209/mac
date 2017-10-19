@@ -8,10 +8,12 @@ use Storage;
 use App\DocSuppliers;
 use App\Supplier;
 use App\Concepts;
+use App\BankAccount;
 use File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
-use Session;
+use App\ConceptsBill;
+
 
 class DocSupplierController extends Controller
 {
@@ -20,18 +22,24 @@ class DocSupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $url='https://view.officeapps.live.com/op/view.aspx?src=http://maritimo.nuvem.mx/storage/signature/';
+
     public function index(Request $request)
     {
 
         if(!auth()->user())
         return abort(404);
         if ($request->ajax()) {
+            session()->put('tab', 0);
             return $this->toDatatable($request->id);
         }
-        $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
 
-        return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id]);
+        $concepts = Concepts::where('status',1)->pluck('name', 'id')->toArray();
+        $bank_account = BankAccount::where('status',1)->pluck('clabe', 'clabe')->toarray();
+
+        return view('docsSuppliers.index',['docssupplier' => null,'concepts' => $concepts,
+            'tab'=> $request->session()->get('tab'),'supplier_id'=>$request->id,'bank_account'=>$bank_account]);
     }
 
     /**
@@ -54,43 +62,46 @@ class DocSupplierController extends Controller
     {
         if($request->name_reference)
         {
-            Session::put('tab', 0);
+            session()->put('tab', 0);
             $this->validate($request, $this->rules_reference());
-            $extension = Input::file('doc_reference')->getClientOriginalExtension();
-            $path = Storage::putFile($request->name_reference, $request->file('doc_reference'));
-            Storage::move($path, $request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
+            $path = $request->file('doc_reference')->store($request->supplier_id);
             $doc =DocSuppliers::create([
                 'name'=> $request->name_reference,
                 'reference_number' =>0,
                 'cost' => 0,
             ]);
-            $doc->name = $request->file('doc_reference')->getClientOriginalName();
-            $doc->supplier_id = $request->supplier_id;
-            $doc->doc = storage_path("signature/".$request->name_reference."/".$request->file('doc_reference')->getClientOriginalName());
-            $id=$doc->save();
+
+            $doc->fill($request->all());
+            $doc->doc = $path;
+            $doc->save();
 
         }
-        else {
+        else{
 
-            Session::put('tab', 1);
+            session()->put('tab', 1);
             $this->validate($request, $this->rules());
-            $extension = Input::file('doc')->getClientOriginalExtension();
-            $path = Storage::putFile($request->name, $request->file('doc'));
-            Storage::move($path, $request->name."/".$request->file('doc')->getClientOriginalName());
+            $path = $request->file('doc')->store($request->supplier_id);
             $doc =DocSuppliers::create($request->all());
-            $doc->name = $request->file('doc')->getClientOriginalName();
-            $doc->supplier_id = $request->supplier_id;
-            $doc->doc = storage_path("signature/".$request->name."/".$request->file('doc')->getClientOriginalName());
-            $id=$doc->save();
+            $doc->fill($request->all());
+            $doc->doc = $path;
+            $doc->name = $request->doc->getClientOriginalName();
+            $doc->save();
+            $dataSet = [];
+
+            foreach ($request->concept_id as $concept) {
+                array_push($dataSet, ['docs_supplier_id' => $doc->id, 'concept_id' => $concept]);
+            }
+
+            ConceptsBill::insert($dataSet);
         }
+
         $msg = [
             'title' => 'Created!',
             'type' => 'success',
             'text' => 'Doc Supplier created successfully.'
         ];
 
-       return redirect('/docssupplier?id='.$request->supplier_id)->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
-
+        return redirect()->route('docs-suppliers.index',['id'=>$request->supplier_id])->with(['message'=> $msg,'tab'=>$request->session()->get('tab')]);
     }
 
     /**
@@ -99,10 +110,49 @@ class DocSupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     public function DocView($id, Request $request) {
+        $doc = DocSuppliers::find($id);
+        $ext = File::extension($doc->doc);
+        if ($ext == 'pdf') {
+            $content_types = 'application/pdf';
+        }
+         elseif($ext == 'doc') {
+            $content_types = 'application/msword';
+        }
+        elseif($ext == 'docx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        }
+        elseif($ext == 'xls') {
+            $content_types = 'application/vnd.ms-excel';
+        }
+        elseif($ext == 'xlsx') {
+            $content_types = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        }
+        elseif($ext == 'jpg') {
+            $content_types = 'image/jpg';
+        }
+        elseif($ext == 'jpeg') {
+            $content_types = 'image/jpeg';
+        }
+        elseif($ext == 'png') {
+            $content_types = 'image/png';
+        }
+         if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
+             return redirect($this->url.$doc->doc);
+         }
+         else {
+             return response()->file(storage_path('signature/'.$doc->doc), [
+                 'Content-Type' => $content_types,
+                 'target' => '_blank'
+             ]);
+         }
+
+    }
+
     public function show($id)
     {
         $doc  = DocSuppliers::find($id);
-        return response()->download($doc->doc);
+        return response()->download(storage_path('signature/'.$doc->doc));
     }
 
     /**
@@ -125,7 +175,15 @@ class DocSupplierController extends Controller
             'text' => 'Doc deleted successfully.'
         ];
 
-        return redirect('/docssupplier?id='.$doc->supplier_id)->with('message', $msg);
+        return redirect()->route('docs-suppliers.index',['id'=>$doc->supplier_id])->with('message', $msg);
+    }
+
+    public function docSupplierBillConcepts(Request $request)
+    {
+        $data = DB::table('concepts_bill')
+            ->join('concepts', 'concepts.id', '=', 'concepts_bill.concept_id')
+                ->select('concepts_bill.id','concepts.name')->where('docs_supplier_id',$request->id)->get();
+        return response()->json($data);
     }
 
     /**
@@ -166,17 +224,22 @@ class DocSupplierController extends Controller
 
     public function toDatatable($id)
     {
+
         $docs = DB::table('docs_supplier')
-            ->join('concepts', 'concepts.id', '=', 'docs_supplier.concept_id')
             ->select('docs_supplier.id','docs_supplier.name','reference_number','bill',
-            'bank_account','concepts.name as concepts','cost','doc',
-            'supplier_id','docs_supplier.status')->where('supplier_id',$id)
-            ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
+                'bank_account','cost','doc','supplier_id','docs_supplier.status')->where('supplier_id',$id)
+                    ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
         return Datatables::of($docs)
+            ->addColumn('concepts', function ($docs) {
+                return view('docsSuppliers.partials.buttons_concept', ['docs' => $docs]);
+            })
+            ->addColumn('doc', function ($docs) {
+                return view('docsSuppliers.partials.buttons_link', ['docs' => $docs]);
+            })
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions','concepts','doc'])
             ->make(true);
     }
 
@@ -187,8 +250,11 @@ class DocSupplierController extends Controller
         return Datatables::of($docs)
             ->addColumn('actions', function ($docs) {
                 return view('docsSuppliers.partials.buttons', ['docs' => $docs]);
-              })
-            ->rawColumns(['actions'])
+            })
+            ->addColumn('doc', function ($docs) {
+                return view('docsSuppliers.partials.buttons_link', ['docs' => $docs]);
+            })
+            ->rawColumns(['actions','doc'])
             ->make(true);
     }
 
@@ -197,9 +263,9 @@ class DocSupplierController extends Controller
         return [
             'reference_number' => 'required|numeric',
             'bill' => 'required|',
-            'bank_account' => 'required|',
+            'bank_account' => 'required|not_in:0',
             'concept_id' => 'required|not_in:0',
-            'doc'    => 'required|max:10000|mimes:doc,docx',
+            'doc'    => 'required|max:10000',
             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
         ];
     }
@@ -208,7 +274,7 @@ class DocSupplierController extends Controller
     {
         return [
             'name_reference' => 'required',
-            'doc_reference'    => 'required|max:10000|mimes:doc,docx',
+            'doc_reference'    => 'required|max:10000',
         ];
     }
 }

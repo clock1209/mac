@@ -138,7 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('inlandscharges','InlandController');
 
     /*------------------ DOC'S SUPPLIER ROUTES ------------------*/
-    Route::resource('docssupplier','DocSupplierController');
+    Route::resource('docs-suppliers','DocSupplierController');
 
     /*------------------VIEW PREVIEW ROUTES ------------------*/
     Route::get('/docs/{docid}/view','DocController@DocView');
@@ -151,7 +151,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('cities','CityController');
 
     /*------------------ FILTER SUPPLIERS ------------------*/
-    Route::get('/docssupplier/{id}/filter','DocSupplierController@supplierTableFilter');
+    Route::get('/docs-suppliers/{id}/filter','DocSupplierController@supplierTableFilter');
+
+    /*------------------VIEW PREVIEW ROUTES ------------------*/
+    Route::get('/docs-suppliers/{docid}/view', 'DocSupplierController@DocView')
+        ->name('doc-view');
+
+    /*------------------ REMARK'S CONDITIONS ROUTES ------------------*/
+    Route::resource('conditions','RemarkConditionController');
+
+    Route::get('/docs-suppliers/{docid}/concepts', 'DocSupplierController@docSupplierBillConcepts')
+        ->name('bill.concepts');
+
+    Route::get('/remarks?id={id}/', 'RemarkController@index')
+        ->name('remarks.redirect');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

@@ -15,22 +15,19 @@
                 serchable: false,
                 bSearchable: false
             }
-        ],
-        "columnDefs": [{
+        ],"columnDefs": [{
             "targets": 1,
             "data": "dischargeport_id",
             "render": function(data, type, full, meta) {
                 return full.nameone + " - " + full.nametwo;
             }
-        },
-        {
+        },{
             "targets": 4,
             "data": "rangeup",
             "render": function(data, type, full, meta) {
                 return full.rangeup + " - " + full.rangeto;
             }
-        }
-        ],
+        }],
         initComplete: function() {
             var table2 = $('#all-truck-table').DataTable();
             var table3 = $('#rail-ramp-table').DataTable();
@@ -46,7 +43,6 @@
                       table3.row.add(rowNode).draw();
                 }
             });
-
         }
     }); /*datatable Rail*/
 

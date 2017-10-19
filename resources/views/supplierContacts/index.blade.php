@@ -24,7 +24,7 @@
         </div>
     </div>{{--form-group--}}
 </div>
-<span class="btn btn-success" id="btn-contact"><span class="glyphicon glyphicon-plus"></span> Add</span><br><br>
+<button type="button" id="btn-contact" class="btn btn-success" style="margin-bottom:2%;"><span class="glyphicon glyphicon-plus"></span> Add</button>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
         <table class="table table-bordered table-hover" id="contacts-table">

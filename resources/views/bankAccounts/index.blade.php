@@ -39,11 +39,11 @@
     <div class="form-group">
         <div class="col-md-3 col-sm-12{{ $errors->has('beneficiary') ? ' has-error' : '' }}">
             <label for="beneficiary_lbl" class="control-label">Beneficiary*:</label>
-            {!! Form::text('beneficiary', null, ['class'=>'form-control']) !!}
+            {!! Form::text('beneficiary', null, ['class'=>'form-control','id'=>'beneficiary']) !!}
         </div>
     </div>{{--form-group--}}
 </div>{{--#ba-form--}}
-<span class="btn btn-success" id="btn-bank-account"><span class="glyphicon glyphicon-plus"></span> Add</span><br><br>
+<button type="button" id="btn-bank-account" class="btn btn-success" style="margin-bottom:2%;"><span class="glyphicon glyphicon-plus"></span> Add</button>
 <div class="box box-solid">
     <div class="panel-body" style="overflow-x: auto; height:100%;">
         <table class="table table-bordered table-hover" id="bank-accounts-table">

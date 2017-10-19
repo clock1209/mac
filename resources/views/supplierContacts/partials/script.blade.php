@@ -30,7 +30,6 @@
                 supplier_id: $('[name="supplier_id"]').val()
             }
         }).done(function (data) {
-            console.log(data);
             resetContatInputs();
             sAlert(data.title, data.type, data.text);
             dTableContact.ajax.reload();
@@ -64,7 +63,6 @@
                 dataType: 'json',
                 data: {id: id_contact}
             }).done(function(data){
-                console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTableContact.ajax.reload();
             });
@@ -80,7 +78,6 @@
             dataType: 'json',
             data : {id: id_contact}
         }).done(function(data){
-            console.log(data[2]);
             $('#mdl_select_an_area').val(data[0].select_an_area);
             $('#mdl_contact_name').val(data[0].name);
             $('#mdl_email').val(data[0].email);
@@ -106,7 +103,6 @@
                 area_code: $('#mdl_area_code').val()
             }
         }).done(function(data){
-            console.log(data);
             $('#contact_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableContact.ajax.reload();
@@ -126,6 +122,7 @@
         $('div#sc-form [name="contact_name"]').val('');
         $('[name="email"]').val('');
         $('[name="phone"]').val('');
+        $('[name="area_code"]').val('');
     }
 
     function addInputmask()

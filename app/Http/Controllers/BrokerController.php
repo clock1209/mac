@@ -172,7 +172,8 @@ class BrokerController extends Controller
             'nameBroker' => 'required',
             'patent' => 'required',
             'emailBroker' => 'required|email',
-            'phoneBroker' => 'required|numeric'
+            'phoneBroker' => 'required|numeric',
+            'contact' => 'required',
         ];
     }
 

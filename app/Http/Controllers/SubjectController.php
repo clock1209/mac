@@ -9,7 +9,7 @@ use App\Concepts;
 use App\PortName;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
-use Session;
+
 
 class SubjectController extends Controller
 {
@@ -20,11 +20,12 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        Session::put('tab', 2);
+
         $value = $request->session()->get('carrier_id');
-        if($request->ajax()){
+        if($request->ajax())
+            session()->put('tab', 2);
             return $this->toDatatable($value);
-        }
+
     }
 
     /**
@@ -89,7 +90,7 @@ class SubjectController extends Controller
     public function edit(Subject $subject)
     {
         $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'id')->toArray());
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,

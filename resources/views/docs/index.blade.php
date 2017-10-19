@@ -23,7 +23,7 @@
             {!! Form::label('name_doc', 'Name*') !!}
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
         </div>
-        {{ Form::hidden('custom_id', 'null', array('id' => 'customer_id')) }}
+        {{ Form::hidden('customer_id', 'null', array('id' => 'customer_id')) }}
     </div>
     <div class="col-md-8">
         <div class="form-group">

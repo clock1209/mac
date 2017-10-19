@@ -91,23 +91,37 @@ class PriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Price $price)
+    public function destroy(Request $request)
     {
-        $price->status = ($price->status == 1) ? 0 : 1;
-        $price->save();
+        if($request->type==2){
+            $price = Price::findOrFail($request->id);
+            $price->status = 2;
 
-        $msg = [
-            'title' => 'Change!',
-            'type' => 'success',
-            'text' => ($price->status == 1) ? 'Price activated.' : 'Price deactivated.'
-        ];
+            $msg = [
+                'title' => 'Delete!',
+                'type' => 'success',
+                'text' => 'Price delete'
+            ];
+
+        }else {
+            $price = Price::findOrFail($request->id);
+            $price->status = ($price->status == 1) ? 0 : 1;
+
+            $msg = [
+                'title' => 'Change!',
+                'type' => 'success',
+                'text' => ($price->status == 1) ? 'Price activated.' : 'Price deactivated.'
+            ];
+        }
+
+        $price->save();
 
         return response()->json($msg);
     }
 
     public function toDatatable()
     {
-        $prices = Price::all();
+        $prices = Price::where('status', '<>', 2)->get();
         return Datatables::of($prices)
             ->addColumn('actions', function ($prices) {
                 return view('prices.partials.buttons', ['port' => $prices]);

@@ -36,7 +36,6 @@
                 supplier_id: $('[name="supplier_id"]').val()
             }
         }).done(function (data) {
-            console.log(data);
             resetBankAccountInputs();
             sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
@@ -84,7 +83,6 @@
             dataType: 'json',
             data : {id: id_bankAccount}
         }).done(function(data){
-            console.log(data);
             $('#mdlPayof option[value="' + data.pay_of + '"]').attr('selected', 'selected');
             $('#mdlAccount').val(data.account);
             $('#mdlBank').val(data.bank);
@@ -93,6 +91,7 @@
             $('#mdlSwift').val(data.swift);
             $('#mdlReference').val(data.reference);
             $('#mdlCurrency').val(data.currency);
+            $('#mdlCurrency').trigger('change');
             $('#mdlBeneficiary').val(data.beneficiary);
             $('#mdlIdBankAccount').val(id_bankAccount);
             $('#mdlPayof').val(data.pay_of);
@@ -118,7 +117,6 @@
                 beneficiary: $('#mdlBeneficiary').val()
             }
         }).done(function(data){
-            console.log(data);
             $('#bankAccount_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
             dTableBank.ajax.reload();
@@ -141,6 +139,9 @@
         $('[name="swift"]').val('');
         $('[name="reference"]').val('');
         $('[name="beneficiary"]').val('');
+        $('[name="pay_of"]').val('');
+        $('[name="currency"]').val('');
+        $('#currency').trigger('change');
     }
 
 
@@ -159,6 +160,26 @@
             selected = (i != 0) ? '' : ' selected';
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
             $('#mdlCurrency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+
+        $('#currency').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#beneficiary").focus();
+            });
+        });
+
+        $('#mdlCurrency').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#bankAccountUpdate").focus();
+            });
         });
     });
 

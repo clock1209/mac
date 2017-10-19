@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Concepts extends Model
 {
-    //
     protected $fillable = [
         'id',
         'name',
@@ -17,4 +16,5 @@ class Concepts extends Model
     {
         return Concepts::pluck('name', 'id');
     }
+
 }

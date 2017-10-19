@@ -8,7 +8,7 @@ use App\PortName;
 use App\Overweight;
 use App\Concepts;
 use Yajra\Datatables\Facades\Datatables;
-use Session;
+
 class OverweightController extends Controller
 {
     /**
@@ -43,7 +43,7 @@ class OverweightController extends Controller
     public function store(Request $request)
     {
 
-        Session::put('tab', 1);
+        session()->put('tab', 1);
         $this->validate($request, $this->rules());
         $value = $request->session()->get('carrier_id');
 
@@ -95,11 +95,11 @@ class OverweightController extends Controller
      */
     public function edit(Overweight $overweight)
     {
-
+        session()->put('tab', 1);
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        $concepts = [0 => 'Select Concept'];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->toArray());
+        $concepts = [0 => ' '];
+        $concepts = array_merge($concepts, Concepts::pluck('name', 'id')->where('status',1)->toArray());
         return view('remarks.index',['tab' => 1,'overweight' => $overweight,'concepts' => $concepts,
         'inlands' => 0,'subject' => 0,'port' => $ports,'idCarrier'=> $overweight->carrier_id]);
     }

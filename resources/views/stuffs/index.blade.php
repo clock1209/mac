@@ -8,28 +8,26 @@
 @endsection
 
 @section('main-content')
-
-    <a class="btn btn-success" href="{{ route('stuffs.create', ['consolidator'=>$con_id]) }}"><b>+ New concept cost </b></a>
-    <a class="btn btn-default" href="{{ route('consolidators.index') }}"><b>Return</b></a>
-    <br><br>
-    <div class="box box-solid">
+    <p>
+        <a class="btn btn-success" href="{{ route('stuffs.create', ['consolidator'=>$con_id]) }}"><b>+ New concept cost </b></a>
+    </p>
+    <div class="box box-solid" >
         <div class="panel-body" style="overflow-x: auto; height:100%;">
             <table class="table table-bordered table-hover" id="stuff-table">
                 <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Concepts</th>
-                    <th>Cost</th>
-                    <th>Type</th>
-                    <th>Agreed Cost</th>
-                    <th>Currency</th>
-                    <th width="100px;">Actions</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Concepts</th>
+                        <th>Cost</th>
+                        <th>Type</th>
+                        <th>Agreed Cost</th>
+                        <th>Currency</th>
+                        <th width="100px;">Actions</th>
+                    </tr>
                 </thead>
             </table>
         </div>
     </div>
-
     @include('stuffs.partials.script')
 
 @endsection

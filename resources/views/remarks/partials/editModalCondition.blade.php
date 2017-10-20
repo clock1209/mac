@@ -32,7 +32,7 @@
                               {{ Form::text('price_day', null,array('class' => 'field','id' => 'mdl_price_day')) }}
                           </div>
                       </div>
-                      <div class="col-md-7 col-sm-10" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
+                      {{--<div class="col-md-7 col-sm-10" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
                           border-radius: 15px; margin-left: 30px;">
                           <div class="row">
                               <h3 class="text-center">Type demurrage:</h3>
@@ -45,7 +45,7 @@
                                   <label for="demurrage_lbl" class="control-label">Demurrage and detentions</label>
                               </div>
                           </div>
-                      </div>
+                      </div>--}}
                   </div>
                 </div>{{--note-form--}}
                 {!! Form::hidden('idCondition', null, ['id' => 'mdlIdCondition']) !!}

@@ -20,15 +20,15 @@
                 </div>
                 <div class="col-md-8 text-right">
                     <label for="demurrage_lbl" class="control-label">One day after ETA</label>
-                    {{ Form::checkbox('after_eta',0, old('after_eta'),['class'=>'field']) }}
+                    {{ Form::checkbox('after_eta',false, old('after_eta'),['class'=>'field','id' => 'after_eta']) }}
                 </div>
                 <div class="col-md-8 text-right">
                     <label for="demurrage_lbl" class="control-label">ETA day</label>
-                    {{ Form::checkbox('eta_day',0, old('eta_day'),['class'=>'field']) }}
+                    {{ Form::checkbox('eta_day',false, old('eta_day'),['class'=>'field','id' => 'eta_day']) }}
                 </div>
                 <div class="col-md-8 text-right">
                     <label for="demurrage_lbl" class="control-label">Operation completed</label>
-                    {{ Form::checkbox('operation',0, old('operation'),['class'=>'field']) }}
+                    {{ Form::checkbox('operation',false, old('operation'),['class'=>'field','id' => 'operation']) }}
                 </div>
                 <div class="col-md-8 text-right">
                     <label for="demurrage_lbl" class="control-label">Price per day</label>

@@ -34,30 +34,27 @@ $( "#customer_id" ).val( id );
     @endif
 
     function sAlert(title, type, text) {
-
-
-    swal({
-        title: title,
-        type: type,
-        text: text,
-        confirmButtonText: "Continue",
-        closeOnConfirm: true,
-        timer: 2000
-    }).then(
-        function() {
-            if (text == 'No se puede mostrar vista previa.') {
-                window.close();
+        swal({
+            title: title,
+            type: type,
+            text: text,
+            confirmButtonText: "Continue",
+            closeOnConfirm: true,
+            timer: 2000
+        }).then(
+            function() {
+                if (text == 'can not view file, try to download file') {
+                    window.close();
+                }
+            },
+            // handling the promise rejection
+            function(dismiss) {
+                if (text == 'can not view file, try to download file') {
+                    window.close();
+                }
             }
-        },
-        // handling the promise rejection
-
-        function(dismiss) {
-            if (text == 'No se puede mostrar vista previa.') {
-                window.close();
-            }
-        }
-    )
-}
+        )
+    }
 
 
 </script>

@@ -68,7 +68,7 @@ class StuffController extends Controller
      private function rules()
      {
          return [
-             'concepts' => 'required',
+             'concepts' => 'required|not_in:0',
              'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
              'type' => 'required',
              'agreed_cost' => 'required|not_in:0',
@@ -114,8 +114,8 @@ class StuffController extends Controller
 
     public function edit(Stuff $stuff, Request $request)
     {
-        $concepts = [null => 'Select'];
-        $concepts = array_merge($concepts, Concepts::pluck('name', 'name')->where('status',1)->toArray());
+        $concepts = [null => ' '];
+        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'name')->toArray());
         return view('stuffs.edit', ['stuff' => $stuff, 'consolidator'=>$request->consolidator], compact('concepts'));
     }
 

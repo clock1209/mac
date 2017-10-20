@@ -21,10 +21,7 @@ class RemarkController extends Controller
         session(['carrier_id' => $request->id]);
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-
-        $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::orderby('name','ASC')->where('status',1)->pluck('name', 'id')->toArray());
-
+        $concepts = Concepts::orderBy('name','ASC')->where('status',1)->pluck('name', 'id');
         if ($request->ajax())
             return $this->toDatatable($request->id);
 

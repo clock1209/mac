@@ -3,11 +3,11 @@
 <div class="form-group">
     <div class="col-md-3 col-sm-12">
         <label for="concept_lbl" class="control-label">Concept*:</label>
-        {!! Form::select('concept_id',$concepts,$subject ? $subject->concept_id : null,['class'=>'form-control', 'required']) !!}
+        {!! Form::select('concept_id',$concepts,$subject ? $concepts->id : null,['class'=>'form-control', 'required','placeholder'=> ' ']) !!}
     </div>
     <div class="col-md-3 col-sm-12{{ $errors->has('cost') ? ' has-error' : '' }}">
         <label for="cost_lbl" class="control-label">Cost*:</label>
-        {!! Form::text('cost', $subject ? $subject->cost : null,['class'=>'form-control']) !!}
+        {!! Form::text('cost', $subject ? $subject->cost : null,['class'=>'form-control','id' => 'cost']) !!}
     </div>
     <div class="col-md-3 col-sm-12 {{ $errors->has('currency') ? ' has-error' : '' }}">
         <label for="currency_lbl" class="control-label">Currency*:</label><br>

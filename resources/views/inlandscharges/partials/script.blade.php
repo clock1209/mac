@@ -46,58 +46,68 @@
         }
     }); /*datatable Rail*/
 
-$('body').delegate('.status-inlands', 'click', function() {
-    id_inlands = $(this).attr('id_inlands');
+    $('body').delegate('.status-inlands', 'click', function() {
+        id_inlands = $(this).attr('id_inlands');
 
-    swal({
-        title: 'Are you sure?',
-        text: "you want to remove the Inlands?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancel',
-        confirmButtonText: 'Yes, remove!'
-    }).then(function() {
-        $.ajax({
-            url: '/inlandscharges/' + id_inlands,
-            type: 'DELETE',
-            dataType: 'json',
-            data: {
-                id: id_inlands
-            }
-        }).done(function(data) {
-            sAlert(data.title, data.type, data.text);
-            location.reload();
+        swal({
+            title: 'Are you sure?',
+            text: "you want to remove the Inlands?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, remove!'
+        }).then(function() {
+            $.ajax({
+                url: '/inlandscharges/' + id_inlands,
+                type: 'DELETE',
+                dataType: 'json',
+                data: {
+                    id: id_inlands
+                }
+            }).done(function(data) {
+                sAlert(data.title, data.type, data.text);
+                location.reload();
+            });
         });
+    }); //BUTTON
+
+    $(document).ready(function() {
+        ordenarSelect('dischargeport_id');
+        ordenarSelect('delivery_id');
+        var currency = {{ require('./js/currency.json') }};
+        $('#currency_id').empty();
+        $('#currency_id').select2();
+        $('#currency_id').append('<option value=" " ></option>');
+        $.each(currency, function(i, item) {
+            selected = (i != 0) ? '' : ' selected';
+            if (i != 'USD')
+                $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
+        });
+
+        @if($inlands)
+            $('#currency_id').val('{{$inlands->currency}}');
+        @endif
+
+        $('#currency-st').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+        });
+        
     });
-}); //BUTTON
 
-$(document).ready(function() {
-    ordenarSelect('dischargeport_id');
-    ordenarSelect('delivery_id');
-    var currency = {{ require('./js/currency.json') }};
-    $('#currency_id').empty();
-    $('#currency_id').select2();
-    $('#currency_id').append('<option value=" " ></option>');
-    $.each(currency, function(i, item) {
-        selected = (i != 0) ? '' : ' selected';
-        if (i != 'USD')
-            $('#currency_id').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
-    });
+    function ordenarSelect(id_componente)
+    {
+        var selectToSort = jQuery('#' + id_componente);
+        var optionActual = selectToSort.val();
+        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+        })).val(optionActual);
+    }
 
-    @if($inlands)
-        $('#currency_id').val('{{$inlands->currency}}');
-    @endif
-});
 
-function ordenarSelect(id_componente)
-{
-    var selectToSort = jQuery('#' + id_componente);
-    var optionActual = selectToSort.val();
-    selectToSort.html(selectToSort.children('option').sort(function (a, b) {
-    return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-    })).val(optionActual);
-}
 </script>
 @endpush

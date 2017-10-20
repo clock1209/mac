@@ -63,6 +63,14 @@ $(document).ready(function() {
     @if($overweight)
         $('#currency').val('{{$overweight->currency}}');
     @endif
+
+    $('#currency').each(function () {
+        var s = $(this);
+        s.data().select2.on("focus", function (e) {
+            s.select2("open");
+        });
+    });
+
 });
 
 @if(Session::has('message'))

@@ -36,9 +36,7 @@
         </div>
         <div class="col-md-3 col-sm-12{{ $errors->has('charge') ? ' has-error' : '' }}">
             <label for="charge_lbl" class="control-label">Charge*:</label>
-            {!! Form::select('charge', [' ' => ' ','ETD' => 'ETD', 'Gate in' => 'Gate in', 'ATD/On board' => 'ATD/On board',
-                'ETB' => 'ETB'], null,
-                ['class'=>'form-control','id'=>'charge']) !!}
+            {!! Form::select('charge',$price, null,['class'=>'form-control','id'=>'charge','required','placeholder' => ' ']) !!}
         </div>
     </div>{{--form-group--}}
     <div class="form-group">

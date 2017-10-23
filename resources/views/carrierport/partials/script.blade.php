@@ -69,6 +69,22 @@
             selected = (i != 0) ? '' : ' selected';
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
+
+
+        $('input[type=checkbox]').click(function(){
+            //MODAL CHECK'S
+            if ($('#check_subagente').is(':checked')) {
+                $("#div_subagente").css("display","block");
+            }
+            else{
+                $("#div_subagente").css("display","none");
+            }
+        });
+
+        if ($('#check_subagente').is(':checked')) {
+            console.log("checked")
+            $("#div_subagente").css("display","block");
+        }
     });
 
     function ordenarSelect(id_componente)
@@ -79,5 +95,8 @@
         return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
         })).val(optionActual);
     }
+
+
+
 </script>
 @endpush

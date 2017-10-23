@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class CountryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax())
+            return $this->toDatatable();
+        $countries = [null => ' '];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+        $cities =City::pluck('name', 'country')->toArray();
+
+        return view('country.index',['countries'=>$countries]);
     }
     /**
      * Store a newly created resource in storage.
@@ -43,5 +51,17 @@ class CountryController extends Controller
             'code.required' => 'The abbreviation field is required.',
             'name.regex'    => 'The :attribute may only contain letters and spaces.',
         ];
+    }
+
+    public function toDatatable()
+    {
+
+      $cities = City::select(['id', 'name','country'])->limit(20000)->get();
+          return Datatables::of($cities)
+              ->addColumn('actions', function ($cities) {
+                  return view('country.partials.buttons', ['cities' => $cities]);
+              })
+              ->rawColumns(['actions'])
+              ->make(true);
     }
 }

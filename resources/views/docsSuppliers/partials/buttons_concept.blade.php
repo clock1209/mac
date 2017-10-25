@@ -1,1 +1,3 @@
-<a  id_view="{{$docs->id}}" class="btn btn-success btn-sm view-concepts" data-toggle="modal" data-target="#view_modal"><span class="fa fa-list-ol"></span> View Concepts</a>
+@foreach ($concepts as $concept)
+    <a doc_id="{{ $concept->id }}" class="btn btn-primary"><span class="fa fa-money"></span> {{ $concept->name }}</a>
+@endforeach

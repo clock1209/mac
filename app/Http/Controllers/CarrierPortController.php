@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\CarrierPort;
 use App\Carrier;
 use App\PortName;
+use App\CountryPort;
 use App\Price;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -37,10 +38,9 @@ class CarrierPortController extends Controller
     {
 
         $price = Price::select('id','name') ->where('status', '=', 1)->get();
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
 
-        return view('carrierport.create', ['port' => $ports, 'prices' => $price,'id' => $request->id]);
+        return view('carrierport.create', ['port' => null,'country_port' => $country_port, 'prices' => $price,'id' => $request->id]);
     }
 
     /**
@@ -81,10 +81,15 @@ class CarrierPortController extends Controller
      */
     public function edit(Carrierport $carrierport)
     {
-        $price = Price::select('id','name') ->where('status', '=', 1)->get();
+        $price = Price::select('id','name')->where('status', '=', 1)->get();
         $ports = [0 => ' '];
         $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        return view('carrierport.edit', ['port' => $ports,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
+
+        $port = PortName::where('countries_ports_id',$carrierport->portname_id)->pluck('port_name', 'id')->toArray();
+
+
+        return view('carrierport.edit', ['country_port' => $country_port,'port' => $port,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
 
     /**
@@ -155,9 +160,9 @@ class CarrierPortController extends Controller
     {
 
         $carrierport = Carrier::find($id)->customCarrierPort()
-                ->join('portsname', 'portsname.id', '=', 'carrierport.portname_id')
+                ->join('ports_name', 'ports_name.id', '=', 'carrierport.portname_id')
                     ->select('carrierport.id','portname_id','departures','arbitraryone'
-                        ,'arbitrarytwo','arbitrarythree','tt','rate','portsname.name','carrierport.status','rate')->where('status', 1)->get();
+                        ,'arbitrarytwo','arbitrarythree','tt','rate','ports_name.port_name','carrierport.status','rate')->where('status', 1)->get();
 
         return Datatables::of($carrierport)
             ->addColumn('actions', function ($carrierport) {

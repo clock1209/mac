@@ -1,8 +1,14 @@
 <div class="form-group">
     {{ Form::hidden('carrier_id', $id) }}
-    <div class="col-md-4 col-sm-12{{ $errors->has('type') ? ' has-error' : '' }}">
-        <label for="type_lbl" class="control-label">Port*:</label>
-        {{ Form::select('portname_id', $port, null, ['class'=>'form-control','id'=>'portname_id']) }}
+    <div class="col-md-4 col-md-offset-0 col-sm-12">
+        <label for="city_lbl" class="control-label">Country*:</label><br>
+        {!! Form::select('country_port', $country_port ? $country_port: [null => ' '],  [$port] ? $port : null,
+            ['class'=>'form-control', 'id' => 'country_port','placeholder' => ' ']) !!}
+    </div>
+    <div class="col-md-4 col-md-offset-0 col-sm-12">
+        <label for="city_lbl" class="control-label">Port*:</label><br>
+        {!! Form::select('portname_id', $port ? $port: [null => ' '],  $carrierport ? [$carrierport->portname_id] : null,
+            ['class'=>'form-control', 'id' => 'portname_id','placeholder' => ' ']) !!}
     </div>
 </div>
 <h4 class="n-caption">Arbitrary*</h4>

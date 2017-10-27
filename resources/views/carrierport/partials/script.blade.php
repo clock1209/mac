@@ -9,7 +9,7 @@
     var dTable = $("#carrierport-table").DataTable({
         ajax: '/carrierport?id='+id,
         columns: [
-            {data: 'name'},
+            {data: 'port_name'},
             {data: 'departures'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
         ]
@@ -61,7 +61,7 @@
     });//BUTTON .delete-shipper
 
     $(document).ready(function () {
-        ordenarSelect('portname_id');
+
         var currency = {{ require('./js/currency.json') }};
         $('#currency').empty();
         $('#currency').select2();
@@ -87,15 +87,49 @@
         }
     });
 
-    function ordenarSelect(id_componente)
-    {
-        var selectToSort = jQuery('#' + id_componente);
-        var optionActual = selectToSort.val();
-        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
-        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-        })).val(optionActual);
-    }
+    $('select[name="country_port"]').change(function () {
+        var country = $(this).val();
+        
+        $.ajax({
+            url: '{{route('ports.name')}}',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each(resp, function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#portname_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+            });
+        })
+    });//select COUNTRY
 
+
+    $('#country_port').hover(function () {
+        var country = $('select[name="country_port"]').val();
+        console.log(country)
+        if (country == null) {
+            $('#country_port').empty().select2();
+            $.ajax({
+                url: '{{route('ports.name')}}',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each(resp, function (i, item) {
+                    selected = (i != 0) ? '' : ' selected';
+                    $('#portname_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+                });
+            })
+        }else{
+            $('select[name="country_port"]').hover(function () {
+                $(this).select2();
+            });
+        }
+
+    });//select CITY
+
+
+    $('select[name="portname_id"]').hover(function () {
+        $(this).select2();
+    });
 
 
 </script>

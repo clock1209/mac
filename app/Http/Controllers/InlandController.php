@@ -148,8 +148,8 @@ class InlandController extends Controller
     {
 
         $inlandscharges = DB::table('inlandscharges')
-        ->join('portsname as dischargeport', 'inlandscharges.dischargeport_id', '=', 'dischargeport.id')
-        ->join('portsname as delivery', 'inlandscharges.delivery_id', '=', 'delivery.id')
+        ->join('ports_name as dischargeport', 'inlandscharges.dischargeport_id', '=', 'dischargeport.id')
+        ->join('ports_name as delivery', 'inlandscharges.delivery_id', '=', 'delivery.id')
         ->select('inlandscharges.id','inlandscharges.dischargeport_id','inlandscharges.delivery_id',
         'inlandscharges.rangeup','inlandscharges.rangeto','inlandscharges.cost','inlandscharges.container',
         'inlandscharges.currency','inlandscharges.status','dischargeport.name as nameone',

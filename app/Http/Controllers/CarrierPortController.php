@@ -82,12 +82,9 @@ class CarrierPortController extends Controller
     public function edit(Carrierport $carrierport)
     {
         $price = Price::select('id','name')->where('status', '=', 1)->get();
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
         $country_port = CountryPort::pluck('port_name', 'id')->toArray();
 
-        $port = PortName::where('countries_ports_id',$carrierport->portname_id)->pluck('port_name', 'id')->toArray();
-
+        $port = PortName::where('country_ports_id',$carrierport->country_port_id)->pluck('port_name', 'id')->toArray();
 
         return view('carrierport.edit', ['country_port' => $country_port,'port' => $port,'prices'=>$price, 'carrierport' => $carrierport,'id' => $carrierport->carrier_id]);
     }
@@ -160,9 +157,9 @@ class CarrierPortController extends Controller
     {
 
         $carrierport = Carrier::find($id)->customCarrierPort()
-                ->join('ports_name', 'ports_name.id', '=', 'carrierport.portname_id')
-                    ->select('carrierport.id','portname_id','departures','arbitraryone'
-                        ,'arbitrarytwo','arbitrarythree','tt','rate','ports_name.port_name','carrierport.status','rate')->where('status', 1)->get();
+                ->join('ports_name', 'ports_name.id', '=', 'carrier_ports.port_name_id')
+                    ->select('carrier_ports.id','port_name_id','departures','arbitraryone'
+                        ,'arbitrarytwo','arbitrarythree','tt','rate','ports_name.port_name','carrier_ports.status','rate')->where('status', 1)->get();
 
         return Datatables::of($carrierport)
             ->addColumn('actions', function ($carrierport) {
@@ -177,7 +174,7 @@ class CarrierPortController extends Controller
         return [
             'rate' => 'required|not_in:0',
             'tt' => 'numeric',
-            'portname_id' => 'required|not_in:0',
+            'port_name_id' => 'required|not_in:0',
             'departures' => 'required|not_in:0',
             'arbitraryone' => 'required|numeric',
             'arbitrarytwo' => 'required|numeric',

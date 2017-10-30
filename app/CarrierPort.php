@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CarrierPort extends Model
 {
     protected $fillable = [
-        'id',
-        'portname_id',
+        'port_name_id',
         'departures',
         'arbitraryone',
         'arbitrarytwo',
@@ -22,8 +21,10 @@ class CarrierPort extends Model
         'sub_arbitrary_one',
         'sub_arbitrary_two',
         'sub_arbitrary_three',
+        'country_port_id',
+        'include_subagent'
     ];
 
-    protected $table = 'carrierport';
+    protected $table = 'carrier_ports';
 
 }

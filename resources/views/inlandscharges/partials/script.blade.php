@@ -74,8 +74,6 @@
     }); //BUTTON
 
     $(document).ready(function() {
-        ordenarSelect('dischargeport_id');
-        ordenarSelect('delivery_id');
         var currency = {{ require('./js/currency.json') }};
         $('#currency_id').empty();
         $('#currency_id').select2();
@@ -96,17 +94,46 @@
                 s.select2("open");
             });
         });
-        
+
+        $('#discharge_country_ports_id').select2();
+        $('#delivery_country_ports_id').select2();
+        $('#dischargeport_id').select2();
+        $('#delivery_id').select2();
+        $('.select2-container--default').css('min-width', '220px');
+
     });
 
-    function ordenarSelect(id_componente)
-    {
-        var selectToSort = jQuery('#' + id_componente);
-        var optionActual = selectToSort.val();
-        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
-        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-        })).val(optionActual);
-    }
+    $('select[name="discharge_country_ports_id"]').change(function () {
+        var country = $(this).val();
+        $('#dischargeport_id').empty().select2();
+        $.ajax({
+            url: '{{route('ports.name')}}',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each(resp, function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#dischargeport_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+            });
+        })
+    });//select COUNTRY
+
+    $('select[name="delivery_country_ports_id"]').change(function () {
+        var country = $(this).val();
+        $('#delivery_id').empty().select2();
+        $.ajax({
+            url: '{{route('ports.name')}}',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each(resp, function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#delivery_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+            });
+        })
+    });//select COUNTRY
+
+
 
 
 </script>

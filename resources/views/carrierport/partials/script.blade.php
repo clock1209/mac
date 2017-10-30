@@ -82,14 +82,16 @@
         });
 
         if ($('#check_subagente').is(':checked')) {
-            console.log("checked")
             $("#div_subagente").css("display","block");
         }
+
+        $('#port_name_id').select2();
+        $('#country_port_id').select2();
     });
 
-    $('select[name="country_port"]').change(function () {
+    $('select[name="country_port_id"]').change(function () {
         var country = $(this).val();
-        
+        $('#port_name_id').empty().select2();
         $.ajax({
             url: '{{route('ports.name')}}',
             type: 'GET',
@@ -97,17 +99,15 @@
         }).done(function (resp) {
             $.each(resp, function (i, item) {
                 selected = (i != 0) ? '' : ' selected';
-                $('#portname_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+                $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
             });
         })
     });//select COUNTRY
 
 
-    $('#country_port').hover(function () {
-        var country = $('select[name="country_port"]').val();
-        console.log(country)
+    $('#country_port_id').hover(function () {
+        var country = $('select[name="country_port_id"]').val();
         if (country == null) {
-            $('#country_port').empty().select2();
             $.ajax({
                 url: '{{route('ports.name')}}',
                 type: 'GET',
@@ -115,22 +115,16 @@
             }).done(function (resp) {
                 $.each(resp, function (i, item) {
                     selected = (i != 0) ? '' : ' selected';
-                    $('#portname_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+                    $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
                 });
             })
         }else{
-            $('select[name="country_port"]').hover(function () {
+            $('select[name="country_port_id"]').hover(function () {
                 $(this).select2();
             });
         }
 
     });//select CITY
-
-
-    $('select[name="portname_id"]').hover(function () {
-        $(this).select2();
-    });
-
 
 </script>
 @endpush

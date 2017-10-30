@@ -2,13 +2,13 @@
     {{ Form::hidden('carrier_id', $id) }}
     <div class="col-md-4 col-md-offset-0 col-sm-12">
         <label for="city_lbl" class="control-label">Country*:</label><br>
-        {!! Form::select('country_port', $country_port ? $country_port: [null => ' '],  [$port] ? $port : null,
-            ['class'=>'form-control', 'id' => 'country_port','placeholder' => ' ']) !!}
+        {!! Form::select('country_port_id', $country_port ? $country_port: [null => ' '],  $carrierport ? [$carrierport->country_port_id] : null,
+            ['class'=>'form-control', 'id' => 'country_port_id','placeholder' => ' ']) !!}
     </div>
     <div class="col-md-4 col-md-offset-0 col-sm-12">
         <label for="city_lbl" class="control-label">Port*:</label><br>
-        {!! Form::select('portname_id', $port ? $port: [null => ' '],  $carrierport ? [$carrierport->portname_id] : null,
-            ['class'=>'form-control', 'id' => 'portname_id','placeholder' => ' ']) !!}
+        {!! Form::select('port_name_id', $port ? $port: [null => ' '],  $carrierport ? [$carrierport->port_name_id] : null,
+            ['class'=>'form-control', 'id' => 'port_name_id','placeholder' => ' ']) !!}
     </div>
 </div>
 <h4 class="n-caption">Arbitrary*</h4>

@@ -8,6 +8,7 @@ use App\Subject;
 use App\Concepts;
 use App\Inlandscharges;
 use App\PortName;
+use App\CountryPort;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
@@ -45,8 +46,6 @@ class InlandController extends Controller
      */
     public function store(Request $request)
     {
-
-
         session()->put('tab', 3);
         $request->flash();
         $value = $request->session()->get('carrier_id');
@@ -64,7 +63,7 @@ class InlandController extends Controller
             'text' => 'Inlands created successfully.'
         ];
 
-        return redirect('/remarks?id='.$value)->with(['tab'=> 3,'message'=> $msg]);
+        return redirect('/remarks?id='.$value)->with(['tab'=> 3,'message'=> $msg]) ;
 
     }
 
@@ -90,10 +89,13 @@ class InlandController extends Controller
         session()->put('tab', 3);
         $inland = Inlandscharges::find($inlands);
         $concepts = Concepts::pluck('name', 'id')->where('status',1)->toArray();
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
-        return view('remarks.index',['tab'=> 3,'port' => $ports,'inlands' => $inland,
-            'overweight' => 0,'subject' => 0,'concepts' => $concepts,'idCarrier'=> $inland->carrier_id]);
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
+        $port_discharge = PortName::where('country_ports_id',$inland->discharge_country_ports_id)->pluck('port_name', 'id')->toArray();
+        $port_delivery = PortName::where('country_ports_id',$inland->delivery_country_ports_id)->pluck('port_name', 'id')->toArray();
+
+        return view('remarks.index',['tab'=> 3,'port' => [null],'inlands' => $inland,
+            'country_port'=>$country_port,'port_discharge'=>$port_discharge,'port_delivery'=>$port_delivery,'overweight' => 0,'subject' => 0,
+                'concepts' => $concepts,'idCarrier'=> $inland->carrier_id]);
 
     }
 
@@ -147,14 +149,15 @@ class InlandController extends Controller
     public function toDatatable($id)
     {
 
-        $inlandscharges = DB::table('inlandscharges')
-        ->join('ports_name as dischargeport', 'inlandscharges.dischargeport_id', '=', 'dischargeport.id')
-        ->join('ports_name as delivery', 'inlandscharges.delivery_id', '=', 'delivery.id')
-        ->select('inlandscharges.id','inlandscharges.dischargeport_id','inlandscharges.delivery_id',
-        'inlandscharges.rangeup','inlandscharges.rangeto','inlandscharges.cost','inlandscharges.container',
-        'inlandscharges.currency','inlandscharges.status','dischargeport.name as nameone',
-        'delivery.name as nametwo','inlandscharges.type')->where('inlandscharges.carrier_id',$id)
-        ->where('inlandscharges.status',1)->get();
+        $inlandscharges = DB::table('inland_charges')
+        ->join('ports_name as dischargeport', 'inland_charges.dischargeport_id', '=', 'dischargeport.id')
+        ->join('ports_name as delivery', 'inland_charges.delivery_id', '=', 'delivery.id')
+        ->select('inland_charges.id','inland_charges.dischargeport_id','inland_charges.delivery_id',
+        'inland_charges.rangeup','inland_charges.rangeto','inland_charges.cost','inland_charges.container',
+        'inland_charges.currency','inland_charges.status','dischargeport.port_name as nameone',
+        'delivery.port_name as nametwo','inland_charges.type')->where('inland_charges.carrier_id',$id)
+        ->where('inland_charges.status',1)->get();
+
         return Datatables::of($inlandscharges)
             ->addColumn('actions', function ($inlandscharges) {
                 return view('inlandscharges.partials.buttons', ['inlands' => $inlandscharges]);
@@ -175,6 +178,8 @@ class InlandController extends Controller
             'rangeup' => 'required|not_in:0',
             'rangeto' => 'required|not_in:0',
             'cost' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric|',
+            'discharge_country_ports_id' => 'required',
+            'delivery_country_ports_id' => 'required',
         ];
     }
 

@@ -11,6 +11,6 @@ class CountryPort extends Model
         'port_name'
     ];
 
-    protected $table = 'countries_ports';
+    protected $table = 'country_ports';
 
 }

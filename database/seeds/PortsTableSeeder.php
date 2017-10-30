@@ -14,11 +14,11 @@ class PortsTableSeeder extends CsvSeeder
     {
 
         $this->filename = storage_path('/country.csv');
-        $this->table = 'countries_ports';
+        $this->table = 'country_ports';
         $this->insert_chunk_size =0;
         parent::run();
 
-        DB::table('countries_ports')->update(['created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')]);
+        DB::table('country_ports')->update(['created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')]);
 
         $this->filename = storage_path('/ports.csv');
         $this->table = 'ports_name';

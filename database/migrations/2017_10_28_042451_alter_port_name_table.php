@@ -21,13 +21,15 @@ class AlterPortNameTable extends Migration
                 $table->string('code')->nullable();
                 $table->string('port_code')->nullable();
                 $table->string('port_name')->nullable();
-                $table->integer('countries_ports_id')->unsigned()->nullable();
+                $table->integer('country_ports_id')->unsigned()->nullable();
                 $table->timestamps();
-                $table->foreign('countries_ports_id')->references('id')->on('countries_ports')
+                $table->foreign('country_ports_id')->references('id')->on('country_ports')
                     ->onUpdate('cascade')->onDelete('cascade');
             });
 
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             Schema::dropIfExists('portsname');
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         }
 
@@ -42,7 +44,7 @@ class AlterPortNameTable extends Migration
     {
         Schema::table('ports_name', function($table)
         {
-            $table->dropForeign('ports_name_countries_port_id_foreign');
+            $table->dropForeign('ports_name_country_port_id_foreign');
         });
 
         Schema::dropIfExists('ports_name');

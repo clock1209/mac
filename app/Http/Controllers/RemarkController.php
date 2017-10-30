@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Remark;
 use App\Concepts;
 use App\PortName;
+use App\CountryPort;
 use Yajra\Datatables\Datatables;
 
 class RemarkController extends Controller
@@ -19,14 +20,14 @@ class RemarkController extends Controller
     {
 
         session(['carrier_id' => $request->id]);
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
+        $request->flash();
         $concepts = Concepts::orderBy('name','ASC')->where('status',1)->pluck('name', 'id');
         if ($request->ajax())
             return $this->toDatatable($request->id);
 
             return view('remarks.index',['tab' => $request->session()->get('tab'),'overweight' => 0,
-                'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>$ports,'idCarrier'=> $request->id]);
+                'country_port'=>$country_port,'concepts' => $concepts,'subject' => 0,'inlands' => 0,'port'=>[null],'idCarrier'=> $request->id]);
     }
 
     /**

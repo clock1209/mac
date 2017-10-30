@@ -87,6 +87,9 @@
 
         $('#port_name_id').select2();
         $('#country_port_id').select2();
+        $('#country_port_id').select2('open');
+
+
     });
 
     $('select[name="country_port_id"]').change(function () {
@@ -101,9 +104,9 @@
                 selected = (i != 0) ? '' : ' selected';
                 $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
             });
+            $('#port_name_id').select2('open');
         })
     });//select COUNTRY
-
 
     $('#country_port_id').hover(function () {
         var country = $('select[name="country_port_id"]').val();

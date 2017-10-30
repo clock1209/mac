@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-3 col-sm-8{{ $errors->has('container') ? ' has-error' : '' }}">
         <label for="demurrage_lbl" class="control-label">Container*</label>
-        {!! Form::select('container',[0 => ' ','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],$inlands ? $inlands->container : null,['class'=>'form-control', 'required']) !!}
+        {!! Form::select('container',[0 => ' ','20 GP' => '20 GP', '40 GP' => '40 GP','40 HC' => '40 HC'],$inlands ? $inlands->container : null,['class'=>'form-control', 'required','id'=>'container']) !!}
    </div>
    <div class="col-lg-2 col-md-3 col-sm-12 {{ $errors->has('currency') ? ' has-error' : '' }}">
       <label for="currency_lbl" class="control-label">Currency*:</label><br>
@@ -38,7 +38,7 @@
 </div>
 <div class="row" style="margin-top:15px;">
     <div class="col-xs-1 text-right">Range*</div>
-    <div class="col-sm-2">{!! Form::text('rangeup',$inlands ? $inlands->rangeup : old('rangeup'),['class'=>'form-control', 'required']) !!}</div>
+    <div class="col-sm-2">{!! Form::text('rangeup',$inlands ? $inlands->rangeup : old('rangeup'),['class'=>'form-control', 'required','id'=>'rangeup']) !!}</div>
     <div class="col-sm-2">{!! Form::text('rangeto',$inlands ? $inlands->rangeto : old('rangeto'),['class'=>'form-control', 'required']) !!}</div>
     <div class="col-sm-1">Tons</div>
 </div><br>

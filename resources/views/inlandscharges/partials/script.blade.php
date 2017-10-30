@@ -101,6 +101,31 @@
         $('#delivery_id').select2();
         $('.select2-container--default').css('min-width', '220px');
 
+        $('#currency_id').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#discharge_country_ports_id").select2('open');
+            });
+        });
+
+
+        $('#dischargeport_id').each(function () {
+            $(this).on('select2:close', function(event) {
+                $("#delivery_country_ports_id").select2('open');
+            });
+        });
+
+        $('#delivery_id').each(function () {
+            $(this).on('select2:close', function(event) {
+                $("#rangeup").focus();
+            });
+        });
+
+
+
     });
 
     $('select[name="discharge_country_ports_id"]').change(function () {
@@ -115,6 +140,7 @@
                 selected = (i != 0) ? '' : ' selected';
                 $('#dischargeport_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
             });
+            $("#dischargeport_id").select2('open');
         })
     });//select COUNTRY
 
@@ -130,11 +156,9 @@
                 selected = (i != 0) ? '' : ' selected';
                 $('#delivery_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
             });
+            $("#delivery_id").select2('open');
         })
     });//select COUNTRY
-
-
-
 
 </script>
 @endpush

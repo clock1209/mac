@@ -91,12 +91,18 @@
                 selected = (i != 0) ? '' : ' selected';
                 $('#place_of_load').append('<option value="' + item.port_name.toUpperCase() + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
             });
+            $('#place_of_load').select2('open');
         })
     });//select country port
 
-    $('select[name="country_port"]').hover(function () {
-        $(this).select2();
+    $(document).ready(function () {
+
+        $('#country_port').select2();
+        $('#place_of_load').select2();
+        $('#country_port').select2('open');
+
     });
+
 
 </script>
 @endpush

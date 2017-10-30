@@ -15,7 +15,7 @@
 <div class="form-group">
     <div class="col-md-4 col-sm-12{{ $errors->has('arbitraryone') ? ' has-error' : '' }}">
         <label for="20gp_lbl" class="control-label">20 GP*:</label>
-        {!! Form::text('arbitraryone',$carrierport ? $carrierport->arbitraryone : old('arbitraryone'),['class'=>'form-control', 'required']) !!}
+        {!! Form::text('arbitraryone',$carrierport ? $carrierport->arbitraryone : old('arbitraryone'),['class'=>'form-control', 'required','id'=>'arbitraryone']) !!}
     </div>
     <div class="col-md-4 col-sm-12{{ $errors->has('arbitrarytwo') ? ' has-error' : '' }}">
         <label for="40gp_lbl" class="control-label">40 GP*:</label>

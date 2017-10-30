@@ -89,6 +89,10 @@
         $('#country_port_id').select2();
         $('#country_port_id').select2('open');
 
+        $('#port_name_id').on('select2:close', function(event) {
+            $('#arbitraryone').focus();
+        });
+
 
     });
 

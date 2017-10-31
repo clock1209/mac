@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Port;
+use App\PortName;
+use App\CountryPort;
 use App\Country;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
@@ -31,10 +33,12 @@ class PortController extends Controller
      */
     public function create(Request $request)
     {
-      $countries = [null => ' '];
-      $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
 
-      return view('ports.create',['shipper' => $request->id,'countries'=>$countries]);
+        $countries = [null => ' '];
+        $countries = array_merge($countries, Country::pluck('name', 'name')->toArray());
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
+
+        return view('ports.create',['shipper' => $request,'countries'=>$countries,'country_port'=>$country_port]);
     }
 
     /**
@@ -59,7 +63,7 @@ class PortController extends Controller
             'text' => 'Port created successfully.'
         ];
 
-        return redirect("shippers/$request->shipper_id")->with('message', $msg);
+        return redirect(route('shippers.show',['id'=>"$request->shipper_id"]))->with('message', $msg);
     }
 
     /**
@@ -136,7 +140,7 @@ class PortController extends Controller
      * @param  \App\Port  $port
      * @return \Illuminate\Http\Response
      */
-    public function toDatatable($shipper = null)
+    public function toDatatable($shipper)
     {
         $ports = Port::where('shipper_id',$shipper)->get();
 
@@ -153,6 +157,17 @@ class PortController extends Controller
      * @param  \App\Port  $port
      * @return \Illuminate\Http\Response
      */
+
+     public function getPortsByCountry(Request $request)
+     {
+         
+         $port = PortName::where('country_ports_id',$request->country)
+             ->orderBy('port_name','ASC')->get();
+
+         return response()->json($port);
+     }
+
+
     private function rules()
     {
         return [

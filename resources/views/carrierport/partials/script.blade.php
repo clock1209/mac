@@ -9,7 +9,7 @@
     var dTable = $("#carrierport-table").DataTable({
         ajax: '/carrierport?id='+id,
         columns: [
-            {data: 'name'},
+            {data: 'port_name'},
             {data: 'departures'},
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
         ]
@@ -61,7 +61,7 @@
     });//BUTTON .delete-shipper
 
     $(document).ready(function () {
-        ordenarSelect('portname_id');
+
         var currency = {{ require('./js/currency.json') }};
         $('#currency').empty();
         $('#currency').select2();
@@ -69,15 +69,69 @@
             selected = (i != 0) ? '' : ' selected';
             $('#currency').append('<option value="' + i + '" ' + selected + '>' + i + '</option>');
         });
+
+
+        $('input[type=checkbox]').click(function(){
+            //MODAL CHECK'S
+            if ($('#check_subagente').is(':checked')) {
+                $("#div_subagente").css("display","block");
+            }
+            else{
+                $("#div_subagente").css("display","none");
+            }
+        });
+
+        if ($('#check_subagente').is(':checked')) {
+            $("#div_subagente").css("display","block");
+        }
+
+        $('#port_name_id').select2();
+        $('#country_port_id').select2();
+        $('#country_port_id').select2('open');
+
+        $('#port_name_id').on('select2:close', function(event) {
+            $('#arbitraryone').focus();
+        });
+
+
     });
 
-    function ordenarSelect(id_componente)
-    {
-        var selectToSort = jQuery('#' + id_componente);
-        var optionActual = selectToSort.val();
-        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
-        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-        })).val(optionActual);
-    }
+    $('select[name="country_port_id"]').change(function () {
+        var country = $(this).val();
+        $('#port_name_id').empty().select2();
+        $.ajax({
+            url: '{{route('ports.name')}}',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each(resp, function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+            });
+            $('#port_name_id').select2('open');
+        })
+    });//select COUNTRY
+
+    $('#country_port_id').hover(function () {
+        var country = $('select[name="country_port_id"]').val();
+        if (country == null) {
+            $.ajax({
+                url: '{{route('ports.name')}}',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each(resp, function (i, item) {
+                    selected = (i != 0) ? '' : ' selected';
+                    $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+                });
+            })
+        }else{
+            $('select[name="country_port_id"]').hover(function () {
+                $(this).select2();
+            });
+        }
+
+    });//select CITY
+
 </script>
 @endpush

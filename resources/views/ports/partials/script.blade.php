@@ -1,5 +1,8 @@
 @push('scripts')
 <script>
+    var searchParams = new URLSearchParams(window.location.search);
+    var id=searchParams.get("id")
+
     var dTable = $("#ports-table").DataTable({
         ajax: '/ports?shipper=' + {{$shipper->id}},
         columns: [
@@ -8,6 +11,7 @@
             {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
         ]
     });/*datatable*/
+
     $('body').delegate('.delete-port','click',function(){
         port_id = $(this).attr('port_id');
         swal({
@@ -74,5 +78,31 @@
             timer: 3000
         });
     }
+
+    $('select[name="country_port"]').change(function () {
+        var country = $(this).val();
+        $('#place_of_load').empty().select2();
+        $.ajax({
+            url: '{{route('ports.name')}}',
+            type: 'GET',
+            data: { country: country }
+        }).done(function (resp) {
+            $.each(resp, function (i, item) {
+                selected = (i != 0) ? '' : ' selected';
+                $('#place_of_load').append('<option value="' + item.port_name.toUpperCase() + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+            });
+            $('#place_of_load').select2('open');
+        })
+    });//select country port
+
+    $(document).ready(function () {
+
+        $('#country_port').select2();
+        $('#place_of_load').select2();
+        $('#country_port').select2('open');
+
+    });
+
+
 </script>
 @endpush

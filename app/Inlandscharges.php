@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inlandscharges extends Model
 {
-  protected $table = 'inlandscharges';
+  protected $table = 'inland_charges';
 
   protected $fillable = [
       'id',
@@ -18,6 +18,8 @@ class Inlandscharges extends Model
       'cost',
       'container',
       'currency',
+      'discharge_country_ports_id',
+      'delivery_country_ports_id',
   ];
 
 }

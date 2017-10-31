@@ -1,11 +1,11 @@
 @extends('adminlte::layouts.app')
 
 @section('htmlheader_title')
-    Edit Stuffs
+    Edit concepts
 @endsection
 
 @section('contentheader_title')
-    Edit Stuffs
+    Edit concepts
 @endsection
 
 @section('main-content')

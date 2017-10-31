@@ -67,7 +67,19 @@ $( "#supplier_id" ).val(id);
             text: text,
             confirmButtonText: "Continue",
             timer: 3000
-        });
+        }).then(
+            function() {
+                if (text == 'can not view file, try to download file') {
+                    window.close();
+                }
+            },
+            // handling the promise rejection
+            function(dismiss) {
+                if (text == 'can not view file, try to download file') {
+                    window.close();
+                }
+            }
+        )
     }
 
     $(document).ready(function() {

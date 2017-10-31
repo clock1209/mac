@@ -106,8 +106,10 @@ class DocController extends Controller
     }
 
     public function DocView($id, Request $request) {
+
         $doc = Doc::find($id);
         $ext = File::extension($doc->doc);
+        $content_types=null;
         if ($ext == 'pdf') {
             $content_types = 'application/pdf';
         }
@@ -136,10 +138,18 @@ class DocController extends Controller
         if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
             return redirect($this->url.$doc->doc);
         }
-        else {
+        else{
+
+            if($content_types==null)
+                $msg = [
+                    'title' => 'Error!',
+                    'type' => 'error',
+                    'text' => 'can not view file, try to download file'
+                ];
+                return redirect()->route('docs.index',['id'=>$doc->customer_id])->with('message', $msg);
+
             return response()->file(storage_path('/signature/').$doc->doc, [
-                'Content-Type' => $content_types,
-                'target' => '_blank'
+                'Content-Type' => $content_types
             ]);
         }
 

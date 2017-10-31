@@ -113,6 +113,7 @@ class DocSupplierController extends Controller
      public function DocView($id, Request $request) {
         $doc = DocSuppliers::find($id);
         $ext = File::extension($doc->doc);
+        $content_types=null;
         if ($ext == 'pdf') {
             $content_types = 'application/pdf';
         }
@@ -140,10 +141,18 @@ class DocSupplierController extends Controller
          if($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx' ){
              return redirect($this->url.$doc->doc);
          }
-         else {
+         else{
+
+             if($content_types==null){
+                 $msg = [
+                     'title' => 'Error!',
+                     'type' => 'error',
+                     'text' => 'can not view file, try to download file'
+                 ];
+                 return redirect()->route('docs-suppliers.index',['id'=>$doc->supplier_id])->with('message', $msg);
+             }
              return response()->file(storage_path('signature/'.$doc->doc), [
-                 'Content-Type' => $content_types,
-                 'target' => '_blank'
+                 'Content-Type' => $content_types
              ]);
          }
 
@@ -224,14 +233,19 @@ class DocSupplierController extends Controller
 
     public function toDatatable($id)
     {
-
         $docs = DB::table('docs_supplier')
             ->select('docs_supplier.id','docs_supplier.name','reference_number','bill',
                 'bank_account','cost','doc','supplier_id','docs_supplier.status')->where('supplier_id',$id)
                     ->where('docs_supplier.status',1)->whereNotNull('bill')->get();
+
         return Datatables::of($docs)
             ->addColumn('concepts', function ($docs) {
-                return view('docsSuppliers.partials.buttons_concept', ['docs' => $docs]);
+
+                $data = DB::table('concepts_bill')
+                    ->join('concepts', 'concepts.id', '=', 'concepts_bill.concept_id')
+                    ->select('concepts_bill.id','concepts.name')->where('docs_supplier_id',$docs->id)->get();
+
+                    return view('docsSuppliers.partials.buttons_concept', ['concepts' => $data]);
             })
             ->addColumn('doc', function ($docs) {
                 return view('docsSuppliers.partials.buttons_link', ['docs' => $docs]);
@@ -261,7 +275,7 @@ class DocSupplierController extends Controller
     private function rules()
     {
         return [
-            'reference_number' => 'required|numeric',
+            'reference_number' => 'required|numeric|max:999999',
             'bill' => 'required|',
             'bank_account' => 'required|not_in:0',
             'concept_id' => 'required|not_in:0',

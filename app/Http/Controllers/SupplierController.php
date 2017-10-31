@@ -8,6 +8,7 @@ use App\Concepts;
 use App\Country;
 use App\Supplier;
 use App\SupplierContact;
+use App\Price;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
@@ -52,6 +53,8 @@ class SupplierController extends Controller
         $concepts = [null=> ''];
         $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->where('status',1)->pluck('name', 'name')->toArray());
         $array = [];
+        $price = Price::orderBy('name','asc')->pluck('name', 'name')->toArray();
+
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
@@ -59,7 +62,8 @@ class SupplierController extends Controller
             [
                 'types'         => $this->ba_type,
                 'concepts'      => $concepts,
-                'area_codes'    => $array
+                'area_codes'    => $array,
+                'price'         => $price,
             ]);
     }
 
@@ -107,10 +111,12 @@ class SupplierController extends Controller
     public function edit(Request $request, Supplier $supplier)
     {
         $concepts = [null=> ''];
-        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'name')->toArray());
+        $concepts = array_merge($concepts, Concepts::orderBy('name','asc')->where('status',1)->pluck('name', 'name')->toArray());
         $area_codes = [null => ' '];
         $area_codes = array_merge($area_codes, Country::pluck('area_code', 'code')->toArray());
         $array = [];
+        $price = Price::orderBy('name','asc')->pluck('name', 'name')->toArray();
+
         foreach ($area_codes as $code => $area_code) {
             $array = array_merge($array, ['_'.$area_code => $code . ' +' . $area_code]);
         }
@@ -119,6 +125,7 @@ class SupplierController extends Controller
             'supplier'  => $supplier,
             'types'     => $this->ba_type,
             'area_codes' => $array,
+            'price'         => $price,
         ];
         return view('suppliers.edit', $data);
     }

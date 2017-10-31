@@ -11,6 +11,7 @@ class Mcc extends Model
         'cost',
         'currency',
         'consolidator_id',
+        'present',
     ];
 
     public function consolidators()

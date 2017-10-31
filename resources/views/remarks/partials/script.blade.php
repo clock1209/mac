@@ -38,21 +38,21 @@
             "targets": 2,
             "data": "after_eta",
             "render": function(data, type, full, meta) {
-                  return data = (data== 0) ? 'No' : 'Yes';
+                  return data = (data== 0 || data==null) ? 'No' : 'Yes';
 
             }
         },{
             "targets": 3,
             "data": "eta_day",
             "render": function(data, type, full, meta) {
-                  return data = (data== 0) ? 'No' : 'Yes';
+                  return data = (data== 0 || data==null) ? 'No' : 'Yes';
 
             }
         },{
             "targets": 4,
             "data": "operation",
             "render": function(data, type, full, meta) {
-                  return data = (data== 0) ? 'No' : 'Yes';
+                  return data = (data== 0 || data==null) ? 'No' : 'Yes';
 
             }
         }]
@@ -136,13 +136,13 @@
             $('#mdl_eta_day').val(data.eta_day);
             $('#mdl_operation').val(data.operation);
             $('#mdl_price_day').val(data.price_day);
-            if(data.after_eta!= 0)
+            if(data.after_eta== 1)
             $( "#mdl_after_eta" ).prop( "checked",true );
-            if(data.eta_day!= 0)
+            if(data.eta_day== 1)
             $( "#mdl_eta_day" ).prop( "checked",true );
-            if(data.operation!= 0)
+            if(data.operation== 1)
             $( "#mdl_operation" ).prop( "checked",true );
-            $("input[name=type_demurrage][value='"+data.type_demurrage+"']").prop("checked",true);
+            //$("input[name=type_demurrage][value='"+data.type_demurrage+"']").prop("checked",true);
             $('#mdlIdCondition').val(id_condition);
         });
     });//MODAL
@@ -218,6 +218,7 @@
     }
 
     $('input[type=checkbox]').click(function(){
+        //MODAL CHECK'S
         if ($('#mdl_after_eta').is(':checked')) {
             $('#mdl_after_eta').val(1);
         }
@@ -237,6 +238,27 @@
         }
         else{
             $('#mdl_operation').val(0);
+        }
+        //PAG CHECK'S
+        if ($('#after_eta').is(':checked')) {
+            $('#after_eta').val(1);
+        }
+        else{
+            $('#after_eta').val(0);
+        }
+
+        if ($('#eta_day').is(':checked')) {
+            $('#eta_day').val(1);
+        }
+        else{
+            $('#eta_day').val(0);
+        }
+
+        if ($('#operation').is(':checked')) {
+            $('#operation').val(1);
+        }
+        else{
+            $('#operation').val(0);
         }
     });
 

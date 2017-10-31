@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePortsnameTable extends Migration
+class AddColumnPresentToMccTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePortsnameTable extends Migration
      */
     public function up()
     {
-        Schema::create('portsname', function (Blueprint $table) {
-        $table->increments('id');
-        $table->string('name');
+        Schema::table('mccs', function (Blueprint $table) {
+            $table->integer('present')->after('consolidator_id')->default(0);
         });
     }
 
@@ -26,6 +25,8 @@ class CreatePortsnameTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('portsname');
+        Schema::table('mccs', function (Blueprint $table) {
+            $table->dropColumn(['present']);
+        });
     }
 }

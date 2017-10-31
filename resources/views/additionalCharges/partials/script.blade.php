@@ -89,6 +89,7 @@
             $('#mdl_last_updated').val(data.last_updated);
             $('#mdl_charge_type option[value="' + data.charge_type + '"]').attr('selected', 'selected');
             $('#mdl_charge option[value="' + data.charge + '"]').attr('selected', 'selected');
+            $('#mdl_charge').val(data.charge);
             $('#mdl_notes').val(data.notes);
             $('#mdlIdAdditionalCharge').val(id_additionalCharge);
             $('#mdl_concept').val(data.concept);

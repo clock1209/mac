@@ -4,9 +4,7 @@
     var dTable = $("#stuff-table").DataTable({
         ajax: {
             url: '/stuffs',
-            data: {
-                id: con_id
-            }
+            data: {id: con_id}
         },
         columns: [
             {data: 'id'},
@@ -19,19 +17,15 @@
             serchable: false,  bSearchable: false},
         ],
         columnDefs:
-				[
-          {
-	                "targets": [ 0,],
-	                "visible": false,
-	                "searchable": false
-	         },
-          {
+				[{
+            "targets": [ 0,],
+	           "visible": false,
+	           "searchable": false
+	      },{
             "targets": 6,
             "width": "30%",
             "data": null,
-
-           }
-        ]
+        }]
     });
 
 
@@ -55,8 +49,6 @@
                 data: {id: id_stuffs}
             }).done(function(data)
             {
-                console.log(data);
-
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();
             });
@@ -75,6 +67,16 @@
         @if(!empty($stuff))
             $('#currency').val('{{$stuff->currency}}');
         @endif
+
+        $('#currency').each(function () {
+            var s = $(this);
+            s.data().select2.on("focus", function (e) {
+                s.select2("open");
+            });
+            s.data().select2.on("close", function (e) {
+                $("#btn_save").focus();
+            });
+        });
 
     });
 

@@ -98,28 +98,29 @@ class MccController extends Controller
      */
     public function destroy(Mcc $mcc)
     {
-      if ($mcc) {
-          $status = $mcc->status ? 0 : 1;
+        if($mcc){
+            $status = $mcc->status ? 0 : 1;
 
-          if($status) {
-              $msg = [
-                  'title' => 'Activated!',
-                  'type' => 'success',
-                  'text' => 'Consolidator activaded successfully.'
-              ];
-          } else {
-              $msg = [
-                  'title' => 'Deleted!',
-                  'type' => 'success',
-                  'text' => 'Consolidator deleted successfully.'
-              ];
-          }
+            if($status) {
+                $msg = [
+                    'title' => 'Activated!',
+                    'type' => 'success',
+                    'text' => 'Consolidator activaded successfully.'
+                ];
+            }else{
+                $msg = [
+                    'title' => 'Deleted!',
+                    'type' => 'success',
+                    'text' => 'Consolidator deleted successfully.'
+                ];
+            }
 
-          $mcc->status = $status;
-          $mcc->save();
+            $mcc->status = $status;
+            $mcc->save();
 
-          return response()->json($msg);
+            return response()->json($msg);
       }
+
       return abort(404);
 
     }
@@ -136,11 +137,14 @@ class MccController extends Controller
     public function toDatatable($id)
     {
         $mcc = Mcc::where('status', 1)
-            ->where('consolidator_id', $id)
-            ->get();
+            ->where('consolidator_id', $id)->get();
+
         return Datatables::of($mcc)
             ->addColumn('actions', function ($mcc) {
                 return view('mccs.partials.buttons', ['mcc' => $mcc]);
+            })
+            ->addColumn('check', function ($mcc) {
+                return view('mccs.partials.check', ['mcc' => $mcc]);
             })
             ->editColumn('status', function ($mcc) {
                 if($mcc->status)
@@ -148,12 +152,26 @@ class MccController extends Controller
                 else
                     return 'Inactivo';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions','check'])
             ->make(true);
     }
 
     public function mccRelated(Consolidator $consolidator)
     {
         return view('mccs.index', ['con_id'=>$consolidator->id]);
+    }
+
+    public function check(Request $request)
+    {
+        $mcc = Mcc::find($request->id);
+        $mcc->present = $mcc->present ? 0 : 1;
+        $mcc->save();
+        $msg = [
+            'title' => 'Update!',
+            'type' => 'success',
+            'text' => 'Update successfully.'
+        ];
+
+        return response()->json($msg);
     }
 }

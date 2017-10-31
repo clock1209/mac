@@ -166,6 +166,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/remarks?id={id}/', 'RemarkController@index')
         ->name('remarks.redirect');
 
+    Route::get('/{id}/check', 'MccController@check')
+        ->name('mcc.check');
+
+    /*------------------ COUNTRIES PORT'S ROUTES ------------------*/
+    Route::get('ports-name', 'PortController@getPortsByCountry')->name('ports.name');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

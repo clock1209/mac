@@ -7,6 +7,7 @@ use App\Remark;
 use App\Subject;
 use App\Concepts;
 use App\PortName;
+use App\CountryPort;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
@@ -46,6 +47,7 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, $this->rules());
         $value = $request->session()->get('carrier_id');
         $subject =Subject::create($request->all());
@@ -89,12 +91,10 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        $concepts = [0 => ' '];
-        $concepts = array_merge($concepts, Concepts::where('status',1)->pluck('name', 'id')->toArray());
-        $ports = [0 => ' '];
-        $ports = array_merge($ports, PortName::pluck('name', 'id')->toArray());
+        $concepts = Concepts::orderBy('name','ASC')->where('status',1)->pluck('name', 'id');
+        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
         return view('remarks.index',['tab'=> 2,'overweight' => 0,'subject' => $subject,
-        'concepts' => $concepts,'inlands' => 0,'port' => $ports,'idCarrier'=> $subject->carrier_id]);
+            'country_port'=>$country_port,'concepts' => $concepts,'inlands' => 0,'port' => [null],'idCarrier'=> $subject->carrier_id]);
     }
 
     /**

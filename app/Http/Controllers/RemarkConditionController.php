@@ -122,7 +122,7 @@ class RemarkConditionController extends Controller
         return [
             'free_demurrage' => 'required',
             'price_day' => 'required|regex:/^\d*(\.\d{2})?$/|max:999999.99|numeric',
-            'type_demurrage' => 'required',
+            //'type_demurrage' => 'required',
         ];
     }
 

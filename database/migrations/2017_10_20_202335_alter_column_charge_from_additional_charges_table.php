@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePortsnameTable extends Migration
+class AlterColumnChargeFromAdditionalChargesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,7 @@ class CreatePortsnameTable extends Migration
      */
     public function up()
     {
-        Schema::create('portsname', function (Blueprint $table) {
-        $table->increments('id');
-        $table->string('name');
-        });
+        DB::statement('ALTER TABLE `additional_charges` MODIFY charge varchar(191);');
     }
 
     /**
@@ -26,6 +23,8 @@ class CreatePortsnameTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('portsname');
+        Schema::create('additional_charges', function (Blueprint $table) {
+            $table->enum('charge', ['ETD', 'Gate in', 'ATD/On board']);
+        });
     }
 }

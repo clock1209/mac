@@ -160,10 +160,8 @@ class PortController extends Controller
 
      public function getPortsByCountry(Request $request)
      {
-         
          $port = PortName::where('country_ports_id',$request->country)
              ->orderBy('port_name','ASC')->get();
-
          return response()->json($port);
      }
 

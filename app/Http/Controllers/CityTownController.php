@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\CountryPort;
 use App\PortName;
+use App\TypeLocation;
 
 class CityTownController extends Controller
 {
@@ -21,7 +23,9 @@ class CityTownController extends Controller
         }
 
         $country_port = CountryPort::pluck('port_name', 'id')->toArray();
-        return view('city_towns.index',['country' => $country_port]);
+        $type = TypeLocation::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+
+        return view('city_towns.index',['country' => $country_port,'type'=>$type]);
     }
 
     /**
@@ -92,7 +96,8 @@ class CityTownController extends Controller
 
     public function filterToDatatable(Request $request)
     {
-        $port = PortName::where('country_ports_id',$request->country)->get();
+
+        $port =PortName::with('getType')->where('country_ports_id', $request->country)->get();
 
         return Datatables::of($port)
             ->addColumn('actions', function ($port) {
@@ -100,5 +105,42 @@ class CityTownController extends Controller
             })
             ->rawColumns(['actions'])
             ->make(true);
+    }
+
+    public function addCountry(Request $request)
+    {
+        $this->validate($request, $this->rulesCountries());
+        CountryPort::create($request->all());
+        return response()->json('ok');
+    }
+
+    public function addCity(Request $request)
+    {
+        $this->validate($request, $this->rulesCities());
+        $port = PortName::create($request->all());
+        $country = CountryPort::where('id', $request->country_ports_id)->firstOrFail();
+
+        $port->name = $country->port_name;
+        $port->code = $country->code;
+        $port->save();
+
+        return response()->json('ok');
+    }
+
+    private function rulesCountries()
+    {
+        return [
+            'code'      => 'required|alpha|min:2|max:20',
+            'name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
+        ];
+    }
+
+    private function rulesCities()
+    {
+        return [
+            'country_ports_id' => 'required',
+            'type_id'      => 'required|',
+            'port_name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
+        ];
     }
 }

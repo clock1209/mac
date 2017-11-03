@@ -175,7 +175,8 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ Cities and Towns ROUTES ------------------*/
     Route::resource('towns','CityTownController');
     Route::get('town-filter', 'CityTownController@filterToDatatable')->name('town.filter');
-
+    Route::post('towns-addcountry', 'CityTownController@addCountry')->name('add.country');
+    Route::post('towns-addcity', 'CityTownController@addCity')->name('add.city');
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

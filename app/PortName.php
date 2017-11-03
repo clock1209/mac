@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class PortName extends Model
 {
     protected $fillable = [
-        'name',
-        'status',
+        'code',
+        'port_code',
+        'port_name',
+        'country_ports_id',
+        'type_id'
     ];
 
     protected $table = 'ports_name';
@@ -16,6 +19,11 @@ class PortName extends Model
     public function getPortsName()
     {
         return $this->hasMany('App\PortName','countries_ports_id');
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(TypeLocation::class,'id','type_id');
     }
 
 }

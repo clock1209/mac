@@ -36,7 +36,7 @@
             <div class="input-group">
                 {!! Form::select('swal_type',$type ? $type:[''], null,['class'=>'form-control', 'required','id'=>'type', 'placeholder'=> ' ']) !!}
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button" onclick="addCity()" data-toggle="tooltip" title="Add new">
+                    <button class="btn btn-primary" type="button" onclick="addType()" data-toggle="tooltip" title="Add new">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </span>

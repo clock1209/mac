@@ -12,7 +12,6 @@
             $('#port_name').focus();
         });
 
-
     });
 
     $('select[name="country"]').change(function () {
@@ -56,7 +55,6 @@
                     }else {
                         return full.get_type.name;
                     }
-
                 }
             }]
         });
@@ -93,17 +91,17 @@
             '<input id="swal_code" class="form-control" placeholder="Abbreviation"><br>',
             preConfirm: function () {
                 return new Promise(function (resolve, reject) {
-                    var name = $('#swal_name').val();
-                    var code = $('#swal_code').val();
+                    var _name = $('#swal_name').val();
+                    var _code = $('#swal_code').val();
                     $.ajax({
                         url: '{{ route('add.country') }}',
                         type: 'POST',
                         data: {
-                            port_name: name,
-                            code: code
+                            port_name: _name,
+                            code: _code
                         }
                     }).done(function () {
-                        resolve([name, code]);
+                        resolve([_name, _code]);
                     }).fail(function (response){
                         var errors = response.responseJSON;
                         var html = '';
@@ -148,7 +146,7 @@
                             type_id: selected_type
                         }
                     }).done(function () {
-                        resolve([city_name, selected_country]);
+                        resolve([city_name, selected_country,selected_type]);
                     }).fail(function (response){
                         var errors = response.responseJSON;
                         var html = '';
@@ -163,6 +161,65 @@
             swal({
                 title: 'Added',
                 text: 'City added successfully',
+                type: 'success'
+            }).then(function () {
+                location.reload();
+            });
+        }).catch(swal.noop)
+    }
+
+    $('#country_port_id').hover(function () {
+        var country = $('select[name="country_port_id"]').val();
+        if (country == null) {
+            $.ajax({
+                url: '{{route('ports.name')}}',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each(resp, function (i, item) {
+                    selected = (i != 0) ? '' : ' selected';
+                    $('#port_name_id').append('<option value="' + item.id + '" ' + selected + '>' + item.port_name.toUpperCase() + '</option>');
+                });
+            })
+        }else{
+            $('select[name="country_port_id"]').hover(function () {
+                $(this).select2();
+            });
+        }
+
+    });//select CITY
+
+    function addType()
+    {
+        swal({
+            title: 'Add Type Location',
+            html:
+            '<input id="swal_name" class="form-control" placeholder="Name"><br>',
+            preConfirm: function () {
+                return new Promise(function (resolve, reject) {
+                    var _name = $('#swal_name').val();
+                    $.ajax({
+                        url: '{{ route('add.type') }}',
+                        type: 'POST',
+                        data: {
+                            name: _name,
+                        }
+                    }).done(function () {
+                        resolve([_name]);
+                    }).fail(function (response){
+                        var errors = response.responseJSON;
+                        var html = '';
+                        $.each(errors, function(index, value){
+                            html += '<span>'+ value +'</span><br>';
+                        });
+                        reject('<div>'+ html +'</div>');
+                    });
+                })
+            }
+        }).then(function () {
+            swal({
+                title: 'Added',
+                text: 'Type added successfully',
                 type: 'success'
             }).then(function () {
                 location.reload();

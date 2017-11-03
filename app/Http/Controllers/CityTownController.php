@@ -22,7 +22,7 @@ class CityTownController extends Controller
             return $this->toDatatable();
         }
 
-        $country_port = CountryPort::pluck('port_name', 'id')->toArray();
+        $country_port = CountryPort::orderBy('port_name','ASC')->pluck('port_name', 'id')->toArray();
         $type = TypeLocation::orderBy('name','ASC')->pluck('name', 'id')->toArray();
 
         return view('city_towns.index',['country' => $country_port,'type'=>$type]);
@@ -97,7 +97,8 @@ class CityTownController extends Controller
     public function filterToDatatable(Request $request)
     {
 
-        $port =PortName::with('getType')->where('country_ports_id', $request->country)->get();
+        $port =PortName::with('getType')->where('country_ports_id', $request->country)
+            ->orderBy('ports_name.port_name','DESC')->get();
 
         return Datatables::of($port)
             ->addColumn('actions', function ($port) {
@@ -114,6 +115,7 @@ class CityTownController extends Controller
         return response()->json('ok');
     }
 
+
     public function addCity(Request $request)
     {
         $this->validate($request, $this->rulesCities());
@@ -127,11 +129,18 @@ class CityTownController extends Controller
         return response()->json('ok');
     }
 
+    public function addType(Request $request)
+    {
+        $this->validate($request, $this->rulesType());
+        TypeLocation::create($request->all());
+        return response()->json('ok');
+    }
+
     private function rulesCountries()
     {
         return [
             'code'      => 'required|alpha|min:2|max:20',
-            'name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
+            'port_name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
         ];
     }
 
@@ -141,6 +150,13 @@ class CityTownController extends Controller
             'country_ports_id' => 'required',
             'type_id'      => 'required|',
             'port_name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
+        ];
+    }
+
+    private function rulesType()
+    {
+        return [
+            'name'      => 'required|min:2|max:20'
         ];
     }
 }

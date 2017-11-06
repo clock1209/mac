@@ -26,4 +26,9 @@ class PortName extends Model
         return $this->hasOne(TypeLocation::class,'id','type_id');
     }
 
+    public function getCountry()
+    {
+        return $this->hasOne(CountryPort::class,'id','country_ports_id');
+    }
+
 }

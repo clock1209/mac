@@ -15,6 +15,7 @@ class AddColumnFromPortsName extends Migration
     {
         Schema::table('ports_name', function (Blueprint $table) {
             $table->integer('type_id')->unsigned()->nullable()->after('country_ports_id');
+            $table->char('status',1)->default(1)->after('type_id');
             $table->foreign('type_id')->references('id')->on('type_of_locations')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
@@ -30,6 +31,7 @@ class AddColumnFromPortsName extends Migration
         Schema::table('ports_name', function (Blueprint $table) {
             $table->dropForeign(['type_id']);
             $table->dropColumn(['type_id']);
+            $table->dropColumn(['status']);
         });
     }
 }

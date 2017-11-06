@@ -66,9 +66,9 @@ class CityTownController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PortName $town)
     {
-        //
+        return response()->json($town);
     }
 
     /**
@@ -78,9 +78,19 @@ class CityTownController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,PortName $town)
     {
-        //
+        $this->validate($request, $this->rulesModal());
+        $town->type_id= $request->mdl_type;
+        $town->save();
+
+        $msg = [
+            'title' => 'Edited!',
+            'type' => 'success',
+            'text' => 'Port edited successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -91,15 +101,25 @@ class CityTownController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $port = PortName::findOrFail($id);
+        $port->status = 0;
+        $port->save();
+
+        $msg = [
+            'title' => 'Delete!',
+            'type' => 'success',
+            'text' => 'Port deleted successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     public function filterToDatatable(Request $request)
     {
 
-        $port =PortName::with('getType')->where('country_ports_id', $request->country)
-            ->orderBy('ports_name.port_name','DESC')->get();
-
+        $port =PortName::with('getType','getCountry')->where('country_ports_id', $request->country)
+            ->where('status', '1')->orderBy('ports_name.port_name','DESC')->get();
+        info('Some helpful information!',['id'=>$port]);
         return Datatables::of($port)
             ->addColumn('actions', function ($port) {
                 return view('city_towns.partials.buttons', ['port' => $port]);
@@ -136,10 +156,36 @@ class CityTownController extends Controller
         return response()->json('ok');
     }
 
+    public function editCountry(Request $request)
+    {
+        $this->validate($request, $this->rulesCountries());
+        $country = CountryPort::findOrFail($request->id);
+        $country->fill($request->all());
+        $country->save();
+        return response()->json('ok');
+    }
+
+    public function editCity(Request $request)
+    {
+        $this->validate($request, $this->ruleEdit());
+        $port = PortName::findOrFail($request->id);
+        $port->fill($request->all());
+        $port->save();
+        return response()->json('ok');
+    }
+
+    public function editType(Request $request)
+    {
+        $this->validate($request, $this->rulesType());
+        $type = TypeLocation::findOrFail($request->id);
+        $type->fill($request->all());
+        $type->save();
+        return response()->json('ok');
+    }
+
     private function rulesCountries()
     {
         return [
-            'code'      => 'required|alpha|min:2|max:20',
             'port_name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
         ];
     }
@@ -153,10 +199,26 @@ class CityTownController extends Controller
         ];
     }
 
+    private function ruleEdit()
+    {
+        return [
+            'port_name'      => 'required|regex:/^[(a-zA-Z\sáéíóúÁÉÍÓÚÑñ)]+$/u|min:2|max:50',
+        ];
+    }
+
     private function rulesType()
     {
         return [
             'name'      => 'required|min:2|max:20'
+        ];
+    }
+
+    private function rulesModal()
+    {
+        return [
+            'mdl_country'      => 'required',
+            'mdl_city'      => 'required',
+            'mdl_type'      => 'required|not_in:0',
         ];
     }
 }

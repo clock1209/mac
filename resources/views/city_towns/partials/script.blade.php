@@ -359,14 +359,13 @@
             dataType: 'json',
             data : {
                 id:  $('#mdlIdTown').val(),
-                mdl_country:$('#mdl_country').val(),
                 mdl_type:$('#mdl_type').val(),
-                mdl_city:$('#mdl_city').val(),
             }
         }).done(function(data){
             $('#cities_towns_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
-            table($('#mdl_country').val());
+            console.log($('#country').val());
+            table($('#country').val());
         }).fail(function (data) {
             var errors = data.responseJSON;
             $.each(errors, function(index, value){

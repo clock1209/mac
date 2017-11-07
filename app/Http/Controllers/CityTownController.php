@@ -216,8 +216,6 @@ class CityTownController extends Controller
     private function rulesModal()
     {
         return [
-            'mdl_country'      => 'required',
-            'mdl_city'      => 'required',
             'mdl_type'      => 'required|not_in:0',
         ];
     }

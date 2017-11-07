@@ -11,14 +11,6 @@
                       <div class="col-md-7 col-sm-10" style="background: rgba(128, 128, 128, 0.14); padding: 15px;
                             border-radius: 15px; margin-left: 30px; margin-bottom:10px;">
                           <div class="col-md-8 text-left">
-                              <label for="demurrage_lbl" class="control-label">Country*</label>
-                              {!! Form::select('mdl_country', $country, null ,['class'=>'form-control', 'required','id' => 'mdl_country','placeholder' => '','disable' => 'disabled']) !!}
-                          </div>
-                          <div class="col-md-8 text-left">
-                              <label for="demurrage_lbl" class="control-label">Location*</label>
-                              {!! Form::select('mdl_city',[], null,['class'=>'form-control', 'required','id'=>'mdl_city','disable' =>'disabled']) !!}
-                          </div>
-                          <div class="col-md-8 text-left">
                               <label for="demurrage_lbl" class="control-label">Type</label>
                               {!! Form::select('mdl_type',$type ? $type:[''], null,['class'=>'form-control', 'required','id'=>'mdl_type', 'placeholder'=> ' ']) !!}
                           </div>

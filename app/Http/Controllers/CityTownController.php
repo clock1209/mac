@@ -23,7 +23,7 @@ class CityTownController extends Controller
         }
 
         $country_port = CountryPort::orderBy('port_name','ASC')->pluck('port_name', 'id')->toArray();
-        $type = TypeLocation::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+        $type = TypeLocation::orderBy('name','ASC')->where('status', '1')->pluck('name', 'id')->toArray();
 
         return view('city_towns.index',['country' => $country_port,'type'=>$type]);
     }
@@ -119,7 +119,21 @@ class CityTownController extends Controller
 
         $port =PortName::with('getType','getCountry')->where('country_ports_id', $request->country)
             ->where('status', '1')->orderBy('ports_name.port_name','DESC')->get();
-        info('Some helpful information!',['id'=>$port]);
+
+        return Datatables::of($port)
+            ->addColumn('actions', function ($port) {
+                return view('city_towns.partials.buttons', ['port' => $port]);
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public function searchToDatatable(Request $request)
+    {
+        $this->validate($request, $this->ruleSearchLocation());
+        $port =PortName::with('getType','getCountry')->where('port_name','LIKE', "%$request->location%")
+            ->where('status', '1')->orderBy('ports_name.port_name','DESC')->get();
+
         return Datatables::of($port)
             ->addColumn('actions', function ($port) {
                 return view('city_towns.partials.buttons', ['port' => $port]);
@@ -217,6 +231,13 @@ class CityTownController extends Controller
     {
         return [
             'mdl_type'      => 'required|not_in:0',
+        ];
+    }
+
+    private function ruleSearchLocation()
+    {
+        return [
+            'location'      => 'required|min:3',
         ];
     }
 }

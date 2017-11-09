@@ -48,6 +48,22 @@
                     <button class="btn btn-primary" type="button" onclick="addType()" data-toggle="tooltip" title="Add new">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
+                    <button class="btn btn-danger" type="button" onclick="deleteType()" data-toggle="tooltip" title="Delete type">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:2%;">
+        <div class="col-md-4 col-sm-8">
+            <label for="demurrage_lbl" class="control-label">Search Location:</label>
+            <div class="input-group">
+                {!! Form::text('search_location',null,['class'=>'form-control','id'=>'search_location']) !!}
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" onclick="searchLocation()">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
                 </span>
             </div><!-- /input-group -->
         </div>

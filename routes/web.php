@@ -181,6 +181,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('towns-editcountry', 'CityTownController@editCountry')->name('edit.country');
     Route::post('towns-editcity', 'CityTownController@editCity')->name('edit.city');
     Route::post('towns-edittype', 'CityTownController@editType')->name('edit.type');
+    Route::get('town-search', 'CityTownController@searchToDatatable')->name('town.search');
 
     /*------------------ Location ROUTES ------------------*/
     Route::resource('locations','TypeOfLocationController');

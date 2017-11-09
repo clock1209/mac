@@ -69,7 +69,7 @@
                         url: '{{ route('edit.country')}}',
                         type: 'POST',
                         data: {
-                            port_name: _name,
+                            port_name: _name.toUpperCase(),
                             id: _id
                         }
                     }).done(function () {
@@ -110,8 +110,8 @@
                         url: '{{ route('add.country') }}',
                         type: 'POST',
                         data: {
-                            port_name: _name,
-                            code: _code
+                            port_name: _name.toUpperCase(),
+                            code: _code.toUpperCase()
                         }
                     }).done(function () {
                         resolve([_name, _code]);
@@ -150,7 +150,7 @@
                         url: '{{ route('edit.city')}}',
                         type: 'POST',
                         data: {
-                            port_name: _name,
+                            port_name: _name.toUpperCase(),
                             id: _id
                         }
                     }).done(function () {
@@ -178,10 +178,11 @@
 
     function addCity()
     {
+
         swal({
             title: 'Add city',
             html:
-            '{!! Form::select('swal_select_country', $country ? $country : [''], null, ['class'=>'form-control']) !!}<br>' +
+            '{!! Form::select('swal_select_country', $country ? $country : [''], '+ selected +', ['class'=>'form-control','id'=>'swal_add_country']) !!}<br>' +
             '<input id="swal_city_name" class="form-control" placeholder="City name"><br>'+
             '{!! Form::select('swal_type',$type ? $type:[''], null,['class'=>'form-control', 'required','id'=>'swal_type', 'placeholder'=> ' ']) !!}<br>',
             preConfirm: function () {
@@ -194,7 +195,7 @@
                         url: '{{ route('add.city') }}',
                         type: 'POST',
                         data: {
-                            port_name: city_name,
+                            port_name: city_name.toUpperCase(),
                             country_ports_id: selected_country,
                             type_id: selected_type
                         }
@@ -219,6 +220,9 @@
                 location.reload();
             });
         }).catch(swal.noop)
+
+        $('#swal_add_country').val($('#country').val()).trigger("change")
+
     } //Add City
 
     $('#country_port_id').hover(function () {
@@ -256,7 +260,7 @@
                         url: '{{ route('edit.type')}}',
                         type: 'POST',
                         data: {
-                            name: _name,
+                            name: _name.toUpperCase(),
                             id: _id
                         }
                     }).done(function () {
@@ -295,7 +299,7 @@
                         url: '{{ route('add.type') }}',
                         type: 'POST',
                         data: {
-                            name: _name,
+                            name: _name.toUpperCase(),
                         }
                     }).done(function () {
                         resolve([_name]);
@@ -364,8 +368,13 @@
         }).done(function(data){
             $('#cities_towns_modal').modal('hide');
             sAlert(data.title, data.type, data.text);
-            console.log($('#country').val());
-            table($('#country').val());
+            if($("#search_location").val()){
+                searchLocation();
+                $("#search_location").val('')
+            }else{
+                table($('#country').val());
+            }
+
         }).fail(function (data) {
             var errors = data.responseJSON;
             $.each(errors, function(index, value){
@@ -397,11 +406,11 @@
     function table(_country)
     {
         dTable = $("#city_town_table").DataTable({
+            serverSide: true,
             ajax: '{{ route('town.filter',['country'=>'']) }}'+_country,
             type: 'GET',
             destroy: true,
-            "bProcessing": true,
-            "bServerSide": true,
+            Processing: true,
             columns: [
                 {data: 'name'},
                 {data: 'port_name'},
@@ -440,7 +449,7 @@
             type : 'GET',
             dataType: 'json',
         }).done(function(data){
-            $('#swal_edit_name_country').val(data.port_name)
+            $('#swal_edit_name_country').val(data.port_name.toUpperCase())
         });
     });//GET Edit Country
 
@@ -462,7 +471,7 @@
             type : 'GET',
             dataType: 'json',
         }).done(function(data){
-            $('#swal_edit_name_type').val(data.name)
+            $('#swal_edit_name_type').val(data.name.toUpperCase())
         });
     });//GET Edit Type
 
@@ -490,6 +499,84 @@
         });
     });//BUTTON .delete
 
+    function deleteType(){
+        type = $('#type').val()
+        if(type===''){
+            return false;
+        }
+
+        swal({
+            title: 'Are you sure?',
+            text: "you want to remove the Type?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, remove!'
+        }).then(function() {
+            $.ajax({
+                url: '/locations/' + type,
+                type: 'DELETE',
+                dataType: 'json',
+                data: {
+                    id: type
+                }
+            }).done(function(data) {
+                sAlert(data.title, data.type, data.text);
+                location.reload();
+            });
+        });
+    }
+
+    function searchLocation(){
+
+        if($("#search_location").val().length < 3){
+            swal({
+                title: 'Error',
+                type: 'error',
+                text: 'The name field is required. (must have at least 3 characters)',
+                confirmButtonText: "Continue",
+                timer: 3000
+            });
+            return false;
+        }
+        dTable = $("#city_town_table").DataTable({
+            serverSide: true,
+            ajax: '{{ route('town.search',['location'=>'']) }}'+$('#search_location').val(),
+            type: 'GET',
+            destroy: true,
+            Processing: true,
+            columns: [
+                {data: 'name'},
+                {data: 'port_name'},
+                {data: 'get_type.name', orderable: false},
+                {data: 'actions', name: 'actions', orderable: false, serchable: false,  bSearchable: false},
+            ],"columnDefs": [{
+                "targets": 0,
+                "data": "name",
+                "render": function(data, type, full, meta) {
+                    return full.get_country.port_name.toUpperCase();
+                }
+            },{
+                "targets": 1,
+                "data": "port_name",
+                "render": function(data, type, full, meta) {
+                    return full.port_name.toUpperCase();
+                }
+            },{
+                "targets": 2,
+                "data": "get_type.name",
+                "render": function(data, type, full, meta) {
+                    if(full.get_type===null){
+                        return "NO ASSIGNED"
+                    }else {
+                        return full.get_type.name;
+                    }
+                }
+            }]
+        });
+    }
 
 </script>
 @endpush

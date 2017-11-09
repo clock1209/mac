@@ -222,6 +222,7 @@
         }).catch(swal.noop)
 
         $('#swal_add_country').val($('#country').val()).trigger("change")
+        $("#swal_add_country").prop("disabled", true);
 
     } //Add City
 

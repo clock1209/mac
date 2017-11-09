@@ -223,7 +223,7 @@ class CityTownController extends Controller
     private function rulesType()
     {
         return [
-            'name'      => 'required|min:2|max:20'
+            'name'      => 'required|min:2|max:20|'
         ];
     }
 

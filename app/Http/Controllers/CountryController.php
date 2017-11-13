@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\Country;
+use App\CountryPort;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
@@ -63,5 +64,10 @@ class CountryController extends Controller
               })
               ->rawColumns(['actions'])
               ->make(true);
+    }
+
+    public function edit(CountryPort $country)
+    {
+        return response()->json($country);
     }
 }

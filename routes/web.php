@@ -172,6 +172,20 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ COUNTRIES PORT'S ROUTES ------------------*/
     Route::get('ports-name', 'PortController@getPortsByCountry')->name('ports.name');
 
+    /*------------------ Cities and Towns ROUTES ------------------*/
+    Route::resource('towns','CityTownController');
+    Route::get('town-filter', 'CityTownController@filterToDatatable')->name('town.filter');
+    Route::post('towns-addcountry', 'CityTownController@addCountry')->name('add.country');
+    Route::post('towns-addcity', 'CityTownController@addCity')->name('add.city');
+    Route::post('towns-addtype', 'CityTownController@addType')->name('add.type');
+    Route::post('towns-editcountry', 'CityTownController@editCountry')->name('edit.country');
+    Route::post('towns-editcity', 'CityTownController@editCity')->name('edit.city');
+    Route::post('towns-edittype', 'CityTownController@editType')->name('edit.type');
+    Route::get('town-search', 'CityTownController@searchToDatatable')->name('town.search');
+
+    /*------------------ Location ROUTES ------------------*/
+    Route::resource('locations','TypeOfLocationController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

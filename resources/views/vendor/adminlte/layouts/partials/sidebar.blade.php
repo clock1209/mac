@@ -55,6 +55,7 @@
             @permission('see_role')
             <li><a href="{{ url('roles') }}"><i class='glyphicon glyphicon-knight'></i> <span>Roles</span></a></li>
             @endpermission
+            <li><a href="{{ url('towns') }}"><i class='glyphicon glyphicon-globe'></i> <span>Cities & Ports</span></a></li>
             {{--<li><a href="#"><i class='fa fa-truck'></i> <span>Intermodal</span></a></li>--}}
             {{--<li><a href="#"><i class='fa fa-clock-o'></i> <span>Demurrage</span></a></li>--}}
 

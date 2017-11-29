@@ -78,3 +78,80 @@
 </div>
 {!! Form::hidden('customer_id',$customer ? $customer->id : 0,['class'=>'form-control']) !!}
 @include('customBroker.index')
+<h4 class="n-caption">Special info by Customer</h4>
+{{--<div class="form-group">--}}
+    {{--<div class="col-md-6" style="padding-right: 5px;">--}}
+        {{--<div style="background: rgb(218, 220, 223); padding: 5px; border-radius: 5px;">--}}
+            {{--<h6>Special info by Customer</h6>--}}
+            {{--<div class="form-group col-md-6">--}}
+                {{--<div class="form-group">--}}
+                    {{--{{ Form::checkbox('all_in_rate', 1, null) }} All in rate<br>--}}
+                    {{--{{ Form::checkbox('agree', 1, null) }} Logistic & cargo<br>--}}
+                    {{--{{ Form::checkbox('agree', 1, null) }} Overweight--}}
+                {{--</div>--}}
+
+            {{--</div>--}}
+            {{--<div class="form-group col-md-6">--}}
+                {{--<div class="form-group">--}}
+                    {{--{{ Form::checkbox('all_in_rate', 1, null) }} All in rate<br>--}}
+                    {{--{{ Form::checkbox('agree', 1, null) }} Logistic & cargo<br>--}}
+                    {{--{{ Form::checkbox('agree', 1, null) }} Overweight--}}
+                {{--</div>--}}
+
+            {{--</div>--}}
+
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<div class="col-md-6" style="padding-left: 5px;">--}}
+        {{--<div style="background: rgb(218, 220, 223); padding: 5px; border-radius: 5px;">--}}
+
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
+{{--<div class="form-group col-md-6">--}}
+    {{--<div class="form-group {{ $errors->has('id') ? ' has-error' : '' }}">--}}
+        {{--<label class="col-md-4 control-label">--}}
+            {{--Número de activo:--}}
+        {{--</label>--}}
+        {{--<div class="col-md-8 col-sm-12">--}}
+            {{--{!! Form::text('id',  null, ['class'=>'form-control']) !!}--}}
+            {{--<span class="help-block">{{ $errors->first('id') }}</span>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}{{--form-group--}}
+{{--<div class="form-group col-md-6">--}}
+    {{--<div class="form-group {{ $errors->has('id') ? ' has-error' : '' }}">--}}
+        {{--<label class="col-md-4 control-label">--}}
+            {{--Número de activo:--}}
+        {{--</label>--}}
+        {{--<div class="col-md-8 col-sm-12">--}}
+            {{--{!! Form::text('id',  null, ['class'=>'form-control']) !!}--}}
+            {{--<span class="help-block">{{ $errors->first('id') }}</span>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}{{--form-group--}}
+<div class="container-fluid">
+    {{--<h1>Hello World!</h1>--}}
+    {{--<p>Resize the browser window to see the effect.</p>--}}
+    <div class="row">
+        <div class="col-sm-6" style="background-color:lavender;">
+            <div class="row">
+                <div class="col-sm-6" style="background-color:lightcyan;">
+                    {{ Form::checkbox('all_in_rate', 1, null) }} All in rate<br>
+                    {{ Form::checkbox('agree', 1, null) }} Logistic & cargo<br>
+                    {{ Form::checkbox('agree', 1, null) }} Overweight
+                </div>
+                <div class="col-sm-6" style="background-color:lightgray;">
+                    {{ Form::checkbox('all_in_rate', 1, null) }} All in rate<br>
+                    {{ Form::checkbox('agree', 1, null) }} Logistic & cargo<br>
+                    {{ Form::checkbox('agree', 1, null) }} Overweight
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="background-color:lavenderblush;">
+            {{ Form::checkbox('all_in_rate', 1, null) }} All in rate<br>
+            {{ Form::checkbox('agree', 1, null) }} Logistic & cargo<br>
+            {{ Form::checkbox('agree', 1, null) }} Overweight
+        </div>
+    </div>
+</div>

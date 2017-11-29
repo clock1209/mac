@@ -47,6 +47,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $this->validate($request, $this->rules());
 
         $customer = new Customer($request->all());
@@ -167,19 +168,9 @@ class CustomerController extends Controller
     {
         return [
             'name' => 'required',
-            'business_name' => 'required',
-            'rfc' => 'required',
-            'countrycode' => 'required',
-            'phone' => 'required|numeric|digits:10',
-            'street' => 'required',
-            'outside_number' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
-            'zipcode' => 'required|numeric',
-            'email' => 'required|email',
-            'contact_name' => 'required',
-            'contact_job' => 'required'
+            'phone' => 'numeric|digits:10|nullable',
+            'zipcode' => 'numeric|nullable',
+            'email' => 'email|nullable',
         ];
     }
 }

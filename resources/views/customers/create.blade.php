@@ -12,7 +12,6 @@
     @include('alerts.messages')
     {!! Form::open(['route' => 'customers.store', 'method' => 'post','class' =>'form-horizontal' ]) !!}
 
-
     @include('customers.partials.inputs', ['customer' => null])
 
     <div class="form-group">

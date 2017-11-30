@@ -105,13 +105,17 @@
             timer: 3000
         });
     }
-    /*function ordenarSelect(id_componente)
+
+    function test()
     {
-        var selectToSort = jQuery('#' + id_componente);
-        var optionActual = selectToSort.val();
-        selectToSort.html(selectToSort.children('option').sort(function (a, b) {
-        return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
-        })).val(optionActual);
-    }*/
+        var inputs = $('.invoiced-input');
+
+        console.log('count:' + inputs.length);
+        $.each(inputs, function(index, input) {
+            console.log('index:' + index);
+            console.log('input:' + input);
+            console.log('value:' + input.value);
+        });
+    }
 </script>
 @endpush

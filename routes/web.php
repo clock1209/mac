@@ -186,6 +186,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*------------------ Location ROUTES ------------------*/
     Route::resource('locations','TypeOfLocationController');
 
+    /*------------------ INVOICED ROUTES ------------------*/
+    Route::resource('invoiced','invoicedToController');
+
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 

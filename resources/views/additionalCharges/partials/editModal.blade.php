@@ -1,5 +1,3 @@
-
-
 <div class="modal fade" id="additionalCharge_modal">
     <div class="modal-dialog">
         <div class="modal-content">

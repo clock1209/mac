@@ -143,52 +143,10 @@
         });
     }
 
-    function saveInvoiced()
+    function clearErrors()
     {
-        clearErrors();
-        var frm = new FormData($("form").serialize());
-        $.each($("form").serializeArray(), function(key, input) {
-            frm.append(input.name, input.value);
-        });
-        $.ajax({
-            url: '/invoiced',
-            type: 'POST',
-            dataType: 'json',
-            data: frm,
-            processData: false,
-            contentType: false
-        }).done(function(data){
-            console.log('pasa');
-            console.log(data);
-            iTable.ajax.reload();
-//            if($(button).attr('hold') == 'false') {
-//                $('#mdlCreatePerson').modal('hide');
-//                clearForm();
-//            }
-//            sAlert(data.title, data.text, data.type);
-//            getPerson();
-        }).fail(function(data) {
-            console.log(data);
-            showErrorsInv(data.responseJSON);
-        });
-
-        function showErrorsInv(errors)
-        {
-            var list = '';
-            $.each(errors, function(index, value){
-                console.log(index);
-                var input = $('[name="' + index + '"]');
-                input.closest('.form-group').addClass('has-error').find('.help-block').text(value[0]);
-                list += '<li>'+ value[0] +'</li>';
-            });
-            $('.ajax_errors').fadeIn().find('.list-content').html(list).fadeIn();
-        }
-
-        function clearErrors()
-        {
-            $('.has-error').removeClass('has-error').find('.help-block').text('');
-            $('.ajax_errors').fadeOut();
-        }
+        $('.has-error').removeClass('has-error').find('.help-block').text('');
+        $('.ajax_errors').fadeOut();
     }
 </script>
 @endpush

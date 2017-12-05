@@ -39,7 +39,6 @@ class InvoicedToController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $this->validate($request, $this->rules());
 
         $invoiced = new InvoicedTo();
@@ -61,7 +60,13 @@ class InvoicedToController extends Controller
         $invoiced->customer_id = $request->customer_id;
         $invoiced->save();
 
-        return response()->json('ok');
+        $msg = [
+            'title' => 'Created!',
+            'type' => 'success',
+            'text' => 'Element created successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -78,24 +83,24 @@ class InvoicedToController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\InvoicedTo  $invoicedTo
+     * @param  \App\InvoicedTo  $invoiced
      * @return \Illuminate\Http\Response
      */
-    public function edit(InvoicedTo $invoicedTo)
+    public function edit(InvoicedTo $invoiced)
     {
-        //
+        return response()->json($invoiced);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\InvoicedTo  $invoicedTo
+     * @param  \App\InvoicedTo  $invoiced
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InvoicedTo $invoicedTo)
+    public function update(Request $request, InvoicedTo $invoiced)
     {
-        //
+        dd($invoiced, $request->all());
     }
 
     /**
@@ -104,16 +109,25 @@ class InvoicedToController extends Controller
      * @param  \App\InvoicedTo  $invoicedTo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InvoicedTo $invoicedTo)
+    public function destroy(InvoicedTo $invoiced)
     {
-        //
+        $invoiced->status = ($invoiced->status == 1) ? 0 : 1;
+        $invoiced->save();
+
+        $msg = [
+            'title' => 'Deleted!',
+            'type' => 'success',
+            'text' => 'Element deleted successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     public function toDatatable()
     {
-        return Datatables::of(InvoicedTo::get())
+        return Datatables::of(InvoicedTo::where('status', true)->get())
             ->addColumn('actions', function ($invoiced) {
-//                return view('invoiced_to.partials.buttons', ['invoiced' => $invoiced]);
+                return view('invoiced_to.partials.buttons', ['invoiced' => $invoiced]);
             })
             ->rawColumns(['actions'])
             ->make(true);

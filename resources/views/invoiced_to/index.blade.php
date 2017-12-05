@@ -154,3 +154,103 @@
         </table>
     </div>
 </div>
+
+@include('invoiced_to.partials.editModal')
+
+@push('scripts')
+    <script>
+
+        function saveInvoiced()
+        {
+            clearErrors();
+            var frm = new FormData($("form").serialize());
+            $.each($("form").serializeArray(), function(key, input) {
+                frm.append(input.name, input.value);
+            });
+            $.ajax({
+                url: '/invoiced',
+                type: 'POST',
+                dataType: 'json',
+                data: frm,
+                processData: false,
+                contentType: false
+            }).done(function(response){
+                sAlert(response.title, response.type, response.text);
+                iTable.ajax.reload();
+            }).fail(function(response) {
+                showErrorsInv(response.responseJSON);
+            });
+        }
+
+        function getInvoiced(id)
+        {
+            $.ajax({
+                url: '/invoiced/' + id + '/edit',
+                type: 'GET',
+                dataType: 'JSON',
+                data: {
+                    id: id
+                }
+            }).done( function (invoiced) {
+                $.each(invoiced, function (index, value) {
+                    $('#invoiced_modal input[name="'+ index +'"]').val(value);
+                });
+                $('#btn_model').attr('onclick', "updateInvoiced('"+ id +"')");
+            });
+        }
+
+        function updateInvoiced(id)
+        {
+            var test = $('#invoiced_modal :input');
+            console.log(test);
+            $.ajax({
+                url: '/invoiced/' + id,
+                type: 'PUT',
+                dataType: 'JSON',
+                data: {
+                    id: id
+                }
+            }).done( function (response) {
+                console.log(response);
+                // console.log('---------------');
+
+            });
+        }
+
+        function showErrorsInv(errors)
+        {
+            var list = '';
+            $.each(errors, function(index, value){
+                var input = $('[name="' + index + '"]');
+                input.closest('.form-group').addClass('has-error').find('.help-block').text(value[0]);
+                list += '<li>'+ value[0] +'</li>';
+            });
+            $('.ajax_errors').fadeIn().find('.list-content').html(list).fadeIn();
+        }
+        function deleteInvoiced(id)
+        {
+            swal({
+                title: 'Are you sure?',
+                text: "you want to remove this element?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes, remove!'
+            }).then(function () {
+                $.ajax({
+                    url: '/invoiced/' + id,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    data: {
+                        id: id
+                    }
+                }).done(function(response){
+                    sAlert(response.title, response.type, response.text);
+                    iTable.ajax.reload();
+                });
+            });
+        }
+    </script>
+@endpush

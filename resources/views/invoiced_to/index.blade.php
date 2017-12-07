@@ -159,6 +159,7 @@
 
 @push('scripts')
     <script>
+        Inputmask("(999) 999-9999", {"removeMaskOnSubmit": true, "nullable": true}).mask('.phone-mask');
 
         function saveInvoiced()
         {
@@ -192,28 +193,47 @@
                     id: id
                 }
             }).done( function (invoiced) {
+                var city = invoiced.city;
+                console.log(city);
+                console.log(invoiced.city);
                 $.each(invoiced, function (index, value) {
-                    $('#invoiced_modal input[name="'+ index +'"]').val(value);
+                    if (index == 'country_code') {
+                        $('#invoiced_modal select[name="'+ index +'"]').val(value);
+                    } else if (index == 'country') {
+                        console.log('dentro ' + city);
+                        $('#invoiced_modal select[name="'+ index +'"]').val(value);
+                        $('#invoiced_modal select[name="'+ index +'"]').val(value).trigger('change.select2');
+                        getCitiesByCountry($('#invoiced_modal select[name="'+ index +'"]'));
+                        $('#invoiced_modal select[name="city"]').val(city).trigger('change.select2').css('width', '100%');
+                    } else {
+                        $('#invoiced_modal input[name="'+ index +'"]').val(value);
+                    }
+                    $('#invoiced_modal select[name="city"]').val('Granjas').trigger('change.select2').css('width', '100%');
                 });
                 $('#btn_model').attr('onclick', "updateInvoiced('"+ id +"')");
             });
+            $('#invoiced_modal select[name="city"]').val('Granjas').trigger('change.select2').css('width', '100%');
         }
 
         function updateInvoiced(id)
         {
-            var test = $('#invoiced_modal :input');
-            console.log(test);
+            clearErrors();
+            var inputs = $('#invoiced_modal :input');
+            var obj = {};
+            $.each(inputs, function(key, input) {
+                obj[input.name] = input.value;
+            });
             $.ajax({
                 url: '/invoiced/' + id,
                 type: 'PUT',
                 dataType: 'JSON',
-                data: {
-                    id: id
-                }
+                data: obj,
             }).done( function (response) {
-                console.log(response);
-                // console.log('---------------');
-
+                sAlert(response.title, response.type, response.text);
+                iTable.ajax.reload();
+                $('#invoiced_modal').modal('hide');
+            }).fail(function(response) {
+                showErrorsInvMdl(response.responseJSON);
             });
         }
 
@@ -227,6 +247,17 @@
             });
             $('.ajax_errors').fadeIn().find('.list-content').html(list).fadeIn();
         }
+
+        function showErrorsInvMdl(errors)
+        {
+            var list = '';
+            $.each(errors, function(index, value){
+                var input = $('#invoiced_modal [name="' + index + '"]');
+                input.closest('.form-group').addClass('has-error').find('.help-block').text(value[0]);
+                list += '<li>'+ value[0] +'</li>';
+            });
+        }
+
         function deleteInvoiced(id)
         {
             swal({
@@ -251,6 +282,37 @@
                     iTable.ajax.reload();
                 });
             });
+        }
+
+        $('select[name="country"]').change(function () {
+            var country = $(this).val();
+            $('.selectCity').empty().select2();
+            $.ajax({
+                url: '/cities-by-country',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each( JSON.parse(resp), function (i, item) {
+                    selected = (i != 0) ? '' : ' selected';
+                    $('.selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+                });
+            })
+        });//select COUNTRY
+
+        function getCitiesByCountry(input)
+        {
+            var country = $(input).val();
+            $('.selectCity').empty().select2();
+            $.ajax({
+                url: '/cities-by-country',
+                type: 'GET',
+                data: { country: country }
+            }).done(function (resp) {
+                $.each( JSON.parse(resp), function (i, item) {
+                    selected = (i != 0) ? '' : ' selected';
+                    $('.selectCity').append('<option value="' + item.name + '" ' + selected + '>' + item.name + '</option>');
+                });
+            })
         }
     </script>
 @endpush

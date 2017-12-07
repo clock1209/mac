@@ -100,7 +100,19 @@ class InvoicedToController extends Controller
      */
     public function update(Request $request, InvoicedTo $invoiced)
     {
-        dd($invoiced, $request->all());
+//        dd($invoiced, $request->all());
+
+//        $data = $request->obj;
+        $this->validate($request, $this->rulesUpdate());
+        $invoiced->fill($request->all())->save();
+
+        $msg = [
+            'title' => 'Updated!',
+            'type' => 'success',
+            'text' => 'Element updated successfully.'
+        ];
+
+        return response()->json($msg);
     }
 
     /**
@@ -140,6 +152,16 @@ class InvoicedToController extends Controller
             'phone_inv' => 'numeric|digits:10|nullable',
             'zip_code_inv' => 'numeric|nullable',
             'email_inv' => 'email|nullable',
+        ];
+    }
+
+    private function rulesUpdate()
+    {
+        return [
+            'name' => 'required',
+            'phone' => 'numeric|digits:10|nullable',
+            'zip_code' => 'numeric|nullable',
+            'email' => 'email|nullable',
         ];
     }
 }

@@ -55,7 +55,6 @@
                 dataType: 'json',
                 data: {id: id_customer}
             }).done(function(data){
-                console.log(data);
                 sAlert(data.title, data.type, data.text);
                 dTable.ajax.reload();
             });

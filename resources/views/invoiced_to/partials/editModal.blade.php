@@ -30,7 +30,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="input-control">phone:</label>
-                        {!! Form::text('phone',null,['class'=>'form-control']) !!}
+                        {!! Form::text('phone',null,['class'=>'form-control phone-mask']) !!}
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="input-control">City:</label>
-                        {!! Form::select('city', [''],null,['class'=>'form-control']) !!}
+                        {!! Form::select('city', [''],null,['class'=>'form-control selectCity']) !!}
                         <span class="help-block"></span>
                     </div>
                 </div>
